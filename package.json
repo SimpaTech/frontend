@@ -14,7 +14,6 @@
     "@types/react-dom": "^18.2.22",
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
-    "fontawesome": "^5.6.3",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.2",
     "react-dom": "^18.2.0",
@@ -26,7 +25,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "dev": "concurrently \"npm start\" \"cd ../backend && npm start\"",
+    "dev": "concurrently \"npm start\" \"cd ../backend && npm start\" \"typeorm-ts-node-commonjs -d ./src/data-source.ts migration:run\"",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
