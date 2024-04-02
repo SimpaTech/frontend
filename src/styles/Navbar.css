@@ -1,0 +1,19 @@
+a {
+    color: black !important;
+    font-size: 20px;
+}
+
+a:hover {
+    background-color: #006996;
+    color: white !important;
+}
+
+.navbar {
+    height: 70px;
+    width: 100%;
+    background-color: white;
+    border-radius: 5px;
+    margin-top: 3%;
+    color: black !important;
+    justify-content: space-around !important;
+  }
