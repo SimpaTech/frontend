@@ -1,20 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { Container, Row, Col, Image, Form, Button } from 'react-bootstrap';
+import InputMask from "react-input-mask";
 import '../styles/Login.css'
 
-type Props = {};
-
-type State = {
+interface State {
   CPF: string;
   password: string;
-};
+  validated: boolean;
+}
 
-const Login: React.FC<Props> = () => {
-  const [state, setState] = useState<State>({ CPF: '', password: '' });
-  const { CPF, password } = state;
+function Login() {
+  const [state, setState] = useState<State>({ CPF: '', password: '', validated: false });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const form = e.currentTarget;
+    if (!form.checkValidity()) {
+      e.stopPropagation();
+    }
+
+    setState(prevState => ({
+      ...prevState,
+      validated: true
+    }));
+
+    if (form.checkValidity()) {
+
+      const data = {
+        CPF: state.CPF.replace(/\D/g, ''),
+        password: state.password
+      };
+
+      console.log(data);
+
+      try {
+        const response = await fetch('URL_DO_SEU_BACKEND', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+          console.log('Informações enviadas com sucesso!');
+        } else {
+          console.error('Falha ao enviar informações para o backend');
+        }
+      } catch (error) {
+        console.error('Erro ao enviar informações para o backend:', error);
+      }
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setState(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
   };
 
   return (
@@ -24,31 +69,35 @@ const Login: React.FC<Props> = () => {
           <Image className='Logo' src="/images/logo.png" alt="Logo" fluid />
         </Col>
         <Col xs={7} className='Col'>
-          <Container fluid className='ContainerForm'>
+          <Container fluid className='ContainerCaixa'>
             <h1 className='Centralizar'>Tela Login</h1>
-            <Container>
-              <Form onSubmit={handleSubmit}>
+            <Container className='ContainerForm'>
+              <Form noValidate validated={state.validated} onSubmit={handleSubmit}>
                 <Form.Group className='Espacamento'>
                   <Form.Label>
                     CPF:
                   </Form.Label>
-                  <Form.Control type='text' />
+                  <Form.Control as={InputMask} mask="999.999.999-99" maskChar="" type='text' name='CPF' value={state.CPF} onChange={handleChange} required />
+                  <Form.Control.Feedback type="invalid">
+                    CPF inválido. Por favor, insira um CPF com 11 dígitos.
+                  </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className='Espacamento'>
                   <Form.Label >
                     Senha:
                   </Form.Label>
-                  <Form.Control type='password' />
+                  <Form.Control type='password' name='password' value={state.password} onChange={handleChange} required />
                 </Form.Group>
-                <Container className='Centralizar Espacamento'>
+                <Container className='Centralizar ContainerBtn'>
                   <Button className='Btn' variant="primary" type="submit">
                     Logar
                   </Button>
-                </Container>
-                <Container className='Centralizar Espacamento'>
-                  <a href="/otherPage">
-                    Entrar como Visitante
-                  </a>
+                  <Container>
+                    Entrar como
+                    <a className='LinkVisitante' href="/Visitante">
+                      Visitante
+                    </a>
+                  </Container>
                 </Container>
               </Form>
             </Container>
