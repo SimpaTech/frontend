@@ -11,12 +11,14 @@ import Header from "./Header"
 type Props = {}
 
 type State = {
-  currentPage: string // Adicionando uma propriedade para controlar a página atual
+  currentPage: string
+  hasDashboard: boolean
 }
 
 export default class Estacao extends Component<Props, State> {
   state: State = {
     currentPage: "Dashboard", // Definindo a página inicial como "Dashboard"
+    hasDashboard: true,
   }
 
   // Método para alterar a página atual
@@ -56,7 +58,7 @@ export default class Estacao extends Component<Props, State> {
 
           <Container>
             {/* Navbar */}
-            <Navbar changePage={this.changePage} /> {/* Passando a função changePage para a Navbar */}
+            <Navbar changePage={this.changePage} hasDashboard={this.state.hasDashboard} /> {/* Passando a função changePage para a Navbar */}
 
             {/* Page Content */}
             {currentPageContent} {/* Renderizando o conteúdo da página atual */}
