@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './components/Login';
 import Estacao from './components/Estacao';
 import Usuario from './components/Usuario';
+import Parametros from './components/Parametros';
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
           <Route path="/" element={<Login />} />
           <Route path="/estacoes" element={<Estacao />} />
           <Route path="/usuarios" element={<Usuario />} />
+          <Route path="/parametros" element={<Parametros />} />
         </Routes>
       </div>
     </Router>
