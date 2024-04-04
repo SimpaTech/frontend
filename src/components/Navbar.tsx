@@ -17,7 +17,7 @@ const Navbar: React.FC<Props> = ({ changePage }) => {
       }
     }}>
       <Nav.Item>
-        <Nav.Link eventKey="Cadastrar">Cadastro</Nav.Link>
+        <Nav.Link eventKey="Cadastro">Cadastro</Nav.Link>
       </Nav.Item>
       <Nav.Item>
         <Nav.Link eventKey="Consultar">Consultar</Nav.Link>
