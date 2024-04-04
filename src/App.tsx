@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './components/Login';
 import Estacao from './components/Estacao';
+import Parametros from './components/Parametros';
 
 const App = () => {
   return (
@@ -11,6 +12,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/estacoes" element={<Estacao />} />
+          <Route path="/parametros" element={<Parametros />} />
         </Routes>
       </div>
     </Router>
