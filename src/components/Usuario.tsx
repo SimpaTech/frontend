@@ -1,12 +1,12 @@
 import React, { Component } from "react"
 import Sidebar from "./Sidebar"
-import "../styles/Estacao.css"
+import "../styles/Usuario.css"
 import { Container } from "react-bootstrap"
-import EstacaoCadastro from "./EstacaoCadastro"
-import EstacaoConsultar from "./EstacaoConsultar"
-import EstacaoDashboard from "./EstacaoDashboard"
+import UsuarioCadastro from "./UsuarioCadastro"
+import UsuarioConsultar from "./UsuarioConsultar"
 import Navbar from "./Navbar"
 import Header from "./Header"
+import InputMask from "react-input-mask";
 
 type Props = {}
 
@@ -15,10 +15,10 @@ type State = {
   hasDashboard: boolean
 }
 
-export default class Estacao extends Component<Props, State> {
+export default class Usuario extends Component<Props, State> {
   state: State = {
-    currentPage: "Dashboard", // Definindo a página inicial como "Dashboard"
-    hasDashboard: true,
+    currentPage: "Cadastro", // Definindo a página inicial como "Dashboard"
+    hasDashboard: false,
   }
 
   // Método para alterar a página atual
@@ -35,16 +35,11 @@ export default class Estacao extends Component<Props, State> {
     // Renderizar o conteúdo da página com base na página atual
     switch (this.state.currentPage) {
       case "Cadastro":
-        currentPageContent = <EstacaoCadastro />
+        currentPageContent = <UsuarioCadastro />
         break
       case "Consultar":
-        currentPageContent = <EstacaoConsultar />
+        currentPageContent = <UsuarioConsultar />
         break
-      case "Dashboard":
-        currentPageContent = <EstacaoDashboard />
-        break
-/*       default:
-        currentPageContent = <EstacaoDashboard /> */
     }
 
     return (
@@ -54,7 +49,7 @@ export default class Estacao extends Component<Props, State> {
 
         <Container className="background-content p-0">
           {/* Header */}
-          <Header title="Controle de Estações" username={username} />
+          <Header title="Controle de Usuários" username={username} />
 
           <Container>
             {/* Navbar */}
