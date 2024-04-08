@@ -17,3 +17,12 @@ export async function cadastrarUsuario(data: UserData): Promise<AxiosResponse<an
     throw error;
   }
 }
+
+export async function listarParametros(): Promise<AxiosResponse<any>> {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/tipoParametro/`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
