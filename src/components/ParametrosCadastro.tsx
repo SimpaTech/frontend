@@ -3,7 +3,7 @@ import { Container, Form, Button, Row, Col } from "react-bootstrap"
 import "../styles/ParametrosCadastro.css"
 import { Props } from "react-input-mask"
 
-export default class ParametrosCadastro extends Component<Props> {
+export default class ParametrosCadastrar extends Component<Props> {
     state = {}
 
     render() {
