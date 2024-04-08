@@ -25,6 +25,15 @@ export async function cadastrarUsuario(data: UserData): Promise<AxiosResponse<an
   }
 }
 
+export async function login(data: UserData): Promise<AxiosResponse<any>> {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/usuario/login`, data);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function listarParametros(): Promise<AxiosResponse<any>> {
   try {
     const response = await axios.get(`${API_BASE_URL}/tipoParametro/`);

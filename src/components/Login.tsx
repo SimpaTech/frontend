@@ -2,15 +2,18 @@ import React, { useState, FormEvent } from 'react';
 import { Container, Row, Col, Image, Form, Button } from 'react-bootstrap';
 import InputMask from "react-input-mask";
 import '../styles/Login.css'
+import { login } from '../services/apiService';
+import { Link, Navigate } from 'react-router-dom';
 
 interface State {
-  CPF: string;
-  password: string;
+  CPF_Usuario: string;
+  Senha: string;
   validated: boolean;
+  loggedIn: boolean;
 }
 
 function Login() {
-  const [state, setState] = useState<State>({ CPF: '', password: '', validated: false });
+  const [state, setState] = useState<State>({ CPF_Usuario: '', Senha: '', validated: false, loggedIn: false });
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,30 +29,28 @@ function Login() {
     }));
 
     if (form.checkValidity()) {
-
-      const data = {
-        CPF: state.CPF.replace(/\D/g, ''),
-        password: state.password
-      };
-
-      console.log(data);
-
+      
       try {
-        const response = await fetch('URL_DO_SEU_BACKEND', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        });
+        const data = {
+          Nome_Usuario: '',
+          CPF_Usuario: state.CPF_Usuario.replace(/\D/g, ''),
+          Senha: state.Senha,
+          Role: ''
+        };
 
-        if (response.ok) {
-          console.log('Informações enviadas com sucesso!');
+        const response = await login(data);
+
+        if (response.status === 201) {
+          console.log('Login bem-sucedido!');
+          setState(prevState => ({
+            ...prevState,
+            loggedIn: true // Define loggedIn como true após o login bem-sucedido
+          }));
         } else {
-          console.error('Falha ao enviar informações para o backend');
+          console.error('Falha ao fazer login:', response.data.error);
         }
       } catch (error) {
-        console.error('Erro ao enviar informações para o backend:', error);
+        console.error('Erro ao fazer login:', error);
       }
     }
   };
@@ -61,6 +62,10 @@ function Login() {
       [name]: value
     }));
   };
+
+  if (state.loggedIn) {
+    return <Navigate to="/estacoes" />;
+  }
 
   return (
     <Container fluid>
@@ -77,7 +82,7 @@ function Login() {
                   <Form.Label>
                     CPF:
                   </Form.Label>
-                  <Form.Control as={InputMask} mask="999.999.999-99" maskChar="" type='text' name='CPF' value={state.CPF} onChange={handleChange} required />
+                  <Form.Control as={InputMask} mask="999.999.999-99" maskChar="" type='text' name='CPF_Usuario' value={state.CPF_Usuario} onChange={handleChange} required />
                   <Form.Control.Feedback type="invalid">
                     CPF inválido. Por favor, insira um CPF com 11 dígitos.
                   </Form.Control.Feedback>
@@ -86,7 +91,7 @@ function Login() {
                   <Form.Label >
                     Senha:
                   </Form.Label>
-                  <Form.Control type='password' name='password' value={state.password} onChange={handleChange} required />
+                  <Form.Control type='password' name='Senha' value={state.Senha} onChange={handleChange} required />
                 </Form.Group>
                 <Container className='Centralizar ContainerBtn'>
                   <Button className='Btn' variant="primary" type="submit">
