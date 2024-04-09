@@ -73,7 +73,7 @@ export async function logout(id: String): Promise<string> {
 
 export async function obterInformacoesUsuarioPeloToken(token: string) {
   try {
-    const response = await axios.get(`${API_BASE_URL}/informacoesToken/`, {
+    const response = await axios.get(`${API_BASE_URL}/usuario/informacoesToken`, {
       headers: {
         Authorization: `Bearer ${token}`
       }

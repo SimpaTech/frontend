@@ -3,7 +3,7 @@ import { Container, Row, Col, Image, Form, Button } from 'react-bootstrap';
 import InputMask from "react-input-mask";
 import '../styles/Login.css'
 import { login } from '../services/apiService';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 interface State {
   CPF_Usuario: string;
@@ -14,20 +14,21 @@ interface State {
 
 function Login() {
   const [state, setState] = useState<State>({ CPF_Usuario: '', Senha: '', validated: false, loggedIn: false });
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+  
     const form = e.currentTarget;
     if (!form.checkValidity()) {
       e.stopPropagation();
     }
-
+  
     setState(prevState => ({
       ...prevState,
       validated: true
     }));
-
+  
     if (form.checkValidity()) {
       
       try {
@@ -37,17 +38,20 @@ function Login() {
           Senha: state.Senha,
           Role: ''
         };
-
+  
         const response = await login(data);
-
+        console.log("response:", response); // Adicione este console.log
+  
         if (response.status === 201) {
           console.log('Login bem-sucedido!');
           setState(prevState => ({
             ...prevState,
             loggedIn: true
           }));
-          // Salvar os detalhes do usuário no localStorage
+          // Salvar os detalhes do usuário e o token no localStorage
           localStorage.setItem('userDetails', JSON.stringify(response.data));
+          localStorage.setItem('token', response.data.token);
+          navigate('/estacoes');
         } else {
           console.error('Falha ao fazer login:', response.data.error);
         }
