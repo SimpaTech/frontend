@@ -99,16 +99,14 @@ const Sidebar = () => {
               <FontAwesomeIcon className="icon list-group-inner" icon={faBell} /> Alertas
             </Link>
           </Container>
-          <Container className="logout-box">
             {userId !== null && (
               <>
-                <Button variant="outline-light" onClick={handleLogout}>
+                <Button className="BtnLogout"  onClick={handleLogout}>
                   Logout
                 </Button>
                 {logoutMessage && <p>{logoutMessage}</p>}
               </>
             )}
-          </Container>
         </div>
       </Container>
       {/* /#sidebar-wrapper */}
