@@ -25,6 +25,15 @@ export async function cadastrarUsuario(data: UserData): Promise<AxiosResponse<an
   }
 }
 
+export async function login(data: UserData): Promise<AxiosResponse<any>> {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/usuario/login`, data);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function listarParametros(): Promise<AxiosResponse<any>> {
   try {
     const response = await axios.get(`${API_BASE_URL}/tipoParametro/`);
@@ -49,6 +58,28 @@ export async function listarTipoParametro(): Promise<AxiosResponse<any>> {
     const response = await axios.get(`${API_BASE_URL}/tipoParametro/`);
     return response;
   } catch (error) {
+    throw error;
+  }
+}
+
+export async function logout(id: String): Promise<string> {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/usuario/logout/${id}`);
+    return response.data.message;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function obterInformacoesUsuarioPeloToken(token: string) {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/usuario/informacoesToken`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return response.data
+  } catch (error){
     throw error;
   }
 }
