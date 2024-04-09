@@ -61,3 +61,25 @@ export async function listarTipoParametro(): Promise<AxiosResponse<any>> {
     throw error;
   }
 }
+
+export async function logout(id: String): Promise<string> {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/usuario/logout/${id}`);
+    return response.data.message;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function obterInformacoesUsuarioPeloToken(token: string) {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/informacoesToken/`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return response.data
+  } catch (error){
+    throw error;
+  }
+}

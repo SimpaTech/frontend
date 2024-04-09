@@ -44,8 +44,10 @@ function Login() {
           console.log('Login bem-sucedido!');
           setState(prevState => ({
             ...prevState,
-            loggedIn: true // Define loggedIn como true após o login bem-sucedido
+            loggedIn: true
           }));
+          // Salvar os detalhes do usuário no localStorage
+          localStorage.setItem('userDetails', JSON.stringify(response.data));
         } else {
           console.error('Falha ao fazer login:', response.data.error);
         }
