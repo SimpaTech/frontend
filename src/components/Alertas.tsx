@@ -23,9 +23,15 @@ export default class Alertas extends Component<{}, AlertasState> {
     }
 
     render() {
-        const username = "Felipe AG" 
+        const storedUserDetails = localStorage.getItem('userDetails');
+        let username: string = 'Visitante'; // Deixa como Visitante se não achar o Token
 
-        let currentPageContent 
+        if (storedUserDetails) {
+            const userData = JSON.parse(storedUserDetails);
+            username = userData.nome;
+        }
+
+        let currentPageContent
         switch (this.state.currentPage) {
             case "Cadastrar":
                 currentPageContent = <AlertasCadastro />
