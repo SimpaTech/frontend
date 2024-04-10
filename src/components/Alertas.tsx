@@ -14,7 +14,7 @@ interface AlertasState {
 
 export default class Alertas extends Component<{}, AlertasState> {
     state: AlertasState = {
-        currentPage: "Cadastrar",
+        currentPage: "Cadastro",
         hasDashboard: false,
     }
 
@@ -33,7 +33,7 @@ export default class Alertas extends Component<{}, AlertasState> {
 
         let currentPageContent
         switch (this.state.currentPage) {
-            case "Cadastrar":
+            case "Cadastro":
                 currentPageContent = <AlertasCadastro />
                 break
             case "Consultar":
