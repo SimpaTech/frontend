@@ -25,6 +25,15 @@ export async function cadastrarUsuario(data: UserData): Promise<AxiosResponse<an
   }
 }
 
+export async function listarUsuarios(): Promise<AxiosResponse<any>> {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/usuario/`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function listarParametros(): Promise<AxiosResponse<any>> {
   try {
     const response = await axios.get(`${API_BASE_URL}/tipoParametro/`);
@@ -47,6 +56,33 @@ export async function cadastrarAlerta(data: AlertData): Promise<AxiosResponse<an
 export async function listarTipoParametro(): Promise<AxiosResponse<any>> {
   try {
     const response = await axios.get(`${API_BASE_URL}/tipoParametro/`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function deletarUsuario(id: number): Promise<AxiosResponse<any>> {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/usuario/${id}`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function buscarUsuario(id: number): Promise<AxiosResponse<any>> {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/usuario/buscarUsuario/${id}`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function editarUsuario(id: number, data: UserData): Promise<AxiosResponse<any>> {
+  try {
+    const response = await axios.put(`${API_BASE_URL}/usuario/${id}`, data);
     return response;
   } catch (error) {
     throw error;
