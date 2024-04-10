@@ -181,4 +181,31 @@ export async function listarEstacoes(): Promise<AxiosResponse<any>> {
     throw error;
   }
 }
+
+export async function buscarEstacao(id: number): Promise<AxiosResponse<any>> {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/estacao/listar/${id}`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function editarEstacao(id: number, data: EstacaoData): Promise<AxiosResponse<any>> {
+  try {
+    const response = await axios.put(`${API_BASE_URL}/estacao/editar/${id}`, data);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function deletarEstacao(id: number): Promise<AxiosResponse<any>> {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/estacao/deletar/${id}`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
   
