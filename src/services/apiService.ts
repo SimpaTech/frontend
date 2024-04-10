@@ -92,6 +92,15 @@ export async function cadastrarAlerta(data: AlertData): Promise<AxiosResponse<an
   }
 }
 
+export async function listarAlertas(): Promise<AxiosResponse<any>> {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/tipoAlerta/listar`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
 // ESTAÇÕES
 
 export async function listarEstacoes(): Promise<AxiosResponse<any>> {
