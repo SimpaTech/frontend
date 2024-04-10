@@ -39,7 +39,13 @@ export default class Usuario extends Component<Props, State> {
   };
 
   render() {
-    const username = "Felipe AG"; // Mockando o nome do usuário
+    const storedUserDetails = localStorage.getItem('userDetails');
+    let username: string = 'Visitante'; // Deixa como Visitante se não achar o Token
+
+    if (storedUserDetails) {
+      const userData = JSON.parse(storedUserDetails);
+      username = userData.nome;
+    }
 
     let currentPageContent;
 

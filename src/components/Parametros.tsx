@@ -21,12 +21,18 @@ export default class Parametros extends Component<{}, ParametrosState> {
     }
 
     render() {
-        const username = "Felipe AG" 
+        const storedUserDetails = localStorage.getItem('userDetails');
+        let username: string = 'Visitante'; // Deixa como Visitante se não achar o Token
 
-        let currentPageContent 
+        if (storedUserDetails) {
+            const userData = JSON.parse(storedUserDetails);
+            username = userData.nome;
+        }
+
+        let currentPageContent
         switch (this.state.currentPage) {
             case "Cadastrar":
-                currentPageContent = <ParametrosCadastro mask="" />  // Adicione a propriedade mask aqui
+                currentPageContent = <ParametrosCadastro /> 
                 break
             case "Consultar":
                 currentPageContent = <ParametrosConsultar />

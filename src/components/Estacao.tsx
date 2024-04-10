@@ -27,8 +27,13 @@ export default class Estacao extends Component<Props, State> {
   }
 
   render() {
-    // const { username } = useContext(UserContext); // Usar o useContext quando estiver disponível
-    const username = "Felipe AG" // Por enquanto, usarei Felipe AG mockado no Header
+    const storedUserDetails = localStorage.getItem('userDetails');
+    let username: string = 'Visitante'; // Deixa como Visitante se não achar o Token
+
+    if (storedUserDetails) {
+      const userData = JSON.parse(storedUserDetails);
+      username = userData.nome;
+    }
 
     let currentPageContent // Variável para armazenar o conteúdo da página atual
 
@@ -43,8 +48,8 @@ export default class Estacao extends Component<Props, State> {
       case "Dashboard":
         currentPageContent = <EstacaoDashboard />
         break
-/*       default:
-        currentPageContent = <EstacaoDashboard /> */
+      /*       default:
+              currentPageContent = <EstacaoDashboard /> */
     }
 
     return (

@@ -56,6 +56,18 @@
     color: #D9D9D9;
   }
 
+  .BtnLogout {
+    position: fixed;
+    width: 350px;
+    max-width: 350px;
+    bottom: 0;
+    text-align: center;
+    color: white;
+    background-color: #006996;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
+    border-radius: 0px;
+  }
+
   .list-group-background {
     padding: 2%;
   }
