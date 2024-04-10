@@ -15,6 +15,14 @@ interface AlertData {
   Operador_Condicional: string
 }
 
+interface EstacaoData {
+  Nome_Estacao: string
+  Tipo_Estacao: string
+  Latitude: number
+  Longitude: string
+  Data_Instalacao: Date
+}
+
 // LOGIN E LOGOUT
 
 export async function login(data: UserData): Promise<AxiosResponse<any>> {
@@ -54,7 +62,7 @@ export async function obterInformacoesUsuarioPeloToken(token: string) {
       }
     })
     return response.data
-  } catch (error){
+  } catch (error) {
     throw error;
   }
 }
@@ -82,7 +90,7 @@ export async function listarTipoParametro(): Promise<AxiosResponse<any>> {
 }
 
 // ALERTAS
- 
+
 export async function cadastrarAlerta(data: AlertData): Promise<AxiosResponse<any>> {
   try {
     const response = await axios.post(`${API_BASE_URL}/tipoAlerta/criar`, data);
@@ -102,6 +110,15 @@ export async function listarAlertas(): Promise<AxiosResponse<any>> {
 }
 
 // ESTAÇÕES
+
+export async function cadastrarEstacao(data: EstacaoData): Promise<AxiosResponse<any>> {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/estacao/criar`, data);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
 
 export async function listarEstacoes(): Promise<AxiosResponse<any>> {
   try {
