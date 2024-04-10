@@ -16,11 +16,12 @@ interface AlertData {
 }
 
 interface EstacaoData {
-  Nome_Estacao: string
-  Tipo_Estacao: string
+  Nome: string
   Latitude: number
-  Longitude: string
+  Longitude: number
   Data_Instalacao: Date
+  Tipo_Estacao: string
+  Indicativo_Ativa: Boolean
 }
 
 // LOGIN E LOGOUT
