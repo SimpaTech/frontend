@@ -13,7 +13,6 @@ interface AlertData {
   Nome_Tipo_Alerta: string
   Valor: number
   Operador_Condicional: string
-  ID_Parametro: number
 }
 
 export async function cadastrarUsuario(data: UserData): Promise<AxiosResponse<any>> {
