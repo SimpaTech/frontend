@@ -35,11 +35,7 @@ const UsuarioEditar: React.FC<Props> = ({ userId, onEditClick }) => {
       try {
         const response = await buscarUsuario(userId)
         const usuario = response.data
-        const { Senha, ...usuarioSemSenha } = usuario // Exclua o campo Senha do objeto usuário
-        setState({
-          ...usuarioSemSenha,
-          CPF_Usuario: usuarioSemSenha.CPF_Usuario.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4"),
-        })
+        
       } catch (error) {
         console.error("Erro ao buscar usuário:", error)
       }

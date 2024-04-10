@@ -7,24 +7,35 @@ import EstacaoConsultar from "./EstacaoConsultar"
 import EstacaoDashboard from "./EstacaoDashboard"
 import Navbar from "./Navbar"
 import Header from "./Header"
+import EstacaoEditar from "./EstacaoEditar"
 
 type Props = {}
 
 type State = {
   currentPage: string
   hasDashboard: boolean
+  editEstacaoId: number
 }
 
 export default class Estacao extends Component<Props, State> {
   state: State = {
     currentPage: "Dashboard", // Definindo a página inicial como "Dashboard"
     hasDashboard: true,
+    editEstacaoId: 1,
   }
 
   // Método para alterar a página atual
   changePage = (page: string) => {
     this.setState({ currentPage: page })
   }
+
+  // Função para lidar com o clique no botão de edição
+  handleEditClick = (estacaoId: number) => {
+    // Atualize o estado com o ID do usuário para edição
+    this.setState({ editEstacaoId: estacaoId });
+    // Navegue para a página de edição
+    this.changePage("Editar");
+  };
 
   render() {
     const storedUserDetails = localStorage.getItem('userDetails');
@@ -43,13 +54,15 @@ export default class Estacao extends Component<Props, State> {
         currentPageContent = <EstacaoCadastro />
         break
       case "Consultar":
-        currentPageContent = <EstacaoConsultar />
+        currentPageContent = <EstacaoConsultar onEditClick={this.handleEditClick}/>
         break
       case "Dashboard":
         currentPageContent = <EstacaoDashboard />
         break
-      /*       default:
-              currentPageContent = <EstacaoDashboard /> */
+      case "Editar":
+        currentPageContent = <EstacaoEditar estacaoId={this.state.editEstacaoId} onEditClick={() => this.changePage("Consultar")}/>
+        break
+
     }
 
     return (

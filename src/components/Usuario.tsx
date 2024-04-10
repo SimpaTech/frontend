@@ -7,7 +7,6 @@ import UsuarioCadastro from "./UsuarioCadastro";
 import UsuarioConsultar from "./UsuarioConsultar";
 import Navbar from "./Navbar";
 import Header from "./Header";
-import InputMask from "react-input-mask";
 import UsuarioEditar from "./UsuarioEditar";
 
 type Props = {};
