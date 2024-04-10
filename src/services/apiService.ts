@@ -15,6 +15,13 @@ interface AlertData {
   Operador_Condicional: string
 }
 
+interface TipoParametroData {
+  Nome_Tipo_Parametro: string
+  Unidade: string
+  Offset: Number
+  Fator: number
+}
+
 interface EstacaoData {
   Nome: string
   Latitude: number
@@ -84,6 +91,15 @@ export async function listarParametros(): Promise<AxiosResponse<any>> {
 export async function listarTipoParametro(): Promise<AxiosResponse<any>> {
   try {
     const response = await axios.get(`${API_BASE_URL}/tipoParametro/`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function cadastrarTipoParametro(data: TipoParametroData): Promise<AxiosResponse<any>> {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/tipoParametro/cadastrarTipoParametro`, data);
     return response;
   } catch (error) {
     throw error;
