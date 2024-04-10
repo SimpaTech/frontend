@@ -3,7 +3,6 @@ import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import InputMask from "react-input-mask";
 import "../styles/UsuarioCadastro.css";
 import { cadastrarUsuario } from "../services/apiService";
-import { wait } from "@testing-library/user-event/dist/utils";
 
 interface State {
   Nome_Usuario: string;

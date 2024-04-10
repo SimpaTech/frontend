@@ -32,7 +32,7 @@ export default class Parametros extends Component<{}, ParametrosState> {
         let currentPageContent
         switch (this.state.currentPage) {
             case "Cadastrar":
-                currentPageContent = <ParametrosCadastro mask="" />  // Adicione a propriedade mask aqui
+                currentPageContent = <ParametrosCadastro /> 
                 break
             case "Consultar":
                 currentPageContent = <ParametrosConsultar />
