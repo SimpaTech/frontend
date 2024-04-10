@@ -47,7 +47,7 @@ const ParametrosCadastrar: React.FC = () => {
                 if (response.status === 200) {
                     setState((prevState) => ({
                         ...prevState,
-                        errorMessage: "Parâmetro criada com sucesso!",
+                        errorMessage: "Tipo de parâmetro criado com sucesso!",
                     }))
                 }
             } catch (error: any) {
