@@ -164,7 +164,7 @@ export async function listarAlertas(): Promise<AxiosResponse<any>> {
 
 export async function buscarAlerta(id: number): Promise<AxiosResponse<any>> {
   try {
-    const response = await axios.get(`${API_BASE_URL}/tipoAlerta/listarTipoAlertaPorID/${id}`);
+    const response = await axios.get(`${API_BASE_URL}/tipoAlerta/listar/${id}`);
     return response;
   } catch (error) {
     throw error;

@@ -74,7 +74,7 @@ const AlertasCadastro: React.FC = () => {
   }
 
   return (
-    <Container className="usuario">
+    <Container className="tipoalerta">
       <h1 className="text-center">Cadastrar</h1>
       <Form className="mt-5" onSubmit={handleSubmit}>
         {state.errorMessage && (

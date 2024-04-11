@@ -6,21 +6,34 @@ import Navbar from "./Navbar"
 import Header from "./Header"
 import AlertasCadastro from "./AlertasCadastro"
 import AlertasConsultar from "./AlertasConsultar"
+import AlertasEditar from "./AlertasEditar"
+
+type Props = {}
 
 interface AlertasState {
     currentPage: string
     hasDashboard: boolean
+    editAlertaId: number
 }
 
-export default class Alertas extends Component<{}, AlertasState> {
+export default class Alertas extends Component<Props, AlertasState> {
     state: AlertasState = {
         currentPage: "Cadastro",
         hasDashboard: false,
+        editAlertaId: 1
     }
 
     changePage = (page: string) => {
         this.setState({ currentPage: page })
     }
+
+    // Função para lidar com o clique no botão de edição
+    handleEditClick = (alertaId: number) => {
+        // Atualize o estado com o ID do usuário para edição
+        this.setState({ editAlertaId: alertaId });
+        // Navegue para a página de edição
+        this.changePage("Editar");
+  };
 
     render() {
         const storedUserDetails = localStorage.getItem('userDetails');
@@ -37,7 +50,10 @@ export default class Alertas extends Component<{}, AlertasState> {
                 currentPageContent = <AlertasCadastro />
                 break
             case "Consultar":
-                currentPageContent = <AlertasConsultar />
+                currentPageContent = <AlertasConsultar onEditClick={this.handleEditClick} />
+                break
+            case "Editar":
+                currentPageContent = <AlertasEditar alertaId={this.state.editAlertaId} onEditClick={() => this.changePage("Consultar")}/>
                 break
         }
 

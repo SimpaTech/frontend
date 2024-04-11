@@ -2,7 +2,7 @@ import React, { useState, FormEvent, useEffect } from "react"
 import { Container, Form, Button, Row, Col } from "react-bootstrap"
 import InputMask from "react-input-mask"
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
-import "../styles/UsuarioEditar.css"
+import "../styles/AlertasEditar.css"
 import { buscarAlerta, editarTipoAlerta } from "../services/apiService"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
@@ -15,11 +15,11 @@ interface State {
 }
 
 interface Props {
-  id: number
+  alertaId: number
   onEditClick?: () => void
 }
 
-const TipoAlertaEditar: React.FC<Props> = ({ id, onEditClick }) => {
+const TipoAlertaEditar: React.FC<Props> = ({ alertaId, onEditClick }) => {
   const [state, setState] = useState<State>({
     validated: false,
     Nome_Tipo_Alerta: "",
@@ -31,76 +31,87 @@ const TipoAlertaEditar: React.FC<Props> = ({ id, onEditClick }) => {
   useEffect(() => {
     const fetchTipoAlerta = async () => {
       try {
-        const response = await buscarAlerta(id)
+        const response = await buscarAlerta(alertaId)
         const tipoAlerta = response.data
-        
+
+        // Atualiza o estado com os dados do tipo de alerta
+        console.log("Tipo de alerta retornado:", tipoAlerta);
+        setState((prevState) => ({
+          ...prevState,
+          Nome_Tipo_Alerta: tipoAlerta.Nome_Tipo_Alerta,
+          Valor: tipoAlerta.Valor,
+          Operador_Condicional: tipoAlerta.Operador_Condicional,
+        }));
+          
       } catch (error) {
         console.error("Erro ao buscar tipo de alerta:", error)
       }
     }
 
     fetchTipoAlerta()
-  }, [id])
+  }, [alertaId])
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     const form = e.currentTarget
-    if (!form.checkValidity()) {
-      e.stopPropagation()
-    }
 
     setState((prevState) => ({
       ...prevState,
       validated: true,
-    }))
+  }))
+  
+    if (form.checkValidity()) {
 
-    // Verifica se todos os campos obrigatórios foram preenchidos
-    const isAllFieldsFilled = Array.from(form.elements).every((element: any) => {
-      if (element.tagName === "INPUT" && element.required && element.value.trim() === "") {
-        setState((prevState) => ({
-          ...prevState,
-          errorMessage: `Erro: Preencha o campo ${element.name.replace("_", " ")}`,
-        }))
-        return false
+      // Verifica se todos os campos obrigatórios foram preenchidos
+      const isAllFieldsFilled = Array.from(form.elements).every((element: any) => {
+        if (element.tagName === "INPUT" && element.required && element.value.trim() === "") {
+          setState((prevState) => ({
+            ...prevState,
+            errorMessage: `Erro: Preencha o campo ${element.name.replace("_", " ")}`,
+          }))
+          return false
+        }
+        return true
+      })
+
+      if (isAllFieldsFilled) {
+        try {
+          const data = {
+            Nome_Tipo_Alerta: state.Nome_Tipo_Alerta,
+            Valor: state.Valor,
+            Operador_Condicional: state.Operador_Condicional,
+          }
+
+          const response = await editarTipoAlerta(alertaId, data)
+          if (response.status === 200) {
+            console.log("Status 200")
+            console.log(response)
+
+            setState((prevState) => ({
+              ...prevState,
+              errorMessage: response.data.message,
+            }))
+          }
+        } catch (error: any) {
+          console.error("Erro ao editar tipo de alerta:", error)
+          if (error.response.status === 400) {
+            console.log("Status 400")
+            console.log(error.response)
+            setState((prevState) => ({
+              ...prevState,
+              errorMessage: "Erro: " + error.response.data.error,
+            }))
+          } else {
+            setState((prevState) => ({
+              ...prevState,
+              errorMessage: "Erro na requisição. Por favor, tente novamente mais tarde.",
+            }))
+          }
+        }
       }
-      return true
-    })
-
-    if (isAllFieldsFilled) {
-      try {
-        const data = {
-          Nome_Tipo_Alerta: state.Nome_Tipo_Alerta,
-          Valor: state.Valor,
-          Operador_Condicional: state.Operador_Condicional,
-        }
-
-        const response = await editarTipoAlerta(id, data)
-        if (response.status === 200) {
-          console.log("Status 200")
-          console.log(response)
-
-          setState((prevState) => ({
-            ...prevState,
-            errorMessage: response.data.message,
-          }))
-        }
-      } catch (error: any) {
-        console.error("Erro ao editar tipo de alerta:", error)
-        if (error.response.status === 400) {
-          console.log("Status 400")
-          console.log(error.response)
-          setState((prevState) => ({
-            ...prevState,
-            errorMessage: "Erro: " + error.response.data.error,
-          }))
-        } else {
-          setState((prevState) => ({
-            ...prevState,
-            errorMessage: "Erro na requisição. Por favor, tente novamente mais tarde.",
-          }))
-        }
-      }
+    } else {
+      e.stopPropagation()
     }
   }
 
@@ -163,15 +174,20 @@ const TipoAlertaEditar: React.FC<Props> = ({ id, onEditClick }) => {
           </Col>
           <Col>
             <Form.Group>
-              <Form.Label>CPF:</Form.Label>
+              <Form.Label>Operador Condicional:</Form.Label>
               <Form.Control
-                type="text"
+                as="select"
                 name="Operador_Condicional"
                 value={state.Operador_Condicional}
                 onChange={handleChange}
-                placeholder={state.Operador_Condicional}
-                required
-              />
+              >
+                <option>=</option>
+                <option>!=</option>
+                <option>&gt;</option>
+                <option>&lt;</option>
+                <option>&lt;=</option>
+                <option>&gt;=</option>
+              </Form.Control>
             </Form.Group>
           </Col>
         </Row>
