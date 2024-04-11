@@ -162,6 +162,33 @@ export async function listarAlertas(): Promise<AxiosResponse<any>> {
   }
 }
 
+export async function buscarAlerta(id: number): Promise<AxiosResponse<any>> {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/tipoAlerta/listar/${id}`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function editarTipoAlerta(id: number, data: AlertData): Promise<AxiosResponse<any>> {
+  try {
+    const response = await axios.put(`${API_BASE_URL}/tipoAlerta/editar/${id}`, data);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function deletarTipoAlerta(id: number): Promise<AxiosResponse<any>> {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/tipoAlerta/deletar/${id}`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
 // ESTAÇÕES
 
 export async function cadastrarEstacao(data: EstacaoData): Promise<AxiosResponse<any>> {
