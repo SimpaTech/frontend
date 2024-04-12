@@ -24,9 +24,9 @@ interface TipoParametroData {
 
 interface EstacaoData {
   Nome: string
-  Latitude: number
-  Longitude: number
-  Data_Instalacao: Date
+  Latitude: string
+  Longitude: string
+  Data_Instalacao: string
   Tipo_Estacao: string
   Indicativo_Ativa: Boolean
 }
