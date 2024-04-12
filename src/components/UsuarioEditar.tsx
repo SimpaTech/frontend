@@ -35,6 +35,10 @@ const UsuarioEditar: React.FC<Props> = ({ userId, onEditClick }) => {
       try {
         const response = await buscarUsuario(userId)
         const usuario = response.data
+
+        setState((prevState) => ({
+          ...usuario
+        }));
         
       } catch (error) {
         console.error("Erro ao buscar usuário:", error)
@@ -150,6 +154,7 @@ const UsuarioEditar: React.FC<Props> = ({ userId, onEditClick }) => {
                 name="Nome_Usuario"
                 value={state.Nome_Usuario}
                 onChange={handleChange}
+                required
               />
             </Form.Group>
             <Form.Group controlId="formSenha">
@@ -158,7 +163,6 @@ const UsuarioEditar: React.FC<Props> = ({ userId, onEditClick }) => {
                 type="password"
                 placeholder="Senha"
                 name="Senha"
-                value={state.Senha}
                 onChange={handleChange}
                 required
               />

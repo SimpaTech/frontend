@@ -25,6 +25,16 @@ type State = {
   usuarioToDelete: tipoUsuario | null;
 };
 
+function formatCPF(cpf: string): string {
+  if (!cpf) return '';
+
+  // Remove caracteres não numéricos do CPF
+  const cleanedCPF = cpf.replace(/\D/g, '');
+
+  // Formata o CPF com a máscara
+  return cleanedCPF.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+}
+
 export default class UsuarioConsultar extends Component<Props, State> {
   state: State = {
     tipoUsuario: [],
@@ -81,9 +91,8 @@ export default class UsuarioConsultar extends Component<Props, State> {
       <Container>
         {errorMessage && (
           <div
-            className={`alert mt-3 ${
-              errorMessage.includes("Nenhum") ? "alert-danger" : "alert-success"
-            }`}
+            className={`alert mt-3 ${errorMessage.includes("Nenhum") ? "alert-danger" : "alert-success"
+              }`}
             role="alert"
           >
             {errorMessage}
@@ -102,18 +111,19 @@ export default class UsuarioConsultar extends Component<Props, State> {
               {tipoUsuario.map((tipo) => (
                 <tr key={tipo.ID_Usuario}>
                   <td>{tipo.Nome_Usuario}</td>
-                  <td>{tipo.CPF_Usuario}</td>
+                  <td>{formatCPF(tipo.CPF_Usuario)}</td>
                   <td>
                     {/* Chame a função onEditClick passando o ID do usuário */}
                     <Button variant="primary" onClick={() => onEditClick && onEditClick(tipo.ID_Usuario)}>
-                      Editar
+
+                      <FontAwesomeIcon icon={faEdit} style={{ fontSize: "16px" }} />
                     </Button>
-                    <button
+                    <Button
                       className="btn btn-danger"
                       onClick={() => this.setState({ showDeleteModal: true, usuarioToDelete: tipo })}
                     >
                       <FontAwesomeIcon icon={faTrash} style={{ fontSize: "16px" }} />
-                    </button>
+                    </Button>
                   </td>
                 </tr>
               ))}
