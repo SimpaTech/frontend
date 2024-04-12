@@ -5,16 +5,18 @@ import { cadastrarAlerta } from "../services/apiService"
 
 interface State {
   Nome_Tipo_Alerta: string
-  Valor: number
+  Valor: string
   Operador_Condicional: string
+  validated: boolean
   errorMessage: string | null
 }
 
 const AlertasCadastro: React.FC = () => {
   const [state, setState] = useState<State>({
     Nome_Tipo_Alerta: "",
-    Valor: 0,
+    Valor: '0',
     Operador_Condicional: "=",
+    validated: false,
     errorMessage: null,
   })
 
@@ -28,7 +30,18 @@ const AlertasCadastro: React.FC = () => {
       validated: true,
     }))
 
-    if (form.checkValidity()) {
+    const isAllFieldsFilled = Array.from(form.elements).every((element: any) => {
+      if (element.required && element.value.trim() === "") {
+        setState((prevState) => ({
+          ...prevState,
+          errorMessage: `Erro! Preencha o campo: ${element.name.replace("_", " ")}`,
+        }))
+        return false
+      }
+      return true
+    })
+
+    if (isAllFieldsFilled) {
 
       const data = {
         Nome_Tipo_Alerta: state.Nome_Tipo_Alerta,
@@ -52,7 +65,7 @@ const AlertasCadastro: React.FC = () => {
         if (error.response.status === 400) {
           setState((prevState) => ({
             ...prevState,
-            errorMessage: "Erro: " + error.response.data.error,
+            errorMessage: "Erro: Dados inválidos!!",
           }))
         } else {
           setState((prevState) => ({
@@ -76,7 +89,7 @@ const AlertasCadastro: React.FC = () => {
   return (
     <Container className="tipoalerta">
       <h1 className="text-center">Cadastrar</h1>
-      <Form className="mt-5" onSubmit={handleSubmit}>
+      <Form className="mt-5" onSubmit={handleSubmit} noValidate validated={state.validated}>
         {state.errorMessage && (
           <div
             className={`alert ${state.errorMessage.includes("Erro") ? "alert-danger" : "alert-success"}`}
@@ -95,6 +108,7 @@ const AlertasCadastro: React.FC = () => {
                 name="Nome_Tipo_Alerta"
                 value={state.Nome_Tipo_Alerta}
                 onChange={handleChange}
+                required
               />
             </Form.Group>
             <Form.Group controlId="formValor">
@@ -105,6 +119,7 @@ const AlertasCadastro: React.FC = () => {
                 name="Valor"
                 value={state.Valor}
                 onChange={handleChange}
+                required
               />
             </Form.Group>
           </Col>

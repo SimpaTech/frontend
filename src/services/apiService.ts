@@ -11,7 +11,7 @@ interface UserData {
 
 interface AlertData {
   Nome_Tipo_Alerta: string
-  Valor: number
+  Valor: string
   Operador_Condicional: string
 }
 
