@@ -1,4 +1,4 @@
-import React, {FormEvent, useState } from "react"
+import React, { FormEvent, useState } from "react"
 import { Container, Form, Button, Row, Col } from "react-bootstrap"
 import "../styles/ParametrosCadastro.css"
 import { cadastrarTipoParametro } from "../services/apiService"
@@ -6,8 +6,9 @@ import { cadastrarTipoParametro } from "../services/apiService"
 interface State {
     Nome_Tipo_Parametro: string
     Unidade: string
-    Offset: number
-    Fator: number
+    Offset: string
+    Fator: string
+    validated: boolean
     errorMessage: string | null
 }
 
@@ -15,8 +16,9 @@ const ParametrosCadastrar: React.FC = () => {
     const [state, setState] = useState<State>({
         Nome_Tipo_Parametro: "",
         Unidade: "",
-        Offset: 0,
-        Fator: 0,
+        Offset: '0',
+        Fator: '0',
+        validated: false,
         errorMessage: null,
     })
 
@@ -30,7 +32,18 @@ const ParametrosCadastrar: React.FC = () => {
             validated: true,
         }))
 
-        if (form.checkValidity()) {
+        const isAllFieldsFilled = Array.from(form.elements).every((element: any) => {
+            if (element.required && element.value.trim() === "") {
+                setState((prevState) => ({
+                    ...prevState,
+                    errorMessage: `Erro! Preencha o campo: ${element.name.replace("_", " ")}`,
+                }))
+                return false
+            }
+            return true
+        })
+
+        if (isAllFieldsFilled) {
 
             const data = {
                 Nome_Tipo_Parametro: state.Nome_Tipo_Parametro,
@@ -79,7 +92,7 @@ const ParametrosCadastrar: React.FC = () => {
     return (
         <Container className="parametros">
             <h1 className="text-center">Cadastrar</h1>
-            <Form className="mt-5" onSubmit={handleSubmit}>
+            <Form className="mt-5" onSubmit={handleSubmit} noValidate validated={state.validated}>
                 {state.errorMessage && (
                     <div
                         className={`alert ${state.errorMessage.includes("Erro") ? "alert-danger" : "alert-success"}`}
@@ -98,16 +111,18 @@ const ParametrosCadastrar: React.FC = () => {
                                 name="Nome_Tipo_Parametro"
                                 value={state.Nome_Tipo_Parametro}
                                 onChange={handleChange}
+                                required
                             />
                         </Form.Group>
                         <Form.Group controlId="formFator" style={{ marginTop: '2%' }}>
                             <Form.Label>Fator</Form.Label>
                             <Form.Control
-                                type="text"
+                                type="Number"
                                 placeholder="Fator"
                                 name="Fator"
                                 value={state.Fator}
                                 onChange={handleChange}
+                                required
                             />
                         </Form.Group>
                     </Col>
@@ -120,16 +135,18 @@ const ParametrosCadastrar: React.FC = () => {
                                 name="Unidade"
                                 value={state.Unidade}
                                 onChange={handleChange}
+                                required
                             />
                         </Form.Group>
                         <Form.Group controlId="formOffset" style={{ marginTop: '2%' }}>
                             <Form.Label>Offset</Form.Label>
                             <Form.Control
-                                type="text"
+                                type="Number"
                                 placeholder="Offset"
                                 name="Offset"
                                 value={state.Offset}
                                 onChange={handleChange}
+                                required
                             />
                         </Form.Group>
                     </Col>

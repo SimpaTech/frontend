@@ -18,8 +18,8 @@ interface AlertData {
 interface TipoParametroData {
   Nome_Tipo_Parametro: string
   Unidade: string
-  Offset: Number
-  Fator: number
+  Offset: string
+  Fator: string
 }
 
 interface EstacaoData {
