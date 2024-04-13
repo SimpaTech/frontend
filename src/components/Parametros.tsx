@@ -6,19 +6,34 @@ import ParametrosCadastro from "./ParametrosCadastro"
 import ParametrosConsultar from "./ParametrosConsultar"
 import NavbarParametros from "./NavbarParametros"
 import Header from "./Header"
+import ParametroEditar from "./ParametrosEditar"
+
+type Props = {}
 
 interface ParametrosState {
     currentPage: string
+    hasDashboard: boolean
+    editParametroId: number
 }
 
-export default class Parametros extends Component<{}, ParametrosState> {
+export default class Parametros extends Component<Props, ParametrosState> {
     state: ParametrosState = {
         currentPage: "Cadastrar",
+        hasDashboard: false,
+        editParametroId: 1
     }
 
     changePage = (page: string) => {
         this.setState({ currentPage: page })
     }
+
+    // Função para lidar com o clique no botão de edição
+    handleEditClick = (parametroId: number) => {
+        // Atualize o estado com o ID do usuário para edição
+        this.setState({ editParametroId: parametroId });
+        // Navegue para a página de edição
+        this.changePage("Editar");
+    };
 
     render() {
         const storedUserDetails = localStorage.getItem('userDetails');
@@ -32,11 +47,14 @@ export default class Parametros extends Component<{}, ParametrosState> {
         let currentPageContent
         switch (this.state.currentPage) {
             case "Cadastrar":
-                currentPageContent = <ParametrosCadastro /> 
+                currentPageContent = <ParametrosCadastro />
                 break
             case "Consultar":
-                currentPageContent = <ParametrosConsultar />
+                currentPageContent = <ParametrosConsultar onEditClick={this.handleEditClick} />
                 break
+            case "Editar":
+                currentPageContent = <ParametroEditar parametroId={this.state.editParametroId} onEditClick={() => this.changePage("Consultar")} />;
+                break;
         }
 
         return (
