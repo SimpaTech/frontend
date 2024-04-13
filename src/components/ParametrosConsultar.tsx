@@ -3,7 +3,7 @@ import "../styles/EstacaoConsultar.css";
 import { Container, Table, Modal, Button } from "react-bootstrap";
 import { listarParametros, removerTipoParametro } from "../services/apiService";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 type Props = {
   onEditClick?: (id: number) => void; // Adicione a prop onEditClick
@@ -62,7 +62,7 @@ export default class ParametrosConsultar extends Component<Props, State> {
       console.error("Erro ao deletar parâmetro:", error);
     }
   };
-  
+
   handleConfirmDelete = () => {
     const { parametroToDelete } = this.state;
     if (parametroToDelete) {
@@ -109,7 +109,7 @@ export default class ParametrosConsultar extends Component<Props, State> {
                   <td>{tipo.Unidade}</td>
                   <td>
                     <Button variant="primary" onClick={() => onEditClick && onEditClick(tipo.ID_Tipo_Parametro)}>
-                      Editar
+                      <FontAwesomeIcon icon={faEdit} style={{ fontSize: '16px' }} />
                     </Button>
                     <Button variant="danger" onClick={() => this.setState({ showDeleteModal: true, parametroToDelete: tipo })}>
                       <FontAwesomeIcon icon={faTrash} style={{ fontSize: '16px' }} />

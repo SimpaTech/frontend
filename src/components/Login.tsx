@@ -3,7 +3,7 @@ import { Container, Row, Col, Image, Form, Button, Alert } from 'react-bootstrap
 import InputMask from "react-input-mask";
 import '../styles/Login.css'
 import { login } from '../services/apiService';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 interface State {
   CPF_Usuario: string;
