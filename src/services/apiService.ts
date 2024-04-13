@@ -11,22 +11,22 @@ interface UserData {
 
 interface AlertData {
   Nome_Tipo_Alerta: string
-  Valor: number
+  Valor: string
   Operador_Condicional: string
 }
 
 interface TipoParametroData {
   Nome_Tipo_Parametro: string
   Unidade: string
-  Offset: number
-  Fator: number
+  Offset: string
+  Fator: string
 }
 
 interface EstacaoData {
   Nome: string
-  Latitude: number
-  Longitude: number
-  Data_Instalacao: Date
+  Latitude: string
+  Longitude: string
+  Data_Instalacao: string
   Tipo_Estacao: string
   Indicativo_Ativa: Boolean
 }
@@ -155,7 +155,7 @@ export async function buscarTipoParametro(id: number): Promise<AxiosResponse<any
 export const editarTipoParametro = async (id: number, data: TipoParametroData ) => {
   try {
     const response = await axios.put(`${API_BASE_URL}/tipoParametro/${id}`, data);
-    return response.data;
+    return response;
   } catch (error) {
     throw error;
   }

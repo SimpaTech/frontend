@@ -10,7 +10,7 @@ interface State {
   Senha: string;
   Role: string;
   validated: boolean;
-  errorMessage: string | null; // Adicionando um estado para armazenar a mensagem de erro
+  errorMessage: string | null;
 }
 
 const UsuarioCadastro: React.FC = () => {
@@ -20,31 +20,49 @@ const UsuarioCadastro: React.FC = () => {
     CPF_Usuario: "",
     Senha: "",
     Role: "Teste",
-    errorMessage: null, // Inicialize a mensagem de erro como nula
+    errorMessage: null,
   });
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const form = e.currentTarget;
-    if (!form.checkValidity()) {
-      e.stopPropagation();
-    }
 
     setState((prevState) => ({
       ...prevState,
       validated: true,
     }));
 
-    if (form.checkValidity()) {
-      const data = {
-        Nome_Usuario: state.Nome_Usuario,
-        Senha: state.Senha,
-        Role: state.Role,
-        CPF_Usuario: state.CPF_Usuario.replace(/\D/g, ""),
-      };
+    const CPFNoMask = state.CPF_Usuario.replace(/\D/g, '');
 
+    const isAllFieldsFilled = Array.from(form.elements).every((element: any) => {
+      if (element.required && element.value.trim() === "") {
+        setState((prevState) => ({
+          ...prevState,
+          errorMessage: `Erro! Preencha o campo: ${element.name.replace("_", " ")}`,
+        }))
+        return false
+      }else{
+        if (CPFNoMask.length !== 11) {
+          setState((prevState) => ({
+            ...prevState,
+            errorMessage: `Erro! Preencha o campo do CPF por inteiro.`,
+          }))
+          return false
+        }
+      }
+      return true
+    })
+
+    if (isAllFieldsFilled) {
       try {
+        const data = {
+          Nome_Usuario: state.Nome_Usuario,
+          Senha: state.Senha,
+          Role: state.Role,
+          CPF_Usuario: CPFNoMask,
+        };
+
         const response = await cadastrarUsuario(data);
         
         if (response.status === 200) {
@@ -91,7 +109,7 @@ const UsuarioCadastro: React.FC = () => {
       <Form className="mt-5" onSubmit={handleSubmit} noValidate validated={state.validated}>
         {state.errorMessage && (
           <div
-            className={`alert ${state.errorMessage.includes("CPF") ? "alert-danger" : "alert-success"}`}
+            className={`alert ${state.errorMessage.includes("Erro") ? "alert-danger" : "alert-success"}`}
             role="alert"
           >
             {state.errorMessage}
@@ -107,6 +125,7 @@ const UsuarioCadastro: React.FC = () => {
                 name="Nome_Usuario"
                 value={state.Nome_Usuario}
                 onChange={handleChange}
+                required
               />
             </Form.Group>
             {/*             <Form.Group controlId="formEmail">
@@ -126,6 +145,7 @@ const UsuarioCadastro: React.FC = () => {
                 name="Senha"
                 value={state.Senha}
                 onChange={handleChange}
+                required
               />
             </Form.Group>
           </Col>

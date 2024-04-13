@@ -7,9 +7,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 interface State {
     Nome: string
     Tipo_Estacao: string
-    Latitude: number
-    Longitude: number
-    Data_Instalacao: Date
+    Latitude: string
+    Longitude: string
+    Data_Instalacao: string
     Indicativo_Ativa: Boolean
     validated: boolean
     errorMessage: string | null
@@ -25,9 +25,9 @@ const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick }) => {
         validated: false,
         Nome: "",
         Tipo_Estacao: "Opção 1", // Mudar para a primeira Option
-        Latitude: 0,
-        Longitude: 0,
-        Data_Instalacao: new Date(),
+        Latitude: '0',
+        Longitude: '0',
+        Data_Instalacao: new Date().toLocaleDateString("pt-BR"),
         Indicativo_Ativa: true,
         errorMessage: null,
     })
@@ -38,9 +38,13 @@ const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick }) => {
                 const response = await buscarEstacao(estacaoId)
                 const estacao = response.data
                 console.log(estacao)
+
+                const dataInstalacao = new Date(estacao.Data_Instalacao)
+                const formattedDataInstalacao = dataInstalacao.toISOString().split('T')[0]
+
                 setState({
                     ...estacao,
-                    Data_Instalacao: new Date(estacao.Data_Instalacao)
+                    Data_Instalacao: formattedDataInstalacao
                 })
             } catch (error) {
                 console.error("Erro ao buscar usuário:", error)
@@ -60,55 +64,49 @@ const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick }) => {
             validated: true,
         }))
 
-        if (form.checkValidity()) {
-
-            const isAllFieldsFilled = Array.from(form.elements).every((element: any) => {
-                if (element.tagName === "INPUT" && element.required && element.value.trim() === "") {
-                    setState((prevState) => ({
-                        ...prevState,
-                        errorMessage: `Erro: Preencha o campo ${element.name.replace("_", " ")}`,
-                    }))
-                    return false
-                }
-                return true
-            })
-            if (isAllFieldsFilled) {
-                const data = {
-                    Nome: state.Nome,
-                    Tipo_Estacao: state.Tipo_Estacao,
-                    Latitude: state.Latitude,
-                    Longitude: state.Longitude,
-                    Data_Instalacao: state.Data_Instalacao,
-                    Indicativo_Ativa: state.Indicativo_Ativa,
-                }
-
-                try {
-                    const response = await editarEstacao(estacaoId, data)
-                    console.log("Response: " + JSON.stringify(response))
-                    if (response.status === 200) {
-                        setState((prevState) => ({
-                            ...prevState,
-                            errorMessage: "Estação Editada com sucesso!",
-                        }))
-                    }
-                } catch (error: any) {
-                    console.error("Erro ao enviar informações para o backend:", error)
-                    if (error.response.status === 400) {
-                        setState((prevState) => ({
-                            ...prevState,
-                            errorMessage: "Erro: " + error.response.data.error,
-                        }))
-                    } else {
-                        setState((prevState) => ({
-                            ...prevState,
-                            errorMessage: "Erro na requisição. Por favor, tente novamente mais tarde.",
-                        }))
-                    }
-                }
+        const isAllFieldsFilled = Array.from(form.elements).every((element: any) => {
+            if (element.tagName === "INPUT" && element.required && element.value.trim() === "") {
+                setState((prevState) => ({
+                    ...prevState,
+                    errorMessage: `Erro: Preencha o campo ${element.name.replace("_", " ")}`,
+                }))
+                return false
+            }
+            return true
+        })
+        if (isAllFieldsFilled) {
+            const data = {
+                Nome: state.Nome,
+                Tipo_Estacao: state.Tipo_Estacao,
+                Latitude: state.Latitude,
+                Longitude: state.Longitude,
+                Data_Instalacao: state.Data_Instalacao,
+                Indicativo_Ativa: state.Indicativo_Ativa,
             }
 
-        } else {
-            e.stopPropagation()
+            try {
+                const response = await editarEstacao(estacaoId, data)
+                console.log("Response: " + JSON.stringify(response))
+                if (response.status === 200) {
+                    setState((prevState) => ({
+                        ...prevState,
+                        errorMessage: "Estação Editada com sucesso!",
+                    }))
+                }
+            } catch (error: any) {
+                console.error("Erro ao enviar informações para o backend:", error)
+                if (error.response.status === 400) {
+                    setState((prevState) => ({
+                        ...prevState,
+                        errorMessage: "Erro: " + error.response.data.error,
+                    }))
+                } else {
+                    setState((prevState) => ({
+                        ...prevState,
+                        errorMessage: "Erro na requisição. Por favor, tente novamente mais tarde.",
+                    }))
+                }
+            }
         }
     }
 
@@ -118,15 +116,16 @@ const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick }) => {
         console.log("Novo valor:", value)
 
         if (name === 'Data_Instalacao') {
-            const date = new Date(value); // Converte a string de data para um objeto Date
-            setState((prevState) => {
-                const newState = {
+            const [year, month, day] = value.split('-');
+            const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+            if (!isNaN(date.getTime())) {
+                setState((prevState) => ({
                     ...prevState,
-                    [name]: date
-                }   
-                console.log("Novo estado:", newState)
-                return newState
-            })
+                    [name]: value
+                }));
+            } else {
+                console.error('Data inválida');
+            }
         } else {
             setState((prevState) => {
                 const newState = {
@@ -168,16 +167,18 @@ const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick }) => {
                                 name="Nome"
                                 value={state.Nome}
                                 onChange={handleChange}
+                                required
                             />
                         </Form.Group>
                         <Form.Group controlId="formLatitude">
                             <Form.Label>Latitude</Form.Label>
                             <Form.Control
-                                type="text"
+                                type="Number"
                                 placeholder="Latitude"
                                 name="Latitude"
                                 value={state.Latitude}
                                 onChange={handleChange}
+                                required
                             />
                         </Form.Group>
                         <Form.Group controlId="formDataInstalacao">
@@ -185,8 +186,9 @@ const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick }) => {
                             <Form.Control
                                 type="date"
                                 name="Data_Instalacao"
-                                value={state.Data_Instalacao.toISOString().split('T')[0]}
+                                value={state.Data_Instalacao}
                                 onChange={handleChange}
+                                required
                             />
                         </Form.Group>
                     </Col>
@@ -207,11 +209,12 @@ const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick }) => {
                         <Form.Group controlId="formLongitude">
                             <Form.Label>Longitude</Form.Label>
                             <Form.Control
-                                type="text"
+                                type="Number"
                                 placeholder="Longitude"
                                 name="Longitude"
                                 value={state.Longitude}
                                 onChange={handleChange}
+                                required
                             />
                         </Form.Group>
                     </Col>

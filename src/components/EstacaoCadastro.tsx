@@ -6,22 +6,24 @@ import { cadastrarEstacao } from "../services/apiService"
 interface State {
   Nome: string
   Tipo_Estacao: string
-  Latitude: number
-  Longitude: number
-  Data_Instalacao: Date
-  errorMessage: string | null
+  Latitude: string
+  Longitude: string
+  Data_Instalacao: string
   Indicativo_Ativa: Boolean
+  errorMessage: string | null
+  validated: boolean
 }
 
 const CadastroPage: React.FC = () => {
   const [state, setState] = useState<State>({
     Nome: "",
     Tipo_Estacao: "Opção 1", // Mudar para a primeira Option
-    Latitude: 0,
-    Longitude: 0,
-    Data_Instalacao: new Date(),
+    Latitude: '0',
+    Longitude: '0',
+    Data_Instalacao: new Date().toLocaleDateString("pt-BR"),
     Indicativo_Ativa: true,
     errorMessage: null,
+    validated: false,
   })
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -34,7 +36,18 @@ const CadastroPage: React.FC = () => {
       validated: true,
     }))
 
-    if (form.checkValidity()) {
+    const isAllFieldsFilled = Array.from(form.elements).every((element: any) => {
+      if (element.required && element.value.trim() === "") {
+        setState((prevState) => ({
+          ...prevState,
+          errorMessage: `Erro! Preencha o campo: ${element.name.replace("_", " ")}`,
+        }))
+        return false
+      }
+      return true
+    })
+
+    if (isAllFieldsFilled) {
 
       const data = {
         Nome: state.Nome,
@@ -77,10 +90,11 @@ const CadastroPage: React.FC = () => {
     const { name, value } = e.target
     console.log(`Valor selecionado para ${name}: ${value}`);
     if (name === 'Data_Instalacao') {
-      const date = new Date(value); // Converte a string de data para um objeto Date
+      const date = new Date(value); 
+      const formattedDate = date.toISOString().split('T')[0]; 
       setState(prevState => ({
         ...prevState,
-        [name]: date
+        [name]: formattedDate
       }));
     } else {
       setState(prevState => ({
@@ -94,7 +108,7 @@ const CadastroPage: React.FC = () => {
   return (
     <Container className="estacao">
       <h1 className="text-center">Cadastrar</h1>
-      <Form className="mt-5" onSubmit={handleSubmit}>
+      <Form className="mt-5" onSubmit={handleSubmit} noValidate validated={state.validated}>
         {state.errorMessage && (
           <div
             className={`alert ${state.errorMessage.includes("Erro") ? "alert-danger" : "alert-success"}`}
@@ -113,16 +127,18 @@ const CadastroPage: React.FC = () => {
                 name="Nome"
                 value={state.Nome}
                 onChange={handleChange}
+                required
               />
             </Form.Group>
             <Form.Group controlId="formLatitude">
               <Form.Label>Latitude</Form.Label>
               <Form.Control
-                type="text"
+                type="Number"
                 placeholder="Latitude"
                 name="Latitude"
                 value={state.Latitude}
                 onChange={handleChange}
+                required
               />
             </Form.Group>
             <Form.Group controlId="formDataInstalacao">
@@ -130,8 +146,9 @@ const CadastroPage: React.FC = () => {
               <Form.Control
                 type="date"
                 name="Data_Instalacao"
-                value={state.Data_Instalacao.toISOString().split('T')[0]}
+                value={state.Data_Instalacao}
                 onChange={handleChange}
+                required
               />
             </Form.Group>
           </Col>
@@ -152,11 +169,12 @@ const CadastroPage: React.FC = () => {
             <Form.Group controlId="formLongitude">
               <Form.Label>Longitude</Form.Label>
               <Form.Control
-                type="text"
+                type="Number"
                 placeholder="Longitude"
                 name="Longitude"
                 value={state.Longitude}
                 onChange={handleChange}
+                required
               />
             </Form.Group>
           </Col>

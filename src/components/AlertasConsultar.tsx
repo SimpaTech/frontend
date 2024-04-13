@@ -11,7 +11,7 @@ type Props = {
 type Alerta = {
   ID_Tipo_Alerta: number;
   Nome_Tipo_Alerta: string;
-  Valor: number;
+  Valor: string;
   Operador_Condicional: string;
   errorMessage: string | null;
 }
@@ -120,7 +120,7 @@ export default class AlertasConsultar extends Component<Props, State> {
             <Modal.Title>Confirmar Exclusão</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            Tem certeza que quer deletar a estação: {alertasToDelete?.Nome_Tipo_Alerta}?
+            Tem certeza que quer deletar o Alerta: {alertasToDelete?.Nome_Tipo_Alerta}?
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleCancelDelete}>
