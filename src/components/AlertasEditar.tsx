@@ -89,7 +89,7 @@ const TipoAlertaEditar: React.FC<Props> = ({ alertaId, onEditClick }) => {
 
           setState((prevState) => ({
             ...prevState,
-            errorMessage: "Tipo de alerta editado com sucesso!",
+            errorMessage: "Alerta editado com sucesso!",
           }))
         }
       } catch (error: any) {

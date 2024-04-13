@@ -155,7 +155,7 @@ export async function buscarTipoParametro(id: number): Promise<AxiosResponse<any
 export const editarTipoParametro = async (id: number, data: TipoParametroData ) => {
   try {
     const response = await axios.put(`${API_BASE_URL}/tipoParametro/${id}`, data);
-    return response.data;
+    return response;
   } catch (error) {
     throw error;
   }

@@ -1,13 +1,14 @@
 import React, { useState, useEffect, FormEvent, ChangeEvent } from "react";
-import { Container, Form, Button, Table } from "react-bootstrap";
+import { Container, Form, Button, Table, Col, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { buscarTipoParametro, editarTipoParametro } from "../services/apiService";
+import "../styles/ParametroEditar.css"
 
 interface State {
   Nome_Tipo_Parametro: string;
-  Fator: number;
-  Offset: number;
+  Fator: string;
+  Offset: string;
   Unidade: string;
   validated: boolean
   errorMessage: string | null
@@ -21,8 +22,8 @@ interface Props {
 const ParametroEditar: React.FC<Props> = ({ parametroId, onEditClick }) => {
   const [state, setState] = useState<State>({
     Nome_Tipo_Parametro: "",
-    Fator: 0,
-    Offset: 0,
+    Fator: '0',
+    Offset: '0',
     Unidade: "",
     validated: false,
     errorMessage: null
@@ -33,7 +34,7 @@ const ParametroEditar: React.FC<Props> = ({ parametroId, onEditClick }) => {
       try {
         const response = await buscarTipoParametro(parametroId);
         const parametro = response.data;
-    
+
         // Verifica se o parametro não é undefined antes de acessar suas propriedades
         if (parametro) {
           setState((prevState) => ({
@@ -50,7 +51,7 @@ const ParametroEditar: React.FC<Props> = ({ parametroId, onEditClick }) => {
         console.error("Erro ao buscar parâmetro:", error);
       }
     };
-    
+
     fetchParametro();
   }, [parametroId]);
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -61,60 +62,56 @@ const ParametroEditar: React.FC<Props> = ({ parametroId, onEditClick }) => {
     setState((prevState) => ({
       ...prevState,
       validated: true,
-  }))
+    }))
 
-  if (form.checkValidity()) {
-  
-      // Verifica se todos os campos obrigatórios foram preenchidos
-      const isAllFieldsFilled = Array.from(form.elements).every((element: any) => {
-        if (element.tagName === "INPUT" && element.required && element.value.trim() === "") {
+    // Verifica se todos os campos obrigatórios foram preenchidos
+    const isAllFieldsFilled = Array.from(form.elements).every((element: any) => {
+      if (element.tagName === "INPUT" && element.required && element.value.trim() === "") {
+        setState((prevState) => ({
+          ...prevState,
+          errorMessage: `Erro: Preencha o campo ${element.name.replace("_", " ")}`,
+        }))
+        return false
+      }
+      return true
+    })
+
+    if (isAllFieldsFilled) {
+
+      try {
+        const data = {
+          Nome_Tipo_Parametro: state.Nome_Tipo_Parametro,
+          Fator: state.Fator,
+          Offset: state.Offset,
+          Unidade: state.Unidade,
+        }
+
+        const response = await editarTipoParametro(parametroId, data)
+        if (response.status === 200) {
+          console.log("Status 200")
+          console.log(response)
+
           setState((prevState) => ({
             ...prevState,
-            errorMessage: `Erro: Preencha o campo ${element.name.replace("_", " ")}`,
+            errorMessage: "Alerta editado com sucesso!",
           }))
-          return false
         }
-        return true
-      })
-
-      if (isAllFieldsFilled) {
-        try {
-          const data = {
-            Nome_Tipo_Parametro: state.Nome_Tipo_Parametro,
-            Fator: state.Fator,
-            Offset: state.Offset,
-            Unidade: state.Unidade,
-          }
-
-          const response = await editarTipoParametro(parametroId, data)
-          if (response.status === 200) {
-            console.log("Status 200")
-            console.log(response)
-
-            setState((prevState) => ({
-              ...prevState,
-              errorMessage: response.data.message,
-            }))
-          }
-        } catch (error: any) {
-          console.error("Erro ao editar tipo de parâmetro:", error)
-          if (error.response.status === 400) {
-            console.log("Status 400")
-            console.log(error.response)
-            setState((prevState) => ({
-              ...prevState,
-              errorMessage: "Erro: " + error.response.data.error,
-            }))
-          } else {
-            setState((prevState) => ({
-              ...prevState,
-              errorMessage: "Erro na requisição. Por favor, tente novamente mais tarde.",
-            }))
-          }
+      } catch (error: any) {
+        console.error("Erro ao editar tipo de parâmetro:", error)
+        if (error.response.status === 400) {
+          console.log("Status 400")
+          console.log(error.response)
+          setState((prevState) => ({
+            ...prevState,
+            errorMessage: "Erro: " + error.response.data.error,
+          }))
+        } else {
+          setState((prevState) => ({
+            ...prevState,
+            errorMessage: "Erro na requisição. Por favor, tente novamente mais tarde.",
+          }))
         }
       }
-    } else {
-      e.stopPropagation()
     }
   }
 
@@ -127,13 +124,13 @@ const ParametroEditar: React.FC<Props> = ({ parametroId, onEditClick }) => {
   };
 
   return (
-    <Container>
+    <Container className="tipoparametro">
       <h1 className="text-center">
         <FontAwesomeIcon icon={faArrowLeft}
           onClick={onEditClick}
           style={{ marginRight: "10px", cursor: "pointer" }}
-          />{" "}
-          Editar Parâmetro
+        />{" "}
+        Editar Parâmetro
       </h1>
       <Form className="mt-5" onSubmit={handleSubmit} noValidate validated={state.validated}>
         {state.errorMessage && (
@@ -144,52 +141,54 @@ const ParametroEditar: React.FC<Props> = ({ parametroId, onEditClick }) => {
             {state.errorMessage}
           </div>
         )}
-        <Form.Group controlId="formNome">
-          <Form.Label>Nome</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder={state.Nome_Tipo_Parametro}
-            name="Nome_Tipo_Parametro"
-            value={state.Nome_Tipo_Parametro}
-            onChange={handleChange}
-          />
-        </Form.Group>
-        
-        <Form.Group controlId="formFator">
-          <Form.Label>Fator</Form.Label>
-          <Form.Control
-            type="number"
-            name="Fator"
-            value={state.Fator}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-
-        <Form.Group controlId="formOffset">
-          <Form.Label>Offset</Form.Label>
-          <Form.Control
-            type="number"
-            name="Offset"
-            value={state.Offset}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-
-        <Form.Group controlId="formUnidade">
-          <Form.Label>Unidade</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder={state.Unidade}
-            name="Unidade"
-            value={state.Unidade}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-
-
+        <Row>
+          <Col>
+            <Form.Group controlId="formNome">
+              <Form.Label>Nome</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder={state.Nome_Tipo_Parametro}
+                name="Nome_Tipo_Parametro"
+                value={state.Nome_Tipo_Parametro}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formFator">
+              <Form.Label>Fator</Form.Label>
+              <Form.Control
+                type="number"
+                name="Fator"
+                value={state.Fator}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group controlId="formOffset">
+              <Form.Label>Offset</Form.Label>
+              <Form.Control
+                type="number"
+                name="Offset"
+                value={state.Offset}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formUnidade">
+              <Form.Label>Unidade</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder={state.Unidade}
+                name="Unidade"
+                value={state.Unidade}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+          </Col>
+        </Row>
         <Button variant="primary" type="submit" className="d-block mx-auto mt-5">
           Continuar
         </Button>
