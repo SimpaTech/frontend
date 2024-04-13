@@ -142,6 +142,35 @@ export async function cadastrarTipoParametro(data: TipoParametroData): Promise<A
   }
 }
 
+
+export async function buscarTipoParametro(id: number): Promise<AxiosResponse<any>> {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/tipoParametro/buscarTipoParametro/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const editarTipoParametro = async (id: number, data: TipoParametroData ) => {
+  try {
+    const response = await axios.put(`${API_BASE_URL}/tipoParametro/${id}`, data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export async function removerTipoParametro(ID_Tipo_Parametro: number): Promise<AxiosResponse<any>> {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/tipoParametro/${ID_Tipo_Parametro}`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
 // ALERTAS
 
 export async function cadastrarAlerta(data: AlertData): Promise<AxiosResponse<any>> {
