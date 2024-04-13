@@ -33,7 +33,7 @@ const ParametroEditar: React.FC<Props> = ({ parametroId, onEditClick }) => {
       try {
         const response = await buscarTipoParametro(parametroId);
         const parametro = response.data;
-  
+    
         // Verifica se o parametro não é undefined antes de acessar suas propriedades
         if (parametro) {
           setState((prevState) => ({
@@ -50,7 +50,7 @@ const ParametroEditar: React.FC<Props> = ({ parametroId, onEditClick }) => {
         console.error("Erro ao buscar parâmetro:", error);
       }
     };
-  
+    
     fetchParametro();
   }, [parametroId]);
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -130,7 +130,10 @@ const ParametroEditar: React.FC<Props> = ({ parametroId, onEditClick }) => {
     <Container>
       <h1 className="text-center">
         <FontAwesomeIcon icon={faArrowLeft}
-          onClick={onEditClick}/>{" "}Editar Parâmetro
+          onClick={onEditClick}
+          style={{ marginRight: "10px", cursor: "pointer" }}
+          />{" "}
+          Editar Parâmetro
       </h1>
       <Form className="mt-5" onSubmit={handleSubmit} noValidate validated={state.validated}>
         {state.errorMessage && (
@@ -141,55 +144,50 @@ const ParametroEditar: React.FC<Props> = ({ parametroId, onEditClick }) => {
             {state.errorMessage}
           </div>
         )}
+        <Form.Group controlId="formNome">
+          <Form.Label>Nome</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder={state.Nome_Tipo_Parametro}
+            name="Nome_Tipo_Parametro"
+            value={state.Nome_Tipo_Parametro}
+            onChange={handleChange}
+          />
+        </Form.Group>
+        
+        <Form.Group controlId="formFator">
+          <Form.Label>Fator</Form.Label>
+          <Form.Control
+            type="number"
+            name="Fator"
+            value={state.Fator}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
 
+        <Form.Group controlId="formOffset">
+          <Form.Label>Offset</Form.Label>
+          <Form.Control
+            type="number"
+            name="Offset"
+            value={state.Offset}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
 
-            <Form.Group controlId="formNome">
-              <Form.Label>Nome</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Nome"
-                name="Nome_Tipo_Parametro"
-                value={state.Nome_Tipo_Parametro}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
-            
-            <Form.Group controlId="formFator">
-              <Form.Label>Fator</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Fator"
-                name="Fator"
-                value={state.Fator}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
-
-            <Form.Group controlId="formOffset">
-              <Form.Label>Offset</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Offset"
-                name="Offset"
-                value={state.Offset}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
-
-            <Form.Group controlId="formUnidade">
-              <Form.Label>Unidade</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Unidade"
-                name="Unidade"
-                value={state.Unidade}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
+        <Form.Group controlId="formUnidade">
+          <Form.Label>Unidade</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder={state.Unidade}
+            name="Unidade"
+            value={state.Unidade}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
 
 
         <Button variant="primary" type="submit" className="d-block mx-auto mt-5">

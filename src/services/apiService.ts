@@ -18,7 +18,7 @@ interface AlertData {
 interface TipoParametroData {
   Nome_Tipo_Parametro: string
   Unidade: string
-  Offset: Number
+  Offset: number
   Fator: number
 }
 
@@ -146,7 +146,7 @@ export async function cadastrarTipoParametro(data: TipoParametroData): Promise<A
 export async function buscarTipoParametro(id: number): Promise<AxiosResponse<any>> {
   try {
     const response = await axios.get(`${API_BASE_URL}/tipoParametro/buscarTipoParametro/${id}`);
-    return response.data;
+    return response;
   } catch (error) {
     throw error;
   }
@@ -161,9 +161,9 @@ export const editarTipoParametro = async (id: number, data: TipoParametroData ) 
   }
 };
 
-export async function removerTipoParametro(ID_Tipo_Parametro: number): Promise<AxiosResponse<any>> {
+export async function removerTipoParametro(id: number): Promise<AxiosResponse<any>> {
   try {
-    const response = await axios.delete(`${API_BASE_URL}/tipoParametro/${ID_Tipo_Parametro}`);
+    const response = await axios.delete(`${API_BASE_URL}/tipoParametro/${id}`);
     return response;
   } catch (error) {
     throw error;

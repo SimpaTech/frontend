@@ -3,14 +3,14 @@ import "../styles/EstacaoConsultar.css";
 import { Container, Table, Modal, Button } from "react-bootstrap";
 import { listarParametros, removerTipoParametro } from "../services/apiService";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 type Props = {
   onEditClick?: (id: number) => void; // Adicione a prop onEditClick
 };
 
 type TipoParametro = {
-  ID_Parametro: number;
+  ID_Tipo_Parametro: number;
   Nome_Tipo_Parametro: string;
   Fator: number;
   Offset: number;
@@ -28,7 +28,7 @@ type State = {
 export default class ParametrosConsultar extends Component<Props, State> {
   state: State = {
     tiposParametro: [],
-    errorMessage: null,
+    errorMessage: "",
     showDeleteModal: false,
     parametroToDelete: null,
   };
@@ -36,9 +36,10 @@ export default class ParametrosConsultar extends Component<Props, State> {
   async componentDidMount() {
     try {
       const response = await listarParametros();
-      this.setState({ tiposParametro: response.data });
-      if (response.data.length === 0) {
-        this.setState({ errorMessage: "Nenhum parâmetro cadastrado" });
+      const tiposParametro = response.data; // Ajuste para acessar os dados corretamente
+      this.setState({ tiposParametro });
+      if (tiposParametro.length === 0) { // Ajuste para verificar o comprimento dos dados
+        this.setState({ errorMessage: "Nenhum tipo de parâmetro cadastrado" });
       }
     } catch (error) {
       console.error("Erro ao buscar parâmetros:", error);
@@ -46,13 +47,14 @@ export default class ParametrosConsultar extends Component<Props, State> {
     }
   }
 
-  handleDelete = async (parametro: TipoParametro) => {
+  handleDelete = async (parametro: TipoParametro | null) => {
+    if (!parametro) return; // Verificação para evitar erros se parametro for nulo
     console.log("Parâmetro: " + JSON.stringify(parametro));
     try {
-      await removerTipoParametro(parametro.ID_Parametro);
+      await removerTipoParametro(parametro.ID_Tipo_Parametro);
       console.log(`Parâmetro ${parametro.Nome_Tipo_Parametro} deletado com sucesso.`);
       this.setState((prevState) => ({
-        tiposParametro: prevState.tiposParametro.filter((p) => p.ID_Parametro !== parametro.ID_Parametro),
+        tiposParametro: prevState.tiposParametro.filter((p) => p.ID_Tipo_Parametro !== parametro.ID_Tipo_Parametro),
         showDeleteModal: false,
         parametroToDelete: null,
       }));
@@ -79,7 +81,11 @@ export default class ParametrosConsultar extends Component<Props, State> {
     return (
       <Container>
         {errorMessage && (
-          <div className="alert mt-3 alert-danger" role="alert">
+          <div
+            className={`alert mt-3 ${errorMessage.includes("Nenhum") ? "alert-danger" : "alert-success"
+              }`}
+            role="alert"
+          >
             {errorMessage}
           </div>
         )}
@@ -95,14 +101,14 @@ export default class ParametrosConsultar extends Component<Props, State> {
               </tr>
             </thead>
             <tbody>
-              {tiposParametro.map((tipo) => (
-                <tr key={tipo.ID_Parametro}>
+              {this.state.tiposParametro.map(tipo => (
+                <tr key={tipo.ID_Tipo_Parametro}>
                   <td>{tipo.Nome_Tipo_Parametro}</td>
                   <td>{tipo.Fator}</td>
                   <td>{tipo.Offset}</td>
                   <td>{tipo.Unidade}</td>
                   <td>
-                  <Button variant="primary" onClick={() => onEditClick && onEditClick(tipo.ID_Parametro)}>
+                    <Button variant="primary" onClick={() => onEditClick && onEditClick(tipo.ID_Tipo_Parametro)}>
                       Editar
                     </Button>
                     <Button variant="danger" onClick={() => this.setState({ showDeleteModal: true, parametroToDelete: tipo })}>

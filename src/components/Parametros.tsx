@@ -33,8 +33,6 @@ export default class Parametros extends Component<Props, ParametrosState> {
         this.setState({ editParametroId: parametroId });
         // Navegue para a página de edição
         this.changePage("Editar");
-
-        console.log(parametroId)
     };
 
     render() {
@@ -57,7 +55,6 @@ export default class Parametros extends Component<Props, ParametrosState> {
             case "Editar":
                 currentPageContent = <ParametroEditar parametroId={this.state.editParametroId} onEditClick={() => this.changePage("Consultar")} />;
                 break;
-
         }
 
         return (
