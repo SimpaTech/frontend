@@ -1,25 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Login from './components/Login';
+import Estacao from './components/Estacao';
+import Usuario from './components/Usuario';
+import Parametros from './components/Parametros';
+import Alertas from './components/Alertas';
 
-function App() {
-  const [message, setMessage] = useState('');
-
-  useEffect(() => {
-    axios.get('http://localhost:4000')
-      .then(response => {
-        setMessage(response.data);
-      })
-      .catch(error => {
-        console.error('Erro ao buscar dados : ', error);
-      });
-  }, []);
-
+const App = () => {
   return (
-    <div>
-      <h1>Frontend React App</h1>
-      <p>{message}</p>
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/estacoes" element={<Estacao />} />
+          <Route path="/usuarios" element={<Usuario />} />
+          <Route path="/parametros" element={<Parametros />} />
+          <Route path="/alertas" element={<Alertas />} />
+        </Routes>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
