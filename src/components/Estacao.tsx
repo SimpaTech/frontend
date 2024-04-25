@@ -8,6 +8,8 @@ import EstacaoDashboard from "./EstacaoDashboard"
 import Navbar from "./Navbar"
 import Header from "./Header"
 import EstacaoEditar from "./EstacaoEditar"
+import EstacaoParametro from "./EstacaoParametro"
+import EstacaoAlerta from "./EstacaoAlerta"
 
 type Props = {}
 
@@ -54,15 +56,20 @@ export default class Estacao extends Component<Props, State> {
         currentPageContent = <EstacaoCadastro />
         break
       case "Consultar":
-        currentPageContent = <EstacaoConsultar onEditClick={this.handleEditClick}/>
+        currentPageContent = <EstacaoConsultar onEditClick={this.handleEditClick} />
         break
       case "Dashboard":
         currentPageContent = <EstacaoDashboard />
         break
       case "Editar":
-        currentPageContent = <EstacaoEditar estacaoId={this.state.editEstacaoId} onEditClick={() => this.changePage("Consultar")}/>
+        currentPageContent = <EstacaoEditar estacaoId={this.state.editEstacaoId} onEditClick={() => this.changePage("Consultar")} changePage={this.changePage} />
         break
-
+      case "LinkParametro":
+        currentPageContent = <EstacaoParametro />
+        break
+      case "LinkAlerta":
+        currentPageContent = <EstacaoAlerta />
+        break
     }
 
     return (

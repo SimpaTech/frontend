@@ -18,9 +18,10 @@ interface State {
 interface Props {
     estacaoId: number
     onEditClick?: () => void
+    changePage: (page: string) => void;
 }
 
-const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick }) => {
+const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick, changePage}) => {
     const [state, setState] = useState<State>({
         validated: false,
         Nome: "",
@@ -138,6 +139,15 @@ const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick }) => {
         }
     }
 
+    // Função para lidar com o clique no botão "Parâmetro"
+    const handleParametroClick = () => {
+        changePage("LinkParametro");
+    };
+
+    const handleAlertaClick = () => {
+        changePage("LinkAlerta");
+    };
+
     return (
         <Container className="estacao">
             <h1 className="text-center">
@@ -148,7 +158,7 @@ const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick }) => {
                 />{" "}
                 Editar
             </h1>
-            <Form className="mt-5" onSubmit={handleSubmit} noValidate validated={state.validated}>
+            <Form id="FormEdit" className="mt-5" onSubmit={handleSubmit} noValidate validated={state.validated}>
                 {state.errorMessage && (
                     <div
                         className={`alert ${state.errorMessage.includes("Erro") ? "alert-danger" : "alert-success"}`}
@@ -219,10 +229,24 @@ const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick }) => {
                         </Form.Group>
                     </Col>
                 </Row>
-                <Button variant="primary" type="submit" className="d-block mx-auto mt-5">
-                    Continuar
-                </Button>
             </Form>
+            <Row>
+                <Col>
+                    <Button variant="primary" type="submit" className="d-block mx-auto mt-5" onClick={handleParametroClick}>
+                        Parametro
+                    </Button>
+                </Col>
+                <Col>
+                    <Button form="FormEdit" variant="primary" type="submit" className="d-block mx-auto mt-5">
+                        Alterar
+                    </Button>
+                </Col>
+                <Col>
+                    <Button variant="primary" type="submit" className="d-block mx-auto mt-5" onClick={handleAlertaClick}>
+                        Alerta
+                    </Button>
+                </Col>
+            </Row>
         </Container>
     )
 }
