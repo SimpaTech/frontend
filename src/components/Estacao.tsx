@@ -65,7 +65,7 @@ export default class Estacao extends Component<Props, State> {
         currentPageContent = <EstacaoEditar estacaoId={this.state.editEstacaoId} onEditClick={() => this.changePage("Consultar")} changePage={this.changePage} />
         break
       case "LinkParametro":
-        currentPageContent = <EstacaoParametro />
+        currentPageContent = <EstacaoParametro estacaoId={this.state.editEstacaoId}/>
         break
       case "LinkAlerta":
         currentPageContent = <EstacaoAlerta />

@@ -233,7 +233,7 @@ const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick, changePage}) =
             <Row>
                 <Col>
                     <Button variant="primary" type="submit" className="d-block mx-auto mt-5" onClick={handleParametroClick}>
-                        Parametro
+                        Parâmetro
                     </Button>
                 </Col>
                 <Col>
