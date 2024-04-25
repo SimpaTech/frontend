@@ -17,6 +17,7 @@ type State = {
   currentPage: string
   hasDashboard: boolean
   editEstacaoId: number
+  parametroId: number
 }
 
 export default class Estacao extends Component<Props, State> {
@@ -24,6 +25,7 @@ export default class Estacao extends Component<Props, State> {
     currentPage: "Dashboard", // Definindo a página inicial como "Dashboard"
     hasDashboard: true,
     editEstacaoId: 1,
+    parametroId: 1,
   }
 
   // Método para alterar a página atual
@@ -37,6 +39,13 @@ export default class Estacao extends Component<Props, State> {
     this.setState({ editEstacaoId: estacaoId });
     // Navegue para a página de edição
     this.changePage("Editar");
+  };
+
+  handleAlertClick = (parametroId: number) => {
+    // Atualize o estado com o ID do parâmetro para o alerta
+    this.setState({ parametroId });
+    // Navegue para a página de alerta
+    this.changePage("Alerta");
   };
 
   render() {
@@ -65,10 +74,10 @@ export default class Estacao extends Component<Props, State> {
         currentPageContent = <EstacaoEditar estacaoId={this.state.editEstacaoId} onEditClick={() => this.changePage("Consultar")} changePage={this.changePage} />
         break
       case "LinkParametro":
-        currentPageContent = <EstacaoParametro estacaoId={this.state.editEstacaoId}/>
+        currentPageContent = <EstacaoParametro estacaoId={this.state.editEstacaoId} />
         break
       case "LinkAlerta":
-        currentPageContent = <EstacaoAlerta />
+        currentPageContent = <EstacaoAlerta parametroId={this.state.parametroId}/>
         break
     }
 
