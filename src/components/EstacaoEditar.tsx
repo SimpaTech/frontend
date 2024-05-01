@@ -222,6 +222,9 @@ const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick }) => {
                 <Button variant="primary" type="submit" className="d-block mx-auto mt-5">
                     Continuar
                 </Button>
+                <Button variant="primary" className="d-block mx-auto mt-5">
+                    Parametros
+                </Button>
             </Form>
         </Container>
     )
