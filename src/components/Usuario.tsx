@@ -69,7 +69,7 @@ export default class Usuario extends Component<Props, State> {
         <Container className="background-content p-0">
           <Header title="Controle de Usuários" username={username} />
           <Container>
-            <Navbar changePage={this.changePage} hasDashboard={this.state.hasDashboard} />
+            <Navbar changePage={this.changePage} hasDashboard={this.state.hasDashboard} currentPage={this.state.currentPage} />
             {currentPageContent}
           </Container>
         </Container>

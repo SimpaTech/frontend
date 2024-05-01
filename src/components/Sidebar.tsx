@@ -9,6 +9,7 @@ import { logout, obterInformacoesUsuarioPeloToken } from '../services/apiService
 const Sidebar = () => {
   const [logoutMessage, setLogoutMessage] = useState("");
   const [userId, setUserId] = useState("");
+  const [currentPage, setCurrentPage] = useState("");
   const [userDetails, setUserDetails] = useState(null);
   const [loggedOut, setLoggedOut] = useState(false);
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const Sidebar = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
+        setCurrentPage(window.location.pathname);
         const storedUserDetails = localStorage.getItem('userDetails');
         if (storedUserDetails) {
           const userData = JSON.parse(storedUserDetails);
@@ -76,27 +78,19 @@ const Sidebar = () => {
         </div>
         <div className="list-group-flush">
           <Container className="d-flex flex-column gap-3">
-            <Link to="/estacoes" className="text-decoration-none list-group-background">
+            <Link to="/estacoes" className={`text-decoration-none list-group-background ${currentPage === "/estacoes" ? "active-page" : ""}`}>
               <FontAwesomeIcon className="icon list-group-inner" icon={faCloud} /> Estações
             </Link>
-            <Link to="/usuarios" className="text-decoration-none list-group-background">
+            <Link to="/usuarios" className={`text-decoration-none list-group-background ${currentPage === "/usuarios" ? "active-page" : ""}`}>
               <FontAwesomeIcon className="icon list-group-inner" icon={faUser} /> Usuários
             </Link>
-            <Link to="/parametros" className="text-decoration-none list-group-background">
+            <Link to="/parametros" className={`text-decoration-none list-group-background ${currentPage === "/parametros" ? "active-page" : ""}`}>
               <FontAwesomeIcon className="icon list-group-inner" icon={faCog} /> Parâmetros
             </Link>
-            <Link to="/alertas" className="text-decoration-none list-group-background">
+            <Link to="/alertas" className={`text-decoration-none list-group-background ${currentPage === "/alertas" ? "active-page" : ""}`}>
               <FontAwesomeIcon className="icon list-group-inner" icon={faBell} /> Alertas
             </Link>
           </Container>
-          {userId !== null && (
-            <>
-              <Button className="BtnLogout" onClick={handleLogout}>
-                Logout
-              </Button>
-              {logoutMessage && <p>{logoutMessage}</p>}
-            </>
-          )}
         </div>
       </Container>
     </div>
