@@ -92,7 +92,7 @@ export default class Estacao extends Component<Props, State> {
 
           <Container>
             {/* Navbar */}
-            <Navbar changePage={this.changePage} hasDashboard={this.state.hasDashboard} /> {/* Passando a função changePage para a Navbar */}
+            <Navbar changePage={this.changePage} hasDashboard={this.state.hasDashboard} currentPage={this.state.currentPage} />
 
             {/* Page Content */}
             {currentPageContent} {/* Renderizando o conteúdo da página atual */}

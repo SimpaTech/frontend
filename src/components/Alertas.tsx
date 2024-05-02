@@ -67,7 +67,7 @@ export default class Alertas extends Component<Props, AlertasState> {
                     <Header title="Controle de Alertas" username={username} />
 
                     <Container>
-                        <Navbar changePage={this.changePage} hasDashboard={false} />
+                        <Navbar changePage={this.changePage} hasDashboard={false} currentPage={this.state.currentPage} />
 
                         {currentPageContent}
                     </Container>

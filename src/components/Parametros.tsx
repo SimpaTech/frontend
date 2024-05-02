@@ -7,18 +7,19 @@ import ParametrosConsultar from "./ParametrosConsultar"
 import NavbarParametros from "./NavbarParametros"
 import Header from "./Header"
 import ParametroEditar from "./ParametrosEditar"
+import Navbar from "./Navbar"
 
-type Props = {}
+type Props = {  }
 
-interface ParametrosState {
+type State = {
     currentPage: string
     hasDashboard: boolean
     editParametroId: number
-}
+  }
 
-export default class Parametros extends Component<Props, ParametrosState> {
-    state: ParametrosState = {
-        currentPage: "Cadastrar",
+export default class Parametros extends Component<Props, State> {
+    state: State = {
+        currentPage: "Cadastro",
         hasDashboard: false,
         editParametroId: 1
     }
@@ -46,7 +47,7 @@ export default class Parametros extends Component<Props, ParametrosState> {
 
         let currentPageContent
         switch (this.state.currentPage) {
-            case "Cadastrar":
+            case "Cadastro":
                 currentPageContent = <ParametrosCadastro />
                 break
             case "Consultar":
@@ -67,7 +68,7 @@ export default class Parametros extends Component<Props, ParametrosState> {
                     <Header title="Controle de Parâmetros" username={username} />
 
                     <Container>
-                        <NavbarParametros changePage={this.changePage} />
+                        <Navbar changePage={this.changePage} hasDashboard={this.state.hasDashboard} currentPage={this.state.currentPage} />
 
                         {currentPageContent}
                     </Container>
