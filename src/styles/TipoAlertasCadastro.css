@@ -1,0 +1,49 @@
+.search-bar {
+    position: relative;
+    width: 70%;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .search-label {
+    margin-bottom: 5px;
+  }
+  
+  .search-input-wrapper {
+    position: relative;
+  }
+  
+  .search-input {
+    width: calc(100% - 25px); /* Ajusta a largura do input */
+    padding-right: 30px; /* Adiciona espaço para o ícone */
+    background-color: #f2f2f2; /* Cor de fundo cinza */
+  }
+  
+  .search-icon {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+    color: #555;
+  }
+
+  .search-input-wrapper.open .search-icon {
+    transform: translateY(-50%) rotate(180deg); /* Rotaciona a seta para cima quando o dropdown estiver aberto */
+  }
+  
+  .search-input-wrapper.open .search-options {
+    display: block; /* Exibe as opções quando o dropdown estiver aberto */
+  }
+  
+  .search-options {
+    display: none; /* Oculta as opções por padrão */
+    position: absolute;
+    top: calc(100% + 5px); /* Posiciona as opções abaixo do input */
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 1000; /* Garante que as opções estejam acima de outros elementos */
+  }
