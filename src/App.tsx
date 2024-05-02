@@ -6,7 +6,6 @@ import Estacao from './components/Estacao';
 import Usuario from './components/Usuario';
 import Parametros from './components/Parametros';
 import Alertas from './components/Alertas';
-import TipoAlertas from './components/TipoAlerta';
 
 const App = () => {
   return (
@@ -18,7 +17,6 @@ const App = () => {
           <Route path="/usuarios" element={<Usuario />} />
           <Route path="/parametros" element={<Parametros />} />
           <Route path="/alertas" element={<Alertas />} />
-          <Route path="/tipoalertas" element={<TipoAlertas />} />
         </Routes>
       </div>
     </Router>

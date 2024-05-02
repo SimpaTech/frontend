@@ -12,10 +12,14 @@ interface State {
   ID_Tipo_Alerta: number;
   validated: boolean;
   errorMessage: string | null;
-  dropdownOpen: boolean; // Estado para controlar se o dropdown está aberto ou fechado
+  dropdownOpen: boolean;
 }
 
-const TipoAlertasCadastro: React.FC = () => {
+interface Props {
+  parametroId: number;
+}
+
+const EstacaoAlertas: React.FC<Props> = ({ parametroId }) => {
   const [state, setState] = useState<State>({
     Nome_Tipo_Alerta: "",
     Valor: '0',
@@ -145,4 +149,4 @@ const TipoAlertasCadastro: React.FC = () => {
   );
 };
 
-export default TipoAlertasCadastro;
+export default EstacaoAlertas;

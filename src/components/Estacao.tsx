@@ -9,7 +9,7 @@ import Navbar from "./Navbar"
 import Header from "./Header"
 import EstacaoEditar from "./EstacaoEditar"
 import EstacaoParametro from "./EstacaoParametroAlterar"
-import EstacaoAlerta from "./EstacaoAlerta"
+import EstacaoAlerta from "./EstacaoAlertas"
 
 type Props = {}
 
