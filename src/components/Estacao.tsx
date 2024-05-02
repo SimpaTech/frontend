@@ -8,7 +8,7 @@ import EstacaoDashboard from "./EstacaoDashboard"
 import Navbar from "./Navbar"
 import Header from "./Header"
 import EstacaoEditar from "./EstacaoEditar"
-import EstacaoParametro from "./EstacaoParametro"
+import EstacaoParametro from "./EstacaoParametroAlterar"
 import EstacaoAlerta from "./EstacaoAlerta"
 
 type Props = {}
@@ -17,7 +17,7 @@ type State = {
   currentPage: string
   hasDashboard: boolean
   editEstacaoId: number
-  parametroId: number
+  editParametroId: number
 }
 
 export default class Estacao extends Component<Props, State> {
@@ -25,7 +25,7 @@ export default class Estacao extends Component<Props, State> {
     currentPage: "Dashboard", // Definindo a página inicial como "Dashboard"
     hasDashboard: true,
     editEstacaoId: 1,
-    parametroId: 1,
+    editParametroId: 1,
   }
 
   // Método para alterar a página atual
@@ -42,10 +42,9 @@ export default class Estacao extends Component<Props, State> {
   };
 
   handleAlertClick = (parametroId: number) => {
-    // Atualize o estado com o ID do parâmetro para o alerta
-    this.setState({ parametroId });
+    this.setState({ editParametroId: parametroId });
     // Navegue para a página de alerta
-    this.changePage("Alerta");
+    this.changePage("LinkAlerta");
   };
 
   render() {
@@ -71,13 +70,15 @@ export default class Estacao extends Component<Props, State> {
         currentPageContent = <EstacaoDashboard />
         break
       case "Editar":
-        currentPageContent = <EstacaoEditar estacaoId={this.state.editEstacaoId} onEditClick={() => this.changePage("Consultar")} changePage={this.changePage} />
+        currentPageContent = <EstacaoEditar estacaoId={this.state.editEstacaoId} onEditClick={() => this.changePage("Consultar")} changePage={this.changePage} 
+        onEditParametro={this.handleAlertClick}
+        />
         break
       case "LinkParametro":
         currentPageContent = <EstacaoParametro estacaoId={this.state.editEstacaoId} />
         break
       case "LinkAlerta":
-        currentPageContent = <EstacaoAlerta parametroId={this.state.parametroId}/>
+        currentPageContent = <EstacaoAlerta parametroId={this.state.editParametroId} />
         break
     }
 
