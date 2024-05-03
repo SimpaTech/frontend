@@ -14,12 +14,14 @@ interface AlertasState {
     currentPage: string
     hasDashboard: boolean
     editAlertaId: number
+    hasCadastro: boolean
 }
 
 export default class Alertas extends Component<Props, AlertasState> {
     state: AlertasState = {
         currentPage: "Cadastro",
         hasDashboard: false,
+        hasCadastro: true,
         editAlertaId: 1
     }
 
@@ -67,7 +69,7 @@ export default class Alertas extends Component<Props, AlertasState> {
                     <Header title="Controle de Alertas" username={username} />
 
                     <Container>
-                        <Navbar changePage={this.changePage} hasDashboard={false} currentPage={this.state.currentPage} />
+                        <Navbar changePage={this.changePage} hasDashboard={false} currentPage={this.state.currentPage} hasCadastro={true} />
 
                         {currentPageContent}
                     </Container>

@@ -15,6 +15,7 @@ type State = {
   currentPage: string;
   hasDashboard: boolean;
   editUserId: number;
+  hasCadastro: boolean;
 };
 
 export default class Usuario extends Component<Props, State> {
@@ -22,6 +23,7 @@ export default class Usuario extends Component<Props, State> {
     currentPage: "Cadastro", // Definindo a página inicial como "Cadastro"
     hasDashboard: false,
     editUserId: 1,
+    hasCadastro: true,
   };
 
   // Método para alterar a página atual
@@ -69,7 +71,7 @@ export default class Usuario extends Component<Props, State> {
         <Container className="background-content p-0">
           <Header title="Controle de Usuários" username={username} />
           <Container>
-            <Navbar changePage={this.changePage} hasDashboard={this.state.hasDashboard} currentPage={this.state.currentPage} />
+            <Navbar changePage={this.changePage} hasDashboard={this.state.hasDashboard} currentPage={this.state.currentPage} hasCadastro={true} />
             {currentPageContent}
           </Container>
         </Container>

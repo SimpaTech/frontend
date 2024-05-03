@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Image, Nav, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCloud, faUser, faCog, faBell } from "@fortawesome/free-solid-svg-icons";
+import { faCloud, faUser, faCog, faBell, faList } from "@fortawesome/free-solid-svg-icons";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import "../styles/Sidebar.css";
 import { logout, obterInformacoesUsuarioPeloToken } from '../services/apiService';
@@ -89,6 +89,9 @@ const Sidebar = () => {
             </Link>
             <Link to="/alertas" className={`text-decoration-none list-group-background ${currentPage === "/alertas" ? "active-page" : ""}`}>
               <FontAwesomeIcon className="icon list-group-inner" icon={faBell} /> Alertas
+            </Link>
+            <Link to="/medidas" className={`text-decoration-none list-group-background ${currentPage === "/medidas" ? "active-page" : ""}`}>
+              <FontAwesomeIcon className="icon list-group-inner" icon={faList} /> Medidas
             </Link>
           </Container>
         </div>
