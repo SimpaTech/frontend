@@ -18,6 +18,7 @@ type State = {
   hasDashboard: boolean
   editEstacaoId: number
   editParametroId: number
+  hasCadastro: boolean
 }
 
 export default class Estacao extends Component<Props, State> {
@@ -26,6 +27,7 @@ export default class Estacao extends Component<Props, State> {
     hasDashboard: true,
     editEstacaoId: 1,
     editParametroId: 1,
+    hasCadastro: true,
   }
 
   // Método para alterar a página atual
@@ -93,7 +95,7 @@ export default class Estacao extends Component<Props, State> {
 
           <Container>
             {/* Navbar */}
-            <Navbar changePage={this.changePage} hasDashboard={this.state.hasDashboard} currentPage={this.state.currentPage} />
+            <Navbar changePage={this.changePage} hasDashboard={this.state.hasDashboard} currentPage={this.state.currentPage} hasCadastro={true}/>
 
             {/* Page Content */}
             {currentPageContent} {/* Renderizando o conteúdo da página atual */}
