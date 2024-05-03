@@ -51,11 +51,9 @@ const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick, changePage, on
         const fetchEstacao = async () => {
             try {
                 const response = await buscarEstacao(estacaoId)
+                
                 const estacao = response.data
-                console.log("Estação:", estacao);
-
                 const parametros = estacao.parametros;
-                console.log("Parâmetros:", parametros);
 
                 const dataInstalacao = new Date(estacao.Data_Instalacao)
                 const formattedDataInstalacao = dataInstalacao.toISOString().split('T')[0]
@@ -280,29 +278,33 @@ const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick, changePage, on
                     <Modal.Title>Selecione o Parâmetro, para adicionar um alerta!</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Selecionar</th>
-                                <th>Nome do Parâmetro</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {state.parametros.map((parametro) => (
-                                <tr key={parametro.ID_Parametro}>
-                                    <td>
-                                        <input
-                                            type="radio"
-                                            name="parametro"
-                                            checked={parametro.ID_Parametro === parametroSelecionado}
-                                            onChange={() => handleSelecionarParametro(parametro.ID_Parametro)}
-                                        />
-                                    </td>
-                                    <td>{parametro.tipoParametro.Nome_Tipo_Parametro}</td>
+                    {state.parametros.length > 0 ? (
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>Selecionar</th>
+                                    <th>Nome do Parâmetro</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {state.parametros.map((parametro) => (
+                                    <tr key={parametro.ID_Parametro}>
+                                        <td>
+                                            <input
+                                                type="radio"
+                                                name="parametro"
+                                                checked={parametro.ID_Parametro === parametroSelecionado}
+                                                onChange={() => handleSelecionarParametro(parametro.ID_Parametro)}
+                                            />
+                                        </td>
+                                        <td>{parametro.tipoParametro.Nome_Tipo_Parametro}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    ) : (
+                        <p>Não há parâmetros ligados para esta estação.</p>
+                    )}
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
