@@ -15,6 +15,11 @@ interface AlertData {
   Operador_Condicional: string
 }
 
+interface TipoParametroAlerta{
+  ID_Parametro: number
+  ID_TipoAlerta: number
+}
+
 interface TipoParametroData {
   Nome_Tipo_Parametro: string
   Unidade: string
@@ -116,6 +121,33 @@ export async function obterInformacoesUsuarioPeloToken(token: string) {
 export async function listarParametros(): Promise<AxiosResponse<any>> {
   try {
     const response = await axios.get(`${API_BASE_URL}/tipoParametro/`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function cadastrarParametroAlerta(data: TipoParametroAlerta): Promise<AxiosResponse<any>> {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/parametroAlerta/criar`, data);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function deletarParametroAlerta(id: number): Promise<AxiosResponse<any>> {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/parametroAlerta/deletar/${id}`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function listarParametroAlerta(): Promise<AxiosResponse<any>> {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/parametroAlerta/Listar`);
     return response;
   } catch (error) {
     throw error;

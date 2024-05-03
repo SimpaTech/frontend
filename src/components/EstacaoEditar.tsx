@@ -1,5 +1,5 @@
 import React, { useState, FormEvent, useEffect } from "react"
-import { Container, Form, Button, Row, Col } from "react-bootstrap"
+import { Container, Form, Button, Row, Col, Modal } from "react-bootstrap"
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
 import { buscarEstacao, editarEstacao } from "../services/apiService"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -13,38 +13,55 @@ interface State {
     Indicativo_Ativa: Boolean
     validated: boolean
     errorMessage: string | null
+    parametros: Parametro[]
 }
+
+interface Parametro {
+    ID_Parametro: number;
+    tipoParametro: {
+        ID_Tipo_Parametro: number;
+        Nome_Tipo_Parametro: string;
+    };
+}
+
 
 interface Props {
     estacaoId: number
     onEditClick?: () => void
+    changePage: (page: string) => void;
+    onEditParametro?: (id: number) => void;
 }
 
-const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick }) => {
+const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick, changePage, onEditParametro }) => {
+    const [show, setShow] = useState(false);
+    const [parametroSelecionado, setParametroSelecionado] = useState<number | null>(null);
     const [state, setState] = useState<State>({
         validated: false,
         Nome: "",
-        Tipo_Estacao: "Opção 1", // Mudar para a primeira Option
+        Tipo_Estacao: "Opção 1",
         Latitude: '0',
         Longitude: '0',
         Data_Instalacao: new Date().toLocaleDateString("pt-BR"),
         Indicativo_Ativa: true,
         errorMessage: null,
+        parametros: []
     })
 
     useEffect(() => {
         const fetchEstacao = async () => {
             try {
                 const response = await buscarEstacao(estacaoId)
+                
                 const estacao = response.data
-                console.log(estacao)
+                const parametros = estacao.parametros;
 
                 const dataInstalacao = new Date(estacao.Data_Instalacao)
                 const formattedDataInstalacao = dataInstalacao.toISOString().split('T')[0]
 
                 setState({
                     ...estacao,
-                    Data_Instalacao: formattedDataInstalacao
+                    Data_Instalacao: formattedDataInstalacao,
+                    parametros: parametros,
                 })
             } catch (error) {
                 console.error("Erro ao buscar usuário:", error)
@@ -138,6 +155,24 @@ const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick }) => {
         }
     }
 
+    // Função para lidar com o clique no botão "Parâmetro"
+    const handleParametroClick = () => {
+        changePage("LinkParametro");
+    };
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    const handleSelecionarParametro = (parametroId: number) => {
+        setParametroSelecionado(parametroId);
+    };
+
+    const handleEnviar = () => {
+        if (parametroSelecionado !== null) {
+            onEditParametro && onEditParametro(parametroSelecionado);
+        }
+    };
+
     return (
         <Container className="estacao">
             <h1 className="text-center">
@@ -148,7 +183,7 @@ const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick }) => {
                 />{" "}
                 Editar
             </h1>
-            <Form className="mt-5" onSubmit={handleSubmit} noValidate validated={state.validated}>
+            <Form id="FormEdit" className="mt-5" onSubmit={handleSubmit} noValidate validated={state.validated}>
                 {state.errorMessage && (
                     <div
                         className={`alert ${state.errorMessage.includes("Erro") ? "alert-danger" : "alert-success"}`}
@@ -219,11 +254,68 @@ const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick }) => {
                         </Form.Group>
                     </Col>
                 </Row>
-                <Button variant="primary" type="submit" className="d-block mx-auto mt-5">
-                    Continuar
-                </Button>
             </Form>
-        </Container>
+            <Row>
+                <Col>
+                    <Button variant="primary" type="submit" className="d-block mx-auto mt-5" onClick={handleParametroClick}>
+                        Parâmetro
+                    </Button>
+                </Col>
+                <Col>
+                    <Button form="FormEdit" variant="primary" type="submit" className="d-block mx-auto mt-5">
+                        Alterar
+                    </Button>
+                </Col>
+                <Col>
+                    <Button variant="primary" type="submit" className="d-block mx-auto mt-5" onClick={handleShow}>
+                        Alerta
+                    </Button>
+                </Col>
+            </Row>
+
+            <Modal size="lg" aria-labelledby="contained-modal-title-vcenter" centered show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Selecione o Parâmetro, para adicionar um alerta!</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {state.parametros.length > 0 ? (
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>Selecionar</th>
+                                    <th>Nome do Parâmetro</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {state.parametros.map((parametro) => (
+                                    <tr key={parametro.ID_Parametro}>
+                                        <td>
+                                            <input
+                                                type="radio"
+                                                name="parametro"
+                                                checked={parametro.ID_Parametro === parametroSelecionado}
+                                                onChange={() => handleSelecionarParametro(parametro.ID_Parametro)}
+                                            />
+                                        </td>
+                                        <td>{parametro.tipoParametro.Nome_Tipo_Parametro}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    ) : (
+                        <p>Não há parâmetros ligados para esta estação.</p>
+                    )}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={handleEnviar}>
+                        Enviar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </Container >
     )
 }
 
