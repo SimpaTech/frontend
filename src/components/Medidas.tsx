@@ -2,12 +2,10 @@ import React, { Component } from "react"
 import Sidebar from "./Sidebar"
 import "../styles/Parametros.css"
 import { Container } from "react-bootstrap"
-import ParametrosCadastro from "./ParametrosCadastro"
 import ParametrosConsultar from "./ParametrosConsultar"
-import NavbarParametros from "./NavbarParametros"
 import Header from "./Header"
-import ParametroEditar from "./ParametrosEditar"
 import Navbar from "./Navbar"
+import MedidasConsultar from "./MedidasConsultar"
 
 type Props = {  }
 
@@ -18,12 +16,12 @@ type State = {
     hasCadastro: boolean
   }
 
-export default class Parametros extends Component<Props, State> {
+export default class Medidas extends Component<Props, State> {
     state: State = {
-        currentPage: "Cadastro",
+        currentPage: "Consultar",
         hasDashboard: false,
         editParametroId: 1,
-        hasCadastro: true,
+        hasCadastro: false,
     }
 
     changePage = (page: string) => {
@@ -49,15 +47,9 @@ export default class Parametros extends Component<Props, State> {
 
         let currentPageContent
         switch (this.state.currentPage) {
-            case "Cadastro":
-                currentPageContent = <ParametrosCadastro />
-                break
             case "Consultar":
-                currentPageContent = <ParametrosConsultar onEditClick={this.handleEditClick} />
+                currentPageContent = <MedidasConsultar />
                 break
-            case "Editar":
-                currentPageContent = <ParametroEditar parametroId={this.state.editParametroId} onEditClick={() => this.changePage("Consultar")} />;
-                break;
         }
 
         return (
@@ -67,10 +59,10 @@ export default class Parametros extends Component<Props, State> {
 
                 <Container className="background-content p-0">
                     {/* Header */}
-                    <Header title="Controle de Parâmetros" username={username} />
+                    <Header title="Medidas" username={username} />
 
                     <Container>
-                        <Navbar changePage={this.changePage} hasDashboard={this.state.hasDashboard} currentPage={this.state.currentPage} hasCadastro={true} />
+                        <Navbar changePage={this.changePage} hasDashboard={this.state.hasDashboard} currentPage={this.state.currentPage} hasCadastro={false} />
 
                         {currentPageContent}
                     </Container>
