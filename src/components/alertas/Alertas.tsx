@@ -1,29 +1,28 @@
 import React, { Component } from "react"
-import Sidebar from "./Sidebar"
-import "../styles/Parametros.css"
+import Sidebar from "../navbar/Sidebar"
+import "../styles/Alertas.css"
 import { Container } from "react-bootstrap"
-import ParametrosCadastro from "./ParametrosCadastro"
-import ParametrosConsultar from "./ParametrosConsultar"
-import NavbarParametros from "./NavbarParametros"
-import Header from "./Header"
-import ParametroEditar from "./ParametrosEditar"
-import Navbar from "./Navbar"
+import Navbar from "../navbar/Navbar"
+import Header from "../Header"
+import AlertasCadastro from "./AlertasCadastro"
+import AlertasConsultar from "./AlertasConsultar"
+import AlertasEditar from "./AlertasEditar"
 
-type Props = {  }
+type Props = {}
 
-type State = {
+interface AlertasState {
     currentPage: string
     hasDashboard: boolean
-    editParametroId: number
+    editAlertaId: number
     hasCadastro: boolean
-  }
+}
 
-export default class Parametros extends Component<Props, State> {
-    state: State = {
+export default class Alertas extends Component<Props, AlertasState> {
+    state: AlertasState = {
         currentPage: "Cadastro",
         hasDashboard: false,
-        editParametroId: 1,
         hasCadastro: true,
+        editAlertaId: 1
     }
 
     changePage = (page: string) => {
@@ -31,12 +30,12 @@ export default class Parametros extends Component<Props, State> {
     }
 
     // Função para lidar com o clique no botão de edição
-    handleEditClick = (parametroId: number) => {
+    handleEditClick = (alertaId: number) => {
         // Atualize o estado com o ID do usuário para edição
-        this.setState({ editParametroId: parametroId });
+        this.setState({ editAlertaId: alertaId });
         // Navegue para a página de edição
         this.changePage("Editar");
-    };
+  };
 
     render() {
         const storedUserDetails = localStorage.getItem('userDetails');
@@ -50,14 +49,14 @@ export default class Parametros extends Component<Props, State> {
         let currentPageContent
         switch (this.state.currentPage) {
             case "Cadastro":
-                currentPageContent = <ParametrosCadastro />
+                currentPageContent = <AlertasCadastro />
                 break
             case "Consultar":
-                currentPageContent = <ParametrosConsultar onEditClick={this.handleEditClick} />
+                currentPageContent = <AlertasConsultar onEditClick={this.handleEditClick} />
                 break
             case "Editar":
-                currentPageContent = <ParametroEditar parametroId={this.state.editParametroId} onEditClick={() => this.changePage("Consultar")} />;
-                break;
+                currentPageContent = <AlertasEditar alertaId={this.state.editAlertaId} onEditClick={() => this.changePage("Consultar")}/>
+                break
         }
 
         return (
@@ -67,10 +66,10 @@ export default class Parametros extends Component<Props, State> {
 
                 <Container className="background-content p-0">
                     {/* Header */}
-                    <Header title="Controle de Parâmetros" username={username} />
+                    <Header title="Controle de Alertas" username={username} />
 
                     <Container>
-                        <Navbar changePage={this.changePage} hasDashboard={this.state.hasDashboard} currentPage={this.state.currentPage} hasCadastro={true} />
+                        <Navbar changePage={this.changePage} hasDashboard={false} currentPage={this.state.currentPage} hasCadastro={true} />
 
                         {currentPageContent}
                     </Container>

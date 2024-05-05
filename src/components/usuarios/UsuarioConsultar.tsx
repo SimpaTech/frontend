@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import "../styles/UsuarioConsultar.css";
 import { Container, Table, Modal, Button } from "react-bootstrap";
-import { listarUsuarios, deletarUsuario } from "../services/apiService";
+import { listarUsuarios, deletarUsuario } from "../../services/apiService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 

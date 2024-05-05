@@ -2,11 +2,11 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './components/Login';
-import Estacao from './components/Estacao';
-import Usuario from './components/Usuario';
-import Parametros from './components/Parametros';
-import Alertas from './components/Alertas';
-import Medidas from './components/Medidas';
+import Estacao from './components/estacao/Estacao';
+import Usuario from './components/usuarios/Usuario';
+import Parametros from './components/parametros/Parametros';
+import Alertas from './components/alertas/Alertas';
+import Medidas from './components/medidas/Medidas';
 
 const App = () => {
   return (

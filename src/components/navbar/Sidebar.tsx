@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCloud, faUser, faCog, faBell, faList } from "@fortawesome/free-solid-svg-icons";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import "../styles/Sidebar.css";
-import { logout, obterInformacoesUsuarioPeloToken } from '../services/apiService';
+import { logout, obterInformacoesUsuarioPeloToken } from '../../services/apiService';
 
 const Sidebar = () => {
   const [logoutMessage, setLogoutMessage] = useState("");

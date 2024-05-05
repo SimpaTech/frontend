@@ -1,7 +1,7 @@
 import React, { FormEvent, useState } from "react"
 import { Container, Form, Button, Row, Col } from "react-bootstrap"
 import "../styles/ParametrosCadastro.css"
-import { cadastrarTipoParametro } from "../services/apiService"
+import { cadastrarTipoParametro } from "../../services/apiService"
 
 interface State {
     Nome_Tipo_Parametro: string
