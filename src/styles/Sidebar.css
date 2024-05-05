@@ -75,3 +75,6 @@
   padding: 2%;
 }
 
+.active-page {
+  border-bottom: 2px solid #FBDA3D;
+}
