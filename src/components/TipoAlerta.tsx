@@ -5,37 +5,24 @@ import { Container } from "react-bootstrap"
 import Navbar from "./Navbar"
 import Header from "./Header"
 import AlertasCadastro from "./AlertasCadastro"
-import AlertasConsultar from "./AlertasConsultar"
-import AlertasEditar from "./AlertasEditar"
+//import TipoAlertasCadastro from "./TipoAlertasCadastro"
 
 type Props = {}
 
-interface AlertasState {
+interface TipoAlertasState {
     currentPage: string
     hasDashboard: boolean
-    editAlertaId: number
-    hasCadastro: boolean
 }
 
-export default class Alertas extends Component<Props, AlertasState> {
-    state: AlertasState = {
+export default class TipoAlertas extends Component<Props, TipoAlertasState> {
+    state: TipoAlertasState = {
         currentPage: "Cadastro",
-        hasDashboard: false,
-        hasCadastro: true,
-        editAlertaId: 1
+        hasDashboard: false
     }
 
     changePage = (page: string) => {
         this.setState({ currentPage: page })
     }
-
-    // Função para lidar com o clique no botão de edição
-    handleEditClick = (alertaId: number) => {
-        // Atualize o estado com o ID do usuário para edição
-        this.setState({ editAlertaId: alertaId });
-        // Navegue para a página de edição
-        this.changePage("Editar");
-  };
 
     render() {
         const storedUserDetails = localStorage.getItem('userDetails');
@@ -47,17 +34,11 @@ export default class Alertas extends Component<Props, AlertasState> {
         }
 
         let currentPageContent
-        switch (this.state.currentPage) {
+/*         switch (this.state.currentPage) {
             case "Cadastro":
-                currentPageContent = <AlertasCadastro />
+                currentPageContent = <TipoAlertasCadastro />
                 break
-            case "Consultar":
-                currentPageContent = <AlertasConsultar onEditClick={this.handleEditClick} />
-                break
-            case "Editar":
-                currentPageContent = <AlertasEditar alertaId={this.state.editAlertaId} onEditClick={() => this.changePage("Consultar")}/>
-                break
-        }
+        } */
 
         return (
             <div className="d-flex" id="wrapper">
@@ -69,7 +50,6 @@ export default class Alertas extends Component<Props, AlertasState> {
                     <Header title="Controle de Alertas" username={username} />
 
                     <Container>
-                        <Navbar changePage={this.changePage} hasDashboard={false} currentPage={this.state.currentPage} hasCadastro={true} />
 
                         {currentPageContent}
                     </Container>

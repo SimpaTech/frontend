@@ -77,7 +77,7 @@ export default class Estacao extends Component<Props, State> {
         />
         break
       case "LinkParametro":
-        currentPageContent = <EstacaoParametro estacaoId={this.state.editEstacaoId} />
+        //currentPageContent = <EstacaoParametro estacaoId={this.state.editEstacaoId} />
         break
       case "LinkAlerta":
         currentPageContent = <EstacaoAlerta parametroId={this.state.editParametroId} />

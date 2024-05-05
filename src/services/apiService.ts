@@ -15,11 +15,6 @@ interface AlertData {
   Operador_Condicional: string
 }
 
-interface TipoParametroAlerta{
-  ID_Parametro: number
-  ID_TipoAlerta: number
-}
-
 interface TipoParametroData {
   Nome_Tipo_Parametro: string
   Unidade: string
@@ -34,6 +29,11 @@ interface EstacaoData {
   Data_Instalacao: string
   Tipo_Estacao: string
   Indicativo_Ativa: Boolean
+}
+
+interface TipoParametroAlerta {
+  ID_Parametro: number;
+  ID_TipoAlerta: number;
 }
 
 // LOGIN E LOGOUT
@@ -129,6 +129,7 @@ export async function listarParametros(): Promise<AxiosResponse<any>> {
 
 export async function cadastrarParametroAlerta(data: TipoParametroAlerta): Promise<AxiosResponse<any>> {
   try {
+    console.log("Data cadastrarParametroAlerta: " + JSON.stringify(data))
     const response = await axios.post(`${API_BASE_URL}/parametroAlerta/criar`, data);
     return response;
   } catch (error) {
@@ -149,6 +150,44 @@ export async function listarParametroAlerta(): Promise<AxiosResponse<any>> {
   try {
     const response = await axios.get(`${API_BASE_URL}/parametroAlerta/Listar`);
     return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function postParametroEstacao<T>(estacaoId: number, parametros: T[]): Promise<void> {
+  try {
+      console.log("estacaoId" + estacaoId);
+      console.log("parametros" + parametros);
+
+      // Envia uma requisição para cada ID_TipoParametro na lista
+      await Promise.all(parametros.map(async (parametro: T) => {
+          const data = {
+              ID_Estacao: estacaoId,
+              ID_TipoParametro: parametro
+          };
+          // Envia a requisição para criar o parâmetro na estação
+          const response = await axios.post(`${API_BASE_URL}/parametro/criar`, data);
+          console.log("Resposta para ID_TipoParametro " + parametro + ": " + response);
+      }));
+      
+      console.log("Todos os parâmetros foram enviados com sucesso");
+  } catch (error) {
+      throw error;
+  }
+}
+
+export async function deleteParametroEstacao(estacaoId: number): Promise<void> {
+  try {
+    // Envia a solicitação para remover os parâmetros associados à estação
+    const response = await axios.delete(`${API_BASE_URL}/parametro/deletarporidestacao/${estacaoId}`);
+    
+    // Verifica se a solicitação foi bem-sucedida
+    if (response.status === 200) {
+      console.log("Parâmetros removidos com sucesso");
+    } else {
+      throw new Error("Erro ao remover parâmetros");
+    }
   } catch (error) {
     throw error;
   }
@@ -297,13 +336,3 @@ export async function deletarEstacao(id: number): Promise<AxiosResponse<any>> {
   }
 }
   
-//MEDIDAS
-
-export async function listarMedidas(): Promise<AxiosResponse<any>> {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/medida/listar`);
-    return response;
-  } catch (error) {
-    throw error;
-  }
-}
