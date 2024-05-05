@@ -1,13 +1,15 @@
 import React, { Component } from "react"
-import Sidebar from "./Sidebar"
+import Sidebar from "../navbar/Sidebar"
 import "../styles/Estacao.css"
 import { Container } from "react-bootstrap"
 import EstacaoCadastro from "./EstacaoCadastro"
 import EstacaoConsultar from "./EstacaoConsultar"
 import EstacaoDashboard from "./EstacaoDashboard"
-import Navbar from "./Navbar"
-import Header from "./Header"
+import Navbar from "../navbar/Navbar"
+import Header from "../Header"
 import EstacaoEditar from "./EstacaoEditar"
+import EstacaoParametro from "./EstacaoParametroAlterar"
+import EstacaoAlerta from "./EstacaoAlertas"
 
 type Props = {}
 
@@ -15,6 +17,8 @@ type State = {
   currentPage: string
   hasDashboard: boolean
   editEstacaoId: number
+  editParametroId: number
+  hasCadastro: boolean
 }
 
 export default class Estacao extends Component<Props, State> {
@@ -22,6 +26,8 @@ export default class Estacao extends Component<Props, State> {
     currentPage: "Dashboard", // Definindo a página inicial como "Dashboard"
     hasDashboard: true,
     editEstacaoId: 1,
+    editParametroId: 1,
+    hasCadastro: true,
   }
 
   // Método para alterar a página atual
@@ -35,6 +41,12 @@ export default class Estacao extends Component<Props, State> {
     this.setState({ editEstacaoId: estacaoId });
     // Navegue para a página de edição
     this.changePage("Editar");
+  };
+
+  handleAlertClick = (parametroId: number) => {
+    this.setState({ editParametroId: parametroId });
+    // Navegue para a página de alerta
+    this.changePage("LinkAlerta");
   };
 
   render() {
@@ -54,15 +66,22 @@ export default class Estacao extends Component<Props, State> {
         currentPageContent = <EstacaoCadastro />
         break
       case "Consultar":
-        currentPageContent = <EstacaoConsultar onEditClick={this.handleEditClick}/>
+        currentPageContent = <EstacaoConsultar onEditClick={this.handleEditClick} />
         break
       case "Dashboard":
         currentPageContent = <EstacaoDashboard />
         break
       case "Editar":
-        currentPageContent = <EstacaoEditar estacaoId={this.state.editEstacaoId} onEditClick={() => this.changePage("Consultar")}/>
+        currentPageContent = <EstacaoEditar estacaoId={this.state.editEstacaoId} onEditClick={() => this.changePage("Consultar")} changePage={this.changePage} 
+        onEditParametro={this.handleAlertClick}
+        />
         break
-
+      case "LinkParametro":
+        //currentPageContent = <EstacaoParametro estacaoId={this.state.editEstacaoId} />
+        break
+      case "LinkAlerta":
+        currentPageContent = <EstacaoAlerta parametroId={this.state.editParametroId} />
+        break
     }
 
     return (
@@ -76,7 +95,7 @@ export default class Estacao extends Component<Props, State> {
 
           <Container>
             {/* Navbar */}
-            <Navbar changePage={this.changePage} hasDashboard={this.state.hasDashboard} /> {/* Passando a função changePage para a Navbar */}
+            <Navbar changePage={this.changePage} hasDashboard={this.state.hasDashboard} currentPage={this.state.currentPage} hasCadastro={true}/>
 
             {/* Page Content */}
             {currentPageContent} {/* Renderizando o conteúdo da página atual */}

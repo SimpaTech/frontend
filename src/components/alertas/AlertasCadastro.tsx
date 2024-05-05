@@ -1,9 +1,7 @@
-import React, { useState, FormEvent, useEffect } from "react"
+import React, { useState, FormEvent } from "react"
 import { Container, Form, Button, Row, Col } from "react-bootstrap"
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
-import "../styles/AlertasEditar.css"
-import { buscarAlerta, editarTipoAlerta } from "../services/apiService"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import "../styles/AlertasCadastro.css"
+import { cadastrarAlerta } from "../../services/apiService"
 
 interface State {
   Nome_Tipo_Alerta: string
@@ -13,42 +11,14 @@ interface State {
   errorMessage: string | null
 }
 
-interface Props {
-  alertaId: number
-  onEditClick?: () => void
-}
-
-const TipoAlertaEditar: React.FC<Props> = ({ alertaId, onEditClick }) => {
+const AlertasCadastro: React.FC = () => {
   const [state, setState] = useState<State>({
-    validated: false,
     Nome_Tipo_Alerta: "",
     Valor: '0',
-    Operador_Condicional: "",
+    Operador_Condicional: "=",
+    validated: false,
     errorMessage: null,
   })
-
-  useEffect(() => {
-    const fetchTipoAlerta = async () => {
-      try {
-        const response = await buscarAlerta(alertaId)
-        const tipoAlerta = response.data
-
-        // Atualiza o estado com os dados do tipo de alerta
-        console.log("Tipo de alerta retornado:", tipoAlerta);
-        setState((prevState) => ({
-          ...prevState,
-          Nome_Tipo_Alerta: tipoAlerta.Nome_Tipo_Alerta,
-          Valor: tipoAlerta.Valor,
-          Operador_Condicional: tipoAlerta.Operador_Condicional,
-        }));
-
-      } catch (error) {
-        console.error("Erro ao buscar tipo de alerta:", error)
-      }
-    }
-
-    fetchTipoAlerta()
-  }, [alertaId])
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -60,7 +30,6 @@ const TipoAlertaEditar: React.FC<Props> = ({ alertaId, onEditClick }) => {
       validated: true,
     }))
 
-    // Verifica se todos os campos obrigatórios foram preenchidos
     const isAllFieldsFilled = Array.from(form.elements).every((element: any) => {
       if (element.required && element.value.trim() === "") {
         setState((prevState) => ({
@@ -73,33 +42,30 @@ const TipoAlertaEditar: React.FC<Props> = ({ alertaId, onEditClick }) => {
     })
 
     if (isAllFieldsFilled) {
+
+      const data = {
+        Nome_Tipo_Alerta: state.Nome_Tipo_Alerta,
+        Valor: state.Valor,
+        Operador_Condicional: state.Operador_Condicional,
+      }
+
+      console.log(data)
+
       try {
-        const data = {
-          Nome_Tipo_Alerta: state.Nome_Tipo_Alerta,
-          Valor: state.Valor,
-          Operador_Condicional: state.Operador_Condicional,
-        }
-
-        console.log(data)
-
-        const response = await editarTipoAlerta(alertaId, data)
-        if (response.status === 200) {
-          console.log("Status 200")
-          console.log(response)
-
+        const response = await cadastrarAlerta(data)
+        console.log("Response: " + JSON.stringify(response))
+        if (response.status === 201) {
           setState((prevState) => ({
             ...prevState,
-            errorMessage: "Alerta editado com sucesso!",
+            errorMessage: "Alerta criado com sucesso!",
           }))
         }
       } catch (error: any) {
-        console.error("Erro ao editar tipo de alerta:", error)
+        console.error("Erro ao enviar informações para o backend:", error)
         if (error.response.status === 400) {
-          console.log("Status 400")
-          console.log(error.response)
           setState((prevState) => ({
             ...prevState,
-            errorMessage: "Erro: " + error.response.data.error,
+            errorMessage: "Erro: Dados inválidos!!",
           }))
         } else {
           setState((prevState) => ({
@@ -109,33 +75,20 @@ const TipoAlertaEditar: React.FC<Props> = ({ alertaId, onEditClick }) => {
         }
       }
     }
-
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    console.log("Nome do campo:", name)
-    console.log("Novo valor:", value)
-    setState((prevState) => {
-      const newState = {
-        ...prevState,
-        [name]: value !== undefined ? value : "",
-      }
-      console.log("Novo estado:", newState)
-      return newState
-    })
+    console.log(`Valor selecionado para ${name}: ${value}`);
+    setState((prevState) => ({
+      ...prevState,
+      [name]: value !== undefined ? value : "",
+    }))
   }
 
   return (
     <Container className="tipoalerta">
-      <h1 className="text-center">
-        <FontAwesomeIcon
-          icon={faArrowLeft}
-          onClick={onEditClick}
-          style={{ marginRight: "10px", cursor: "pointer" }}
-        />{" "}
-        Editar
-      </h1>
+      <h1 className="text-center">Cadastrar</h1>
       <Form className="mt-5" onSubmit={handleSubmit} noValidate validated={state.validated}>
         {state.errorMessage && (
           <div
@@ -151,6 +104,7 @@ const TipoAlertaEditar: React.FC<Props> = ({ alertaId, onEditClick }) => {
               <Form.Label>Nome</Form.Label>
               <Form.Control
                 type="text"
+                placeholder="Nome"
                 name="Nome_Tipo_Alerta"
                 value={state.Nome_Tipo_Alerta}
                 onChange={handleChange}
@@ -161,6 +115,7 @@ const TipoAlertaEditar: React.FC<Props> = ({ alertaId, onEditClick }) => {
               <Form.Label>Valor</Form.Label>
               <Form.Control
                 type="number"
+                placeholder="Valor"
                 name="Valor"
                 value={state.Valor}
                 onChange={handleChange}
@@ -187,7 +142,6 @@ const TipoAlertaEditar: React.FC<Props> = ({ alertaId, onEditClick }) => {
             </Form.Group>
           </Col>
         </Row>
-
         <Button variant="primary" type="submit" className="d-block mx-auto mt-5">
           Continuar
         </Button>
@@ -196,4 +150,4 @@ const TipoAlertaEditar: React.FC<Props> = ({ alertaId, onEditClick }) => {
   )
 }
 
-export default TipoAlertaEditar
+export default AlertasCadastro

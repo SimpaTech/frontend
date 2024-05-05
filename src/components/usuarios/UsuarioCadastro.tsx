@@ -2,7 +2,7 @@ import React, { useState, FormEvent } from "react";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import InputMask from "react-input-mask";
 import "../styles/UsuarioCadastro.css";
-import { cadastrarUsuario } from "../services/apiService";
+import { cadastrarUsuario } from "../../services/apiService";
 
 interface State {
   Nome_Usuario: string;
