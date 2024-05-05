@@ -336,3 +336,13 @@ export async function deletarEstacao(id: number): Promise<AxiosResponse<any>> {
   }
 }
   
+// MEDIDAS
+
+export async function listarMedidas(): Promise<AxiosResponse<any>> {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/medida/listar`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
