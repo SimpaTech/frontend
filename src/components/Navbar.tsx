@@ -5,28 +5,31 @@ import "../styles/Navbar.css";
 type Props = {
   changePage: (page: string) => void;
   hasDashboard: boolean;
+  currentPage: string;
+  hasCadastro: boolean;
 };
 
-const Navbar: React.FC<Props> = ({ changePage, hasDashboard }) => {
-  // Definindo a página padrão como "Dashboard"
+const Navbar: React.FC<Props> = ({ changePage, hasDashboard, currentPage, hasCadastro }) => {
+  // Defining the default page as "Dashboard"
   const defaultPage = "Dashboard";
 
   return (
-    <Nav className="navbar" defaultActiveKey={defaultPage} onSelect={(selectedKey: string | null) => {
+    <Nav className="navbar" defaultActiveKey={defaultPage} onSelect={(selectedKey) => {
       if (selectedKey !== null) {
-        changePage(selectedKey);
+        changePage(selectedKey as string);
       }
     }}>
-      <Nav.Item>
-        <Nav.Link eventKey="Cadastro">Cadastro</Nav.Link>
+      {hasCadastro && (
+      <Nav.Item key="Cadastro">
+        <Nav.Link className={`${currentPage === "Cadastro" ? "active-page" : ""}`} eventKey="Cadastro">Cadastro</Nav.Link>
       </Nav.Item>
-      <Nav.Item>
-        <Nav.Link eventKey="Consultar">Consultar</Nav.Link>
+      )}
+      <Nav.Item key="Consultar">
+        <Nav.Link className={`${currentPage === "Consultar" ? "active-page" : ""}`} eventKey="Consultar">Consultar</Nav.Link>
       </Nav.Item>
-      {/* Renderização condicional para adicionar o item de navegação para o Dashboard */}
       {hasDashboard && (
-        <Nav.Item>
-          <Nav.Link eventKey="Dashboard">Dashboard</Nav.Link>
+        <Nav.Item key="Dashboard">
+          <Nav.Link className={`${currentPage === "Dashboard" ? "active-page" : ""}`} eventKey="Dashboard">Dashboard</Nav.Link>
         </Nav.Item>
       )}
     </Nav>

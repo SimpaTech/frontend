@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
@@ -12,7 +12,6 @@ interface ParametrosEstacao {
 }
 
 const EditarParametrosEstacao: React.FC = () => {
-  const history = useHistory();
   const { estacaoId } = useParams<{ estacaoId: string }>();
   const [parametros, setParametros] = useState<ParametrosEstacao[]>([]);
 
@@ -29,17 +28,17 @@ const EditarParametrosEstacao: React.FC = () => {
 
     fetchParametros();
   }, [estacaoId]);
-
+/* 
   const handleVoltar = () => {
     history.push(`/editar-estacao/${estacaoId}`);
-  };
+  }; */
 
   return (
     <Container>
       <h1>
         <FontAwesomeIcon
           icon={faArrowLeft}
-          onClick={handleVoltar}
+          /* onClick={handleVoltar} */
           style={{ marginRight: "10px", cursor: "pointer" }}
         />
         Editar Parâmetros da Estação
