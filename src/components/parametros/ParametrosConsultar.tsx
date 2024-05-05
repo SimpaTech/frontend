@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "../styles/EstacaoConsultar.css";
 import { Container, Table, Modal, Button } from "react-bootstrap";
-import { listarParametros, removerTipoParametro } from "../services/apiService";
+import { listarParametros, removerTipoParametro } from "../../services/apiService";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 

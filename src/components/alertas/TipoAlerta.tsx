@@ -1,9 +1,9 @@
 import React, { Component } from "react"
-import Sidebar from "./Sidebar"
+import Sidebar from "../navbar/Sidebar"
 import "../styles/Alertas.css"
 import { Container } from "react-bootstrap"
-import Navbar from "./Navbar"
-import Header from "./Header"
+import Navbar from "../navbar/Navbar"
+import Header from "../Header"
 import AlertasCadastro from "./AlertasCadastro"
 //import TipoAlertasCadastro from "./TipoAlertasCadastro"
 

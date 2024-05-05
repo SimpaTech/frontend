@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Container, Table, Button, Modal } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { listarAlertas, deletarTipoAlerta } from "../services/apiService"; 
+import { listarAlertas, deletarTipoAlerta } from "../../services/apiService"; 
 
 type Props = {
   onEditClick?: (id: number) => void;

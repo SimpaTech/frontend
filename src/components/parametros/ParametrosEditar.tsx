@@ -2,7 +2,7 @@ import React, { useState, useEffect, FormEvent, ChangeEvent } from "react";
 import { Container, Form, Button, Col, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { buscarTipoParametro, editarTipoParametro } from "../services/apiService";
+import { buscarTipoParametro, editarTipoParametro } from "../../services/apiService";
 import "../styles/ParametroEditar.css"
 
 interface State {

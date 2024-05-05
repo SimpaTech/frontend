@@ -1,7 +1,7 @@
 import React, { useState, FormEvent, useEffect } from "react";
 import { Container, Form, Button, Row, Col, Modal } from "react-bootstrap";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { buscarEstacao, deleteParametroEstacao, editarEstacao, postParametroEstacao } from "../services/apiService";
+import { buscarEstacao, deleteParametroEstacao, editarEstacao, postParametroEstacao } from "../../services/apiService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface State {

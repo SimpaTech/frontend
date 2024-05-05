@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "../styles/EstacaoConsultar.css";
 import { Container, Table } from "react-bootstrap";
-import { listarMedidas } from "../services/apiService";
+import { listarMedidas } from "../../services/apiService";
 
 type Estacao = {
   Nome: string;

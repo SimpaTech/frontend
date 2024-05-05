@@ -1,12 +1,12 @@
 // Usuario.tsx
 import React, { Component } from "react";
-import Sidebar from "./Sidebar";
+import Sidebar from "../navbar/Sidebar";
 import "../styles/Usuario.css";
 import { Container } from "react-bootstrap";
 import UsuarioCadastro from "./UsuarioCadastro";
 import UsuarioConsultar from "./UsuarioConsultar";
-import Navbar from "./Navbar";
-import Header from "./Header";
+import Navbar from "../navbar/Navbar";
+import Header from "../Header";
 import UsuarioEditar from "./UsuarioEditar";
 
 type Props = {};
