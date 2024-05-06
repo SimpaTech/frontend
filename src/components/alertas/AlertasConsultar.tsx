@@ -3,7 +3,7 @@ import { Container, Table, Button, Modal } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { listarAlertas, deletarTipoAlerta } from "../../services/apiService"; 
-import "../styles/alertas/AlertasConsultar.css"
+import "../../styles/alertas/AlertasConsultar.css"
 
 type Props = {
   onEditClick?: (id: number) => void;
