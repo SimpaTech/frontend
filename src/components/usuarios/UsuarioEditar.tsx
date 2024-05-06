@@ -2,7 +2,7 @@ import React, { useState, FormEvent, useEffect } from "react"
 import { Container, Form, Button, Row, Col } from "react-bootstrap"
 import InputMask from "react-input-mask"
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
-import "../styles/UsuarioEditar.css"
+import "../../styles/usuarios/UsuarioEditar.css"
 import { buscarUsuario, editarUsuario } from "../../services/apiService"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 

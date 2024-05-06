@@ -3,7 +3,7 @@ import { Container, Image, Nav, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCloud, faUser, faCog, faBell, faList } from "@fortawesome/free-solid-svg-icons";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import "../styles/Sidebar.css";
+import "../../styles/navbar/Sidebar.css"
 import { logout, obterInformacoesUsuarioPeloToken } from '../../services/apiService';
 
 const Sidebar = () => {

@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import "../styles/EstacaoDashboard.css"
+import "../../styles/estacao/EstacaoDashboard.css"
 import { Container } from "react-bootstrap"
 
 type Props = {}

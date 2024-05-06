@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import Sidebar from "../navbar/Sidebar"
-import "../styles/Parametros.css"
+import "../../styles/parametros/Parametros.css"
 import { Container } from "react-bootstrap"
 import Header from "../Header"
 import Navbar from "../navbar/Navbar"

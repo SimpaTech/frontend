@@ -1,7 +1,7 @@
 import React, { useState, FormEvent, useEffect } from "react"
 import { Container, Form, Button, Row, Col } from "react-bootstrap"
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
-import "../styles/AlertasEditar.css"
+import "../../styles/alertas/AlertasEditar.css"
 import { buscarAlerta, editarTipoAlerta } from "../../services/apiService"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "../styles/EstacaoConsultar.css";
+import "../../styles/parametros/ParametrosConsultar.css"
 import { Container, Table, Modal, Button } from "react-bootstrap";
 import { listarParametros, removerTipoParametro } from "../../services/apiService";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

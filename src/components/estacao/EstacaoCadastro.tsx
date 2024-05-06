@@ -1,6 +1,6 @@
 import React, { FormEvent, useState } from "react"
 import { Container, Form, Button, Row, Col } from "react-bootstrap"
-import "../styles/EstacaoCadastro.css"
+import "../../styles/estacao/EstacaoCadastro.css"
 import { cadastrarEstacao } from "../../services/apiService"
 
 interface State {

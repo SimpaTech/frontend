@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import Sidebar from "../navbar/Sidebar"
-import "../styles/Estacao.css"
+import "../../styles/estacao/Estacao.css"
 import { Container } from "react-bootstrap"
 import EstacaoCadastro from "./EstacaoCadastro"
 import EstacaoConsultar from "./EstacaoConsultar"

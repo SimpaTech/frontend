@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "../styles/EstacaoConsultar.css";
+import "../../styles/estacao/EstacaoConsultar.css";
 import { Container, Table } from "react-bootstrap";
 import { listarMedidas } from "../../services/apiService";
 

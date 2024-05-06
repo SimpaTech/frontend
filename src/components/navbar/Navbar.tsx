@@ -1,6 +1,6 @@
 import React from "react";
 import { Nav } from "react-bootstrap";
-import "../styles/Navbar.css";
+import "../../styles/navbar/Navbar.css"
 
 type Props = {
   changePage: (page: string) => void;

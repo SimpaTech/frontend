@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import Sidebar from "../navbar/Sidebar"
-import "../styles/Alertas.css"
+import "../../styles/alertas/Alertas.css"
 import { Container } from "react-bootstrap"
 import Navbar from "../navbar/Navbar"
 import Header from "../Header"

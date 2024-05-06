@@ -1,6 +1,6 @@
 // UsuarioConsultar.tsx
 import React, { Component } from "react";
-import "../styles/UsuarioConsultar.css";
+import "../../styles/usuarios/UsuarioConsultar.css"
 import { Container, Table, Modal, Button } from "react-bootstrap";
 import { listarUsuarios, deletarUsuario } from "../../services/apiService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
