@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Container, Image, Nav, Button } from "react-bootstrap";
+import { Container, Image, Nav, Button, Modal } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCloud, faUser, faCog, faBell, faList } from "@fortawesome/free-solid-svg-icons";
+import { faCloud, faUser, faCog, faBell, faList, faSignOut } from "@fortawesome/free-solid-svg-icons";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import "../../styles/navbar/Sidebar.css"
 import { logout, obterInformacoesUsuarioPeloToken } from '../../services/apiService';
@@ -12,6 +12,7 @@ const Sidebar = () => {
   const [currentPage, setCurrentPage] = useState("");
   const [userDetails, setUserDetails] = useState(null);
   const [loggedOut, setLoggedOut] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,7 +23,7 @@ const Sidebar = () => {
         if (storedUserDetails) {
           const userData = JSON.parse(storedUserDetails);
           setUserDetails(userData);
-          if(userData.id_usuario) {
+          if (userData.id_usuario) {
             setUserId(userData.id_usuario);
           }
         } else {
@@ -32,7 +33,7 @@ const Sidebar = () => {
         console.error("Erro ao obter dados do usuário", error);
       }
     }
-  
+
     const checkTokenValidity = async () => {
       try {
         const token = localStorage.getItem('token');
@@ -46,7 +47,7 @@ const Sidebar = () => {
         navigate('/');
       }
     }
-  
+
     fetchUserData();
     checkTokenValidity();
   }, []);
@@ -95,6 +96,27 @@ const Sidebar = () => {
             </Link>
           </Container>
         </div>
+      </Container>
+      <Container className="logout-box">
+        <Nav.Link className="logout-inner" onClick={() => setShowModal(true)}>
+          <FontAwesomeIcon className="icon logout-icon" icon={faSignOut} />
+          Sair
+        </Nav.Link>
+
+        <Modal show={showModal} onHide={() => setShowModal(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirmar saída</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Deseja realmente sair?</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowModal(false)}>
+              Cancelar
+            </Button>
+            <Button variant="danger" onClick={handleLogout}>
+              Sair
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Container>
     </div>
   );

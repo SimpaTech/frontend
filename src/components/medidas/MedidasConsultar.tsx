@@ -42,7 +42,7 @@ export default class MedidasConsultar extends Component<{},State> {
       const medidas = response.data;
       this.setState({ medidas });
       if (medidas.length === 0) {
-        this.setState({ errorMessage: "Nenhum tipo de parâmetro cadastrado" });
+        this.setState({ errorMessage: "Nenhum tipo de medida cadastrada" });
       }
     } catch (error) {
       console.error("Erro ao buscar parâmetros:", error);
