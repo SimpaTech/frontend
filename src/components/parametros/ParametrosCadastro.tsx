@@ -91,7 +91,7 @@ const ParametrosCadastrar: React.FC = () => {
 
     return (
         <Container className="parametros">
-            <h1 className="text-center">Cadastrar</h1>
+            <h2 className="text-center">Cadastrar</h2>
             <Form className="mt-5" onSubmit={handleSubmit} noValidate validated={state.validated}>
                 {state.errorMessage && (
                     <div

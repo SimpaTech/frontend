@@ -19,19 +19,19 @@ const Navbar: React.FC<Props> = ({ changePage, hasDashboard, currentPage, hasCad
         changePage(selectedKey as string);
       }
     }}>
-      {hasCadastro && (
-      <Nav.Item key="Cadastro">
-        <Nav.Link className={`${currentPage === "Cadastro" ? "active-page" : ""}`} eventKey="Cadastro">Cadastro</Nav.Link>
-      </Nav.Item>
-      )}
-      <Nav.Item key="Consultar">
-        <Nav.Link className={`${currentPage === "Consultar" ? "active-page" : ""}`} eventKey="Consultar">Consultar</Nav.Link>
-      </Nav.Item>
       {hasDashboard && (
         <Nav.Item key="Dashboard">
           <Nav.Link className={`${currentPage === "Dashboard" ? "active-page" : ""}`} eventKey="Dashboard">Dashboard</Nav.Link>
         </Nav.Item>
       )}
+      {hasCadastro && (
+      <Nav.Item key="Cadastro">
+        <Nav.Link className={`${currentPage === "Cadastro" ? "active-page" : ""}`} eventKey="Cadastro">Cadastro</Nav.Link>
+      </Nav.Item>
+      )}
+      <Nav.Item key="Consulta">
+        <Nav.Link className={`${currentPage === "Consultar" ? "active-page" : ""}`} eventKey="Consultar">Consultar</Nav.Link>
+      </Nav.Item>
     </Nav>
   );
 };

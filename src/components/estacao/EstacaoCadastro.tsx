@@ -107,7 +107,7 @@ const CadastroPage: React.FC = () => {
 
   return (
     <Container className="estacao">
-      <h1 className="text-center">Cadastrar</h1>
+      <h2 className="text-center">Cadastrar</h2>
       <Form className="mt-5" onSubmit={handleSubmit} noValidate validated={state.validated}>
         {state.errorMessage && (
           <div
@@ -161,9 +161,9 @@ const CadastroPage: React.FC = () => {
                 value={state.Tipo_Estacao}
                 onChange={handleChange}
               >
-                <option>Opção 1</option>
-                <option>Opção 2</option>
-                <option>Opção 3</option>
+                <option>Estação Terrestre</option>
+                <option>Estação Aquática</option>
+                <option>Estação Aéria</option>
               </Form.Control>
             </Form.Group>
             <Form.Group controlId="formLongitude">
