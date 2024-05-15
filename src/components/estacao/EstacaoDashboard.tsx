@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import "../../styles/estacao/EstacaoDashboard.css"
 import { Container } from "react-bootstrap"
+import SelecionarGraficoEstacao from "../graficos/SelecionarGraficoEstacao"
 
 type Props = {}
 
@@ -12,7 +13,9 @@ export default class EstacaoDashboard extends Component<Props, State> {
   render() {
     return (
       <Container>
-        <h1>EstacaoDashboard</h1>
+        <SelecionarGraficoEstacao estacoes={[]} onSelect={function (id: number | null): void {
+          throw new Error("Function not implemented.")
+        } }/>
       </Container>
     )
   }
