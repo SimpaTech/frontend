@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "../../styles/estacao/EstacaoConsultar.css";
 import { Container, Table } from "react-bootstrap";
 import { listarMedidas } from "../../services/apiService";
+import "primereact/resources/themes/lara-light-cyan/theme.css";
 
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -72,8 +73,8 @@ export default class MedidasConsultar extends Component<{}, State> {
           <Column field="parametro.estacao.Nome" header="Estação" filter filterPlaceholder="Search"></Column>
           <Column field="parametro.tipoParametro.Nome_Tipo_Parametro" header="Parâmetro" filter filterPlaceholder="Search"></Column>
           <Column field="Valor" header="Valor" sortable style={{ width: '25%' }}></Column>
-          <Column field="UnixTime" header="Data" sortable style={{ width: '25%' }}></Column>
-          <Column field="UnixTime" header="Hora" sortable style={{ width: '25%' }}></Column>
+          <Column field="UnixTime" header="Data" body={rowData => new Date(rowData.UnixTime * 1000).toLocaleDateString()} sortable style={{ width: '25%' }}></Column>
+          <Column field="UnixTime" header="Hora" body={rowData => new Date(rowData.UnixTime * 1000).toLocaleTimeString()} sortable style={{ width: '25%' }}></Column>
         </DataTable>
       </Container>
     );
