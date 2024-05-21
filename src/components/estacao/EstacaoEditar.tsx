@@ -5,6 +5,7 @@ import { buscarEstacao, deleteParametroEstacao, editarEstacao, postParametroEsta
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface State {
+  UID: number;
   Nome: string;
   Tipo_Estacao: string;
   Latitude: string;
@@ -40,6 +41,7 @@ const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick,  onEditParamet
   const [parametrosDaEstacao, setParametrosDaEstacao] = useState<Parametro[]>([]);
   const [state, setState] = useState<State>({
     validated: false,
+    UID: 0,
     Nome: "",
     Tipo_Estacao: "Opção 1",
     Latitude: "0",
@@ -121,6 +123,7 @@ const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick,  onEditParamet
     });
     if (isAllFieldsFilled) {
       const data = {
+        UID: state.UID,
         Nome: state.Nome,
         Tipo_Estacao: state.Tipo_Estacao,
         Latitude: state.Latitude,
@@ -234,14 +237,15 @@ const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick,  onEditParamet
         )}
         <Row>
           <Col>
-            <Form.Group controlId="formNome">
-              <Form.Label>Nome</Form.Label>
+            <Form.Group controlId="formUID">
+              <Form.Label>UID</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Nome"
-                name="Nome"
-                value={state.Nome}
+                placeholder="UID"
+                name="UID"
+                value={state.UID}
                 onChange={handleChange}
+                disabled
                 required
               />
             </Form.Group>
@@ -268,6 +272,28 @@ const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick,  onEditParamet
             </Form.Group>
           </Col>
           <Col>
+          <Form.Group controlId="formNome">
+              <Form.Label>Nome</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Nome"
+                name="Nome"
+                value={state.Nome}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formLongitude">
+              <Form.Label>Longitude</Form.Label>
+              <Form.Control
+                type="Number"
+                placeholder="Longitude"
+                name="Longitude"
+                value={state.Longitude}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
             <Form.Group controlId="formTipoEstacao">
               <Form.Label>Tipo Estação</Form.Label>
               <Form.Control
@@ -280,17 +306,6 @@ const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick,  onEditParamet
                 <option>Opção 2</option>
                 <option>Opção 3</option>
               </Form.Control>
-            </Form.Group>
-            <Form.Group controlId="formLongitude">
-              <Form.Label>Longitude</Form.Label>
-              <Form.Control
-                type="Number"
-                placeholder="Longitude"
-                name="Longitude"
-                value={state.Longitude}
-                onChange={handleChange}
-                required
-              />
             </Form.Group>
           </Col>
         </Row>

@@ -10,6 +10,7 @@ interface State {
   Fator: string;
   Offset: string;
   Unidade: string;
+  Json: string;
   validated: boolean
   errorMessage: string | null
 }
@@ -25,6 +26,7 @@ const ParametroEditar: React.FC<Props> = ({ parametroId, onEditClick }) => {
     Fator: '0',
     Offset: '0',
     Unidade: "",
+    Json: "",
     validated: false,
     errorMessage: null
   });
@@ -43,6 +45,7 @@ const ParametroEditar: React.FC<Props> = ({ parametroId, onEditClick }) => {
             Fator: parametro.Fator,
             Offset: parametro.Offset,
             Unidade: parametro.Unidade,
+            Json: parametro.Json,
           }));
         } else {
           console.error("O objeto parametro está vazio.");
@@ -84,6 +87,7 @@ const ParametroEditar: React.FC<Props> = ({ parametroId, onEditClick }) => {
           Fator: state.Fator,
           Offset: state.Offset,
           Unidade: state.Unidade,
+          Json: state.Json,
         }
 
         const response = await editarTipoParametro(parametroId, data)
@@ -160,6 +164,16 @@ const ParametroEditar: React.FC<Props> = ({ parametroId, onEditClick }) => {
                 type="number"
                 name="Fator"
                 value={state.Fator}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formJson">
+              <Form.Label>Tipo de Sensor</Form.Label>
+              <Form.Control
+                type="string"
+                name="Json"
+                value={state.Json}
                 onChange={handleChange}
                 required
               />

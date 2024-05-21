@@ -8,6 +8,7 @@ interface State {
     Unidade: string
     Offset: string
     Fator: string
+    Json: string
     validated: boolean
     errorMessage: string | null
 }
@@ -18,6 +19,7 @@ const ParametrosCadastrar: React.FC = () => {
         Unidade: "",
         Offset: '0',
         Fator: '0',
+        Json: "",
         validated: false,
         errorMessage: null,
     })
@@ -50,6 +52,7 @@ const ParametrosCadastrar: React.FC = () => {
                 Unidade: state.Unidade,
                 Offset: state.Offset,
                 Fator: state.Fator,
+                Json: state.Json,
             }
 
             console.log(data)
@@ -121,6 +124,17 @@ const ParametrosCadastrar: React.FC = () => {
                                 placeholder="Fator"
                                 name="Fator"
                                 value={state.Fator}
+                                onChange={handleChange}
+                                required
+                            />
+                        </Form.Group>
+                        <Form.Group controlId="formJson" style={{ marginTop: '2%' }}>
+                            <Form.Label>Tipo de Sensor</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Tipo de Sensor"
+                                name="Tipo de Sensor"
+                                value={state.Json}
                                 onChange={handleChange}
                                 required
                             />
