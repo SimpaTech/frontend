@@ -10,6 +10,7 @@ type Props = {
 
 type Estacao = {
   ID_Estacao: number;
+  UID: number;
   Nome: string;
   Latitude: string;
   Longitude: string;
@@ -96,6 +97,7 @@ export default class EstacoesConsultar extends Component<Props, State> {
           <Table striped bordered hover style={{ marginTop: '2%' }} className="text-center">
             <thead>
               <tr>
+                <th>UID</th>
                 <th>Nome</th>
                 <th>Latitude</th>
                 <th>Longitude</th>
@@ -107,6 +109,7 @@ export default class EstacoesConsultar extends Component<Props, State> {
             <tbody>
               {this.state.estacoes.map(estacao => (
                 <tr key={estacao.ID_Estacao}>
+                  <td>{estacao.UID}</td>
                   <td>{estacao.Nome}</td>
                   <td>{estacao.Latitude}</td>
                   <td>{estacao.Longitude}</td>
