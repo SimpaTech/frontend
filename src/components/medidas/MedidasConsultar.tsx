@@ -70,8 +70,8 @@ export default class MedidasConsultar extends Component<{}, State> {
           </div>
         )}
         <DataTable value={medidas} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} style={{ marginTop: '2%' }} className="text-center">
-          <Column field="parametro.estacao.Nome" header="Estação" filter filterPlaceholder="Search"></Column>
-          <Column field="parametro.tipoParametro.Nome_Tipo_Parametro" header="Parâmetro" filter filterPlaceholder="Search"></Column>
+          <Column field="parametro.estacao.Nome" header="Estação" filter filterPlaceholder="Pesquisar"></Column>
+          <Column field="parametro.tipoParametro.Nome_Tipo_Parametro" header="Parâmetro" filter filterPlaceholder="Pesquisar"></Column>
           <Column field="Valor" header="Valor" sortable style={{ width: '25%' }}></Column>
           <Column field="UnixTime" header="Data" body={rowData => new Date(rowData.UnixTime * 1000).toLocaleDateString()} sortable style={{ width: '25%' }}></Column>
           <Column field="UnixTime" header="Hora" body={rowData => new Date(rowData.UnixTime * 1000).toLocaleTimeString()} sortable style={{ width: '25%' }}></Column>
