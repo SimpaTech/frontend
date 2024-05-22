@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { Container, Table, Button, Modal } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { listarAlertas, deletarTipoAlerta } from "../../services/apiService"; 
-import "../../styles/alertas/AlertasConsultar.css"
+import { listarAlertas, deletarTipoAlerta, alternarStatusTipoAlerta } from "../../services/apiService"; 
+import "../../styles/alertas/AlertasConsultar.css";
 
 type Props = {
   onEditClick?: (id: number) => void;
@@ -14,6 +14,7 @@ type Alerta = {
   Nome_Tipo_Alerta: string;
   Valor: string;
   Operador_Condicional: string;
+  Indicativo_Ativa: boolean;
   errorMessage: string | null;
 }
 
@@ -35,22 +36,18 @@ export default class AlertasConsultar extends Component<Props, State> {
   async componentDidMount() {
     try {
       const response = await listarAlertas();
-      console.log("Response: " + JSON.stringify(response.data));
       this.setState({ alertas: response.data });
       if (response.data.length === 0) {
-        this.setState({ errorMessage: "Nenhum tipo de alerta cadastrada" });
+        this.setState({ errorMessage: "Nenhum tipo de alerta cadastrado" });
       }
-      console.log(this.state.errorMessage);
     } catch (error) {
       console.error("Erro ao buscar tipos de alerta:", error);
     }
   }
 
   handleDelete = async (alerta: Alerta) => {
-    console.log("Alerta: " + JSON.stringify(alerta));
     try {
       await deletarTipoAlerta(alerta.ID_Tipo_Alerta);
-      console.log(`Alerta ${alerta.Nome_Tipo_Alerta} deletado com sucesso.`);
       this.setState((prevState) => ({
         alertas: prevState.alertas.filter((u) => u.ID_Tipo_Alerta !== alerta.ID_Tipo_Alerta),
         showDeleteModal: false,
@@ -70,6 +67,19 @@ export default class AlertasConsultar extends Component<Props, State> {
 
   handleCancelDelete = () => {
     this.setState({ showDeleteModal: false, alertasToDelete: null });
+  };
+
+  handleToggleStatus = async (id: number, isActive: boolean) => {
+    try {
+      await alternarStatusTipoAlerta(id);
+      this.setState((prevState) => ({
+        alertas: prevState.alertas.map(alerta =>
+          alerta.ID_Tipo_Alerta === id ? { ...alerta, Indicativo_Ativa: !alerta.Indicativo_Ativa } : alerta
+        )
+      }));
+    } catch (error) {
+      console.error("Erro ao alterar status do tipo de alerta:", error);
+    }
   };
 
   render() {
@@ -93,6 +103,7 @@ export default class AlertasConsultar extends Component<Props, State> {
               <th>Nome do Alerta</th>
               <th>Valor</th>
               <th>Operador Condicional</th>
+              <th>Status</th>
               <th>Ações</th>
             </tr>
           </thead>
@@ -102,6 +113,14 @@ export default class AlertasConsultar extends Component<Props, State> {
                 <td>{alerta.Nome_Tipo_Alerta}</td>
                 <td>{alerta.Valor}</td>
                 <td>{alerta.Operador_Condicional}</td>
+                <td>
+                  <Button
+                    variant={alerta.Indicativo_Ativa ? "success" : "secondary"}
+                    onClick={() => this.handleToggleStatus(alerta.ID_Tipo_Alerta, alerta.Indicativo_Ativa)}
+                  >
+                    {alerta.Indicativo_Ativa ? "Ativo" : "Inativo"}
+                  </Button>
+                </td>
                 <td>
                   <Button variant="primary" className="mr-2" onClick={() => onEditClick && onEditClick(alerta.ID_Tipo_Alerta)}>
                     <FontAwesomeIcon icon={faEdit} />
@@ -118,17 +137,15 @@ export default class AlertasConsultar extends Component<Props, State> {
 
         <Modal show={showDeleteModal} onHide={this.handleCancelDelete}>
           <Modal.Header closeButton>
-            <Modal.Title>Confirmar Exclusão</Modal.Title>
+            <Modal.Title>Confirmar exclusão</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-            Tem certeza que quer deletar o Alerta: {alertasToDelete?.Nome_Tipo_Alerta}?
-          </Modal.Body>
+          <Modal.Body>Tem certeza que deseja excluir o tipo de alerta?</Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleCancelDelete}>
               Cancelar
             </Button>
             <Button variant="danger" onClick={this.handleConfirmDelete}>
-              Deletar
+              Excluir
             </Button>
           </Modal.Footer>
         </Modal>

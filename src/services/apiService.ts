@@ -289,6 +289,16 @@ export async function deletarTipoAlerta(id: number): Promise<AxiosResponse<any>>
   }
 }
 
+export async function alternarStatusTipoAlerta(id: number): Promise<AxiosResponse<any>> {
+  try {
+    const response = await axios.put(`${API_BASE_URL}/tipoAlerta/alterarIndicativo/${id}`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
 // ESTAÇÕES
 
 export async function cadastrarEstacao(data: EstacaoData): Promise<AxiosResponse<any>> {
