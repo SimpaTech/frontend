@@ -30,7 +30,7 @@ const Navbar: React.FC<Props> = ({ changePage, hasDashboard, currentPage, hasCad
       </Nav.Item>
       )}
       <Nav.Item key="Consulta">
-        <Nav.Link className={`${currentPage === "Consultar" ? "active-page" : ""}`} eventKey="Consultar">Consultar</Nav.Link>
+        <Nav.Link className={`${currentPage === "Consulta" ? "active-page" : ""}`} eventKey="Consulta">Consulta</Nav.Link>
       </Nav.Item>
     </Nav>
   );

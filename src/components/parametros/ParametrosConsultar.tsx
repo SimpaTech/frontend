@@ -15,6 +15,7 @@ type TipoParametro = {
   Fator: number;
   Offset: number;
   Unidade: string;
+  Json: string;
   errorMessage: string | null;
 }
 
@@ -97,6 +98,7 @@ export default class ParametrosConsultar extends Component<Props, State> {
                 <th>Fator</th>
                 <th>Offset</th>
                 <th>Unidade</th>
+                <th>Tipo de Sensor</th>
                 <th>Ações</th>
               </tr>
             </thead>
@@ -107,6 +109,7 @@ export default class ParametrosConsultar extends Component<Props, State> {
                   <td>{tipo.Fator}</td>
                   <td>{tipo.Offset}</td>
                   <td>{tipo.Unidade}</td>
+                  <td>{tipo.Json}</td>
                   <td>
                     <Button variant="primary" onClick={() => onEditClick && onEditClick(tipo.ID_Tipo_Parametro)}>
                       <FontAwesomeIcon icon={faEdit} style={{ fontSize: '16px' }} />

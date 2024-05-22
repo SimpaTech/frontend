@@ -52,11 +52,11 @@ export default class Parametros extends Component<Props, State> {
             case "Cadastro":
                 currentPageContent = <ParametrosCadastro />
                 break
-            case "Consultar":
+            case "Consulta":
                 currentPageContent = <ParametrosConsultar onEditClick={this.handleEditClick} />
                 break
             case "Editar":
-                currentPageContent = <ParametroEditar parametroId={this.state.editParametroId} onEditClick={() => this.changePage("Consultar")} />;
+                currentPageContent = <ParametroEditar parametroId={this.state.editParametroId} onEditClick={() => this.changePage("Consulta")} />;
                 break;
         }
 

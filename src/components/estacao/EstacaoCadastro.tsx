@@ -201,7 +201,7 @@ const CadastroPage: React.FC = () => {
               >
                 <option>Estação Terrestre</option>
                 <option>Estação Aquática</option>
-                <option>Estação Aéria</option>
+                <option>Estação Aérea</option>
               </Form.Control>
             </Form.Group>
           </Col>
