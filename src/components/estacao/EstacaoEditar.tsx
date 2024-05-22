@@ -160,6 +160,8 @@ const EstacaoEditar: React.FC<Props> = ({ estacaoId, onEditClick,  onEditParamet
   const handleEnviar = () => {
     if (parametroSelecionado !== null) {
       onEditParametro && onEditParametro(parametroSelecionado);
+      console.log('onEditParametro: ' + onEditParametro)
+      console.log('parametroSelecionado: ' + parametroSelecionado)
     }
   };
 

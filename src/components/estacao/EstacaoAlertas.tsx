@@ -1,6 +1,11 @@
 import React, { useState, useEffect, FormEvent } from "react";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
-import { cadastrarParametroAlerta, deletarParametroAlerta, listarAlertas, listarParametroAlerta } from "../../services/apiService";
+import {
+  cadastrarParametroAlerta,
+  deletarParametroAlerta,
+  listarAlertas,
+  listarParametroAlerta,
+} from "../../services/apiService";
 
 interface State {
   validated: boolean;
@@ -25,7 +30,7 @@ const EstacaoAlertas: React.FC<Props> = ({ parametroId }) => {
   const [state, setState] = useState<State>({
     validated: false,
     errorMessage: null,
-    tipoAlertas: []
+    tipoAlertas: [],
   });
 
   useEffect(() => {
@@ -34,13 +39,14 @@ const EstacaoAlertas: React.FC<Props> = ({ parametroId }) => {
         const responseAlertas = await listarAlertas();
         const responseParametros = await listarParametroAlerta();
 
-        const tipoAlertas = responseAlertas.data
-        const parametroLigados = responseParametros.data
+        const tipoAlertas = responseAlertas.data;
+        const parametroLigados = responseParametros.data;
 
         const alertasVinculados = tipoAlertas.map((alerta: TipoAlerta) => {
           let idLigacao = null;
           const vinculado = parametroLigados.some((parametro: any) => {
-            const resultado = parametro.tipoAlerta.ID_Tipo_Alerta == alerta.ID_Tipo_Alerta;
+            const resultado =
+              parametro.tipoAlerta.ID_Tipo_Alerta == alerta.ID_Tipo_Alerta;
             idLigacao = parametro.ID_Parametro_Alerta;
             return resultado;
           });
@@ -50,7 +56,7 @@ const EstacaoAlertas: React.FC<Props> = ({ parametroId }) => {
 
         setState((prevState) => ({
           ...prevState,
-          tipoAlertas: alertasVinculados
+          tipoAlertas: alertasVinculados,
         }));
       } catch (error) {
         console.error("Erro ao buscar tipos de alertas:", error);
@@ -63,13 +69,16 @@ const EstacaoAlertas: React.FC<Props> = ({ parametroId }) => {
   const handleVincular = async (parametroId: number, tipoAlertaId: number) => {
     try {
       // Primeiro, faz o cadastro
-      await cadastrarParametroAlerta({ ID_Parametro: parametroId, ID_TipoAlerta: tipoAlertaId });
+      await cadastrarParametroAlerta({
+        ID_Parametro: parametroId,
+        ID_TipoAlerta: tipoAlertaId,
+      });
 
       // Em seguida, atualiza o estado com o novo vínculo
       const responseParametros = await listarParametroAlerta();
       const parametroLigados = responseParametros.data;
 
-      let idLigacao:any = null;
+      let idLigacao: any = null;
       const vinculado = parametroLigados.some((parametro: any) => {
         const resultado = parametro.tipoAlerta.ID_Tipo_Alerta === tipoAlertaId;
         if (resultado) {
@@ -79,15 +88,14 @@ const EstacaoAlertas: React.FC<Props> = ({ parametroId }) => {
       });
 
       // Atualiza o estado dos alertas para refletir que este alerta está vinculado
-      const updatedAlertas = state.tipoAlertas.map(alerta => {
+      const updatedAlertas = state.tipoAlertas.map((alerta) => {
         if (alerta.ID_Tipo_Alerta === tipoAlertaId) {
           return { ...alerta, linkado: true, ID_ligacao: idLigacao };
         }
         return alerta;
       });
 
-      setState(prevState => ({ ...prevState, tipoAlertas: updatedAlertas }));
-
+      setState((prevState) => ({ ...prevState, tipoAlertas: updatedAlertas }));
     } catch (error) {
       console.error("Erro ao vincular alerta:", error);
     }
@@ -97,14 +105,14 @@ const EstacaoAlertas: React.FC<Props> = ({ parametroId }) => {
     try {
       await deletarParametroAlerta(LigacaoId);
       // Atualize o estado dos alertas para refletir que este alerta está desvinculado
-      const updatedAlertas = state.tipoAlertas.map(alerta => {
+      const updatedAlertas = state.tipoAlertas.map((alerta) => {
         if (alerta.ID_ligacao === LigacaoId) {
           return { ...alerta, linkado: false };
         }
         return alerta;
       });
 
-      setState(prevState => ({ ...prevState, tipoAlertas: updatedAlertas }));
+      setState((prevState) => ({ ...prevState, tipoAlertas: updatedAlertas }));
     } catch (error) {
       console.error("Erro ao desvincular alerta:", error);
     }
@@ -117,7 +125,11 @@ const EstacaoAlertas: React.FC<Props> = ({ parametroId }) => {
       <Form className="mt-5" noValidate validated={state.validated}>
         {state.errorMessage && (
           <div
-            className={`alert ${state.errorMessage.includes("Erro") ? "alert-danger" : "alert-success"}`}
+            className={`alert ${
+              state.errorMessage.includes("Erro")
+                ? "alert-danger"
+                : "alert-success"
+            }`}
             role="alert"
           >
             {state.errorMessage}
@@ -137,21 +149,47 @@ const EstacaoAlertas: React.FC<Props> = ({ parametroId }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {state.tipoAlertas.map((tipoAlerta) => (
-                    <tr key={tipoAlerta.ID_Tipo_Alerta}>
-                      <td>{tipoAlerta.ID_Tipo_Alerta}</td>
-                      <td>{tipoAlerta.Nome_Tipo_Alerta}</td>
-                      <td>{tipoAlerta.Valor}</td>
-                      <td>{tipoAlerta.Operador_Condicional}</td>
-                      <td>
-                        {tipoAlerta.linkado ? (
-                          <Button variant="danger" onClick={() => handleDesvincular(tipoAlerta.ID_ligacao)}>Desvincular</Button>
-                        ) : (
-                          <Button variant="primary" onClick={() => handleVincular(parametroId, tipoAlerta.ID_Tipo_Alerta)}>Linkar</Button>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
+                  {state.tipoAlertas.length === 0 ? (
+                    <div
+                      className={`alert mt-3 alert-danger`}
+                      role="alert"
+                    >
+                      Nenhum alerta cadastrado!
+                    </div>
+                  ) : (
+                    state.tipoAlertas.map((tipoAlerta) => (
+                      <tr key={tipoAlerta.ID_Tipo_Alerta}>
+                        <td>{tipoAlerta.ID_Tipo_Alerta}</td>
+                        <td>{tipoAlerta.Nome_Tipo_Alerta}</td>
+                        <td>{tipoAlerta.Valor}</td>
+                        <td>{tipoAlerta.Operador_Condicional}</td>
+                        <td>
+                          {tipoAlerta.linkado ? (
+                            <Button
+                              variant="danger"
+                              onClick={() =>
+                                handleDesvincular(tipoAlerta.ID_ligacao)
+                              }
+                            >
+                              Desvincular
+                            </Button>
+                          ) : (
+                            <Button
+                              variant="primary"
+                              onClick={() =>
+                                handleVincular(
+                                  parametroId,
+                                  tipoAlerta.ID_Tipo_Alerta
+                                )
+                              }
+                            >
+                              Linkar
+                            </Button>
+                          )}
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </Form.Group>

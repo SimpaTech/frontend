@@ -133,7 +133,7 @@ const ParametrosCadastrar: React.FC = () => {
                             <Form.Control
                                 type="text"
                                 placeholder="Tipo de Sensor"
-                                name="Tipo de Sensor"
+                                name="Json"
                                 value={state.Json}
                                 onChange={handleChange}
                                 required

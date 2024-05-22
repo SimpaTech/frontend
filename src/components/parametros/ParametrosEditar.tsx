@@ -171,7 +171,8 @@ const ParametroEditar: React.FC<Props> = ({ parametroId, onEditClick }) => {
             <Form.Group controlId="formJson">
               <Form.Label>Tipo de Sensor</Form.Label>
               <Form.Control
-                type="string"
+                type="text"
+                placeholder={state.Json}
                 name="Json"
                 value={state.Json}
                 onChange={handleChange}
