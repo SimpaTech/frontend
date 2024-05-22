@@ -45,30 +45,6 @@ export default class AlertasConsultar extends Component<Props, State> {
     }
   }
 
-  handleDelete = async (alerta: Alerta) => {
-    try {
-      await deletarTipoAlerta(alerta.ID_Tipo_Alerta);
-      this.setState((prevState) => ({
-        alertas: prevState.alertas.filter((u) => u.ID_Tipo_Alerta !== alerta.ID_Tipo_Alerta),
-        showDeleteModal: false,
-        alertasToDelete: null,
-      }));
-    } catch (error) {
-      console.error("Erro ao deletar tipo de alerta:", error);
-    }
-  };
-
-  handleConfirmDelete = () => {
-    const { alertasToDelete } = this.state;
-    if (alertasToDelete) {
-      this.handleDelete(alertasToDelete);
-    }
-  };
-
-  handleCancelDelete = () => {
-    this.setState({ showDeleteModal: false, alertasToDelete: null });
-  };
-
   handleToggleStatus = async (id: number, isActive: boolean) => {
     try {
       await alternarStatusTipoAlerta(id);
@@ -125,30 +101,12 @@ export default class AlertasConsultar extends Component<Props, State> {
                   <Button variant="primary" className="mr-2" onClick={() => onEditClick && onEditClick(alerta.ID_Tipo_Alerta)}>
                     <FontAwesomeIcon icon={faEdit} />
                   </Button>
-                  <Button variant="danger" onClick={() => this.setState({ showDeleteModal: true, alertasToDelete: alerta })}>
-                    <FontAwesomeIcon icon={faTrash} />
-                  </Button>
                 </td>
               </tr>
             ))}
           </tbody>
         </Table>
         )}
-
-        <Modal show={showDeleteModal} onHide={this.handleCancelDelete}>
-          <Modal.Header closeButton>
-            <Modal.Title>Confirmar exclusão</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Tem certeza que deseja excluir o tipo de alerta?</Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.handleCancelDelete}>
-              Cancelar
-            </Button>
-            <Button variant="danger" onClick={this.handleConfirmDelete}>
-              Excluir
-            </Button>
-          </Modal.Footer>
-        </Modal>
       </Container>
     );
   }
