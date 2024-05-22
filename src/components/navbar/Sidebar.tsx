@@ -94,6 +94,9 @@ const Sidebar = () => {
             <Link to="/medidas" className={`text-decoration-none list-group-background ${currentPage === "/medidas" ? "active-page" : ""}`}>
               <FontAwesomeIcon className="icon list-group-inner" icon={faList} /> Medidas
             </Link>
+            <Link to="/ocorrencias" className={`text-decoration-none list-group-background ${currentPage === "/ocorrencias" ? "active-page" : ""}`}>
+              <FontAwesomeIcon className="icon list-group-inner" icon={faList} /> Ocorrências
+            </Link>
           </Container>
         </div>
       </Container>
