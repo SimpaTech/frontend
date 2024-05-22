@@ -346,3 +346,14 @@ export async function listarMedidas(): Promise<AxiosResponse<any>> {
     throw error;
   }
 }
+
+// OCORRENCIAS
+
+export async function listarOcorrencias(): Promise<AxiosResponse<any>> {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/ocorrencias/listar`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
