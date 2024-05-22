@@ -51,7 +51,7 @@ export default class Alertas extends Component<Props, AlertasState> {
             case "Cadastro":
                 currentPageContent = <AlertasCadastro />
                 break
-            case "Consultar":
+            case "Consulta":
                 currentPageContent = <AlertasConsultar onEditClick={this.handleEditClick} />
                 break
             case "Editar":
