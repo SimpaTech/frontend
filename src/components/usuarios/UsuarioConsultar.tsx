@@ -1,10 +1,15 @@
 // UsuarioConsultar.tsx
 import React, { Component } from "react";
 import "../../styles/usuarios/UsuarioConsultar.css"
-import { Container, Table, Modal, Button } from "react-bootstrap";
+import { Container, Table, Modal, Button, Stack } from "react-bootstrap";
 import { listarUsuarios, deletarUsuario } from "../../services/apiService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+
+// Prime React
+import "primereact/resources/themes/lara-light-cyan/theme.css";
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
 
 type Props = {
   onEditClick?: (id: number) => void; // Adicione a prop onEditClick
@@ -87,6 +92,21 @@ export default class UsuarioConsultar extends Component<Props, State> {
     const { tipoUsuario, errorMessage, showDeleteModal, usuarioToDelete } = this.state;
     const { onEditClick } = this.props;
 
+    const actionBodyTemplate = (rowData: any) => {
+      return (
+        <React.Fragment>
+          <Stack direction="horizontal" gap={3}>
+            <Button variant="primary" onClick={() => onEditClick && onEditClick(rowData.ID_Usuario)}>
+              <FontAwesomeIcon icon={faEdit} style={{ fontSize: "16px" }} />
+            </Button>
+            <Button className="btn btn-danger" onClick={() => this.setState({ showDeleteModal: true, usuarioToDelete: rowData })}>
+              <FontAwesomeIcon icon={faTrash} style={{ fontSize: "16px" }} />
+            </Button>
+          </Stack>
+        </React.Fragment>
+      );
+    }
+
     return (
       <Container>
         {errorMessage && (
@@ -99,36 +119,11 @@ export default class UsuarioConsultar extends Component<Props, State> {
           </div>
         )}
         {tipoUsuario.length > 0 && (
-          <Table striped bordered hover style={{ marginTop: "2%" }} className="text-center">
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>CPF</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tipoUsuario.map((tipo) => (
-                <tr key={tipo.ID_Usuario}>
-                  <td>{tipo.Nome_Usuario}</td>
-                  <td>{formatCPF(tipo.CPF_Usuario)}</td>
-                  <td>
-                    {/* Chame a função onEditClick passando o ID do usuário */}
-                    <Button variant="primary" onClick={() => onEditClick && onEditClick(tipo.ID_Usuario)}>
-
-                      <FontAwesomeIcon icon={faEdit} style={{ fontSize: "16px" }} />
-                    </Button>
-                    <Button
-                      className="btn btn-danger"
-                      onClick={() => this.setState({ showDeleteModal: true, usuarioToDelete: tipo })}
-                    >
-                      <FontAwesomeIcon icon={faTrash} style={{ fontSize: "16px" }} />
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          <DataTable value={tipoUsuario} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} style={{ marginTop: '2%' }} className="text-center">
+            <Column field="Nome_Usuario" header="Nome" filter filterPlaceholder="Pesquisar"></Column>
+            <Column field="CPF_Usuario" header="CPF" sortable></Column>
+            <Column body={actionBodyTemplate} header="Ações" sortable style={{width: '20%'}}></Column>
+          </DataTable>
         )}
 
         <Modal show={showDeleteModal} onHide={this.handleCancelDelete}>
