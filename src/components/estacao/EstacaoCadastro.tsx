@@ -199,9 +199,9 @@ const CadastroPage: React.FC = () => {
                 value={state.Tipo_Estacao}
                 onChange={handleChange}
               >
-                <option>Opção 1</option>
-                <option>Opção 2</option>
-                <option>Opção 3</option>
+                <option>Estação Terrestre</option>
+                <option>Estação Aquática</option>
+                <option>Estação Aérea</option>
               </Form.Control>
             </Form.Group>
           </Col>
