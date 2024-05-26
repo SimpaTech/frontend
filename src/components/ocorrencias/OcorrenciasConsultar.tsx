@@ -60,9 +60,9 @@ export default class OcorrenciasConsultar extends Component<{}, State> {
           </div>
         )}
         <DataTable value={ocorrencias} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} style={{ marginTop: '2%' }} className="text-center">
-          <Column field="parametro_alerta.ID_Parametro_Alerta" header="Id alerta parâmetro" filter filterPlaceholder="Pesquisar"></Column>
           <Column field="medida.ID_Medida" header="Id medida" filter filterPlaceholder="Pesquisar"></Column>
           <Column field="medida.Valor" header="Valor medida" sortable style={{ width: '25%' }}></Column>
+          <Column field="parametro_alerta.parametro.tipoParametro.Nome_Tipo_Parametro" header="Nome parâmetro" sortable style={{ width: '25%' }}></Column>
           <Column field="medida.UnixTime" header="Data" body={rowData => new Date(rowData.medida.UnixTime * 1000).toLocaleDateString()} sortable style={{ width: '25%' }}></Column>
           <Column field="medida.UnixTime" header="Hora" body={rowData => new Date(rowData.medida.UnixTime * 1000).toLocaleTimeString()} sortable style={{ width: '25%' }}></Column>
         </DataTable>
