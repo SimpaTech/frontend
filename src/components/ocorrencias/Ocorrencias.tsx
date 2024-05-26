@@ -17,7 +17,7 @@ type State = {
 
 export default class Ocorrencias extends Component<Props, State> {
     state: State = {
-        currentPage: "Consultar",
+        currentPage: "Consulta",
         hasDashboard: false,
         editParametroId: 1,
         hasCadastro: false,
@@ -38,7 +38,7 @@ export default class Ocorrencias extends Component<Props, State> {
 
         let currentPageContent
         switch (this.state.currentPage) {
-            case "Consultar":
+            case "Consulta":
                 currentPageContent = <OcorrenciasConsultar />
                 break
         }

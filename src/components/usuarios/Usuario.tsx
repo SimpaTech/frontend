@@ -55,11 +55,11 @@ export default class Usuario extends Component<Props, State> {
       case "Cadastro":
         currentPageContent = <UsuarioCadastro />;
         break;
-      case "Consultar":
+      case "Consulta":
         currentPageContent = <UsuarioConsultar onEditClick={this.handleEditClick} />;
         break;
       case "Editar":
-        currentPageContent = <UsuarioEditar userId={this.state.editUserId} onEditClick={() => this.changePage("Consultar")} />;
+        currentPageContent = <UsuarioEditar userId={this.state.editUserId} onEditClick={() => this.changePage("Consulta")} />;
         break;
       default:
         currentPageContent = null;

@@ -1,9 +1,14 @@
 import React, { Component } from "react";
 import "../../styles/parametros/ParametrosConsultar.css"
-import { Container, Table, Modal, Button } from "react-bootstrap";
+import { Container, Table, Modal, Button, Stack } from "react-bootstrap";
 import { listarParametros, removerTipoParametro } from "../../services/apiService";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+
+// Prime React
+import "primereact/resources/themes/lara-light-cyan/theme.css";
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
 
 type Props = {
   onEditClick?: (id: number) => void;
@@ -80,6 +85,21 @@ export default class ParametrosConsultar extends Component<Props, State> {
 
     const parametrosAtivos = tiposParametro.filter(parametro => parametro.Indicativo_Ativa == 1);
 
+    const actionBodyTemplate = (rowData: any) => {
+      return (
+        <React.Fragment>
+          <Stack direction="horizontal" gap={3}>
+            <Button variant="primary" onClick={() => onEditClick && onEditClick(rowData.ID_Tipo_Parametro)}>
+              <FontAwesomeIcon icon={faEdit} style={{ fontSize: '16px' }} />
+            </Button>
+            <Button variant="danger" onClick={() => this.setState({ showDeleteModal: true, parametroToDelete: rowData })}>
+              <FontAwesomeIcon icon={faTrash} style={{ fontSize: '16px' }} />
+            </Button>
+          </Stack>
+        </React.Fragment>
+      );
+    }
+
     return (
       <Container>
         {errorMessage && (
@@ -91,37 +111,14 @@ export default class ParametrosConsultar extends Component<Props, State> {
           </div>
         )}
         {parametrosAtivos.length > 0 ? (
-          <Table striped bordered hover style={{ marginTop: '2%' }} className="text-center">
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>Fator</th>
-                <th>Offset</th>
-                <th>Unidade</th>
-                <th>Tipo de Sensor</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              {parametrosAtivos.map(tipo => (
-                <tr key={tipo.ID_Tipo_Parametro}>
-                  <td>{tipo.Nome_Tipo_Parametro}</td>
-                  <td>{tipo.Fator}</td>
-                  <td>{tipo.Offset}</td>
-                  <td>{tipo.Unidade}</td>
-                  <td>{tipo.Json}</td>
-                  <td>
-                    <Button variant="primary" onClick={() => onEditClick && onEditClick(tipo.ID_Tipo_Parametro)}>
-                      <FontAwesomeIcon icon={faEdit} style={{ fontSize: '16px' }} />
-                    </Button>
-                    <Button variant="danger" onClick={() => this.setState({ showDeleteModal: true, parametroToDelete: tipo })}>
-                      <FontAwesomeIcon icon={faTrash} style={{ fontSize: '16px' }} />
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          <DataTable value={parametrosAtivos} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} style={{ marginTop: '2%' }} className="text-center">
+            <Column field="Nome_Tipo_Parametro" header="Nome" filter filterPlaceholder="Pesquisar"></Column>
+            <Column field="Fator" header="Fator" sortable></Column>
+            <Column field="Offset" header="Offset" sortable></Column>
+            <Column field="Unidade" header="Unidade" sortable></Column>
+            <Column field="Json" header="Tipo de Sensor" sortable></Column>
+            <Column body={actionBodyTemplate} header="Ações" sortable></Column>
+          </DataTable>
         ) : (
           <div className="alert alert-danger mt-3" role="alert">
             Nenhum parâmetro ativo cadastrado.
