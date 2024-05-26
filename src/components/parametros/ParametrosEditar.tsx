@@ -3,13 +3,14 @@ import { Container, Form, Button, Col, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { buscarTipoParametro, editarTipoParametro } from "../../services/apiService";
-import "../styles/ParametroEditar.css"
+import "../../styles/parametros/ParametroEditar.css"
 
 interface State {
   Nome_Tipo_Parametro: string;
   Fator: string;
   Offset: string;
   Unidade: string;
+  Json: string;
   validated: boolean
   errorMessage: string | null
 }
@@ -25,6 +26,7 @@ const ParametroEditar: React.FC<Props> = ({ parametroId, onEditClick }) => {
     Fator: '0',
     Offset: '0',
     Unidade: "",
+    Json: "",
     validated: false,
     errorMessage: null
   });
@@ -43,6 +45,7 @@ const ParametroEditar: React.FC<Props> = ({ parametroId, onEditClick }) => {
             Fator: parametro.Fator,
             Offset: parametro.Offset,
             Unidade: parametro.Unidade,
+            Json: parametro.Json,
           }));
         } else {
           console.error("O objeto parametro está vazio.");
@@ -84,6 +87,7 @@ const ParametroEditar: React.FC<Props> = ({ parametroId, onEditClick }) => {
           Fator: state.Fator,
           Offset: state.Offset,
           Unidade: state.Unidade,
+          Json: state.Json,
         }
 
         const response = await editarTipoParametro(parametroId, data)
@@ -160,6 +164,17 @@ const ParametroEditar: React.FC<Props> = ({ parametroId, onEditClick }) => {
                 type="number"
                 name="Fator"
                 value={state.Fator}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formJson">
+              <Form.Label>Tipo de Sensor</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder={state.Json}
+                name="Json"
+                value={state.Json}
                 onChange={handleChange}
                 required
               />

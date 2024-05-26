@@ -4,7 +4,7 @@ import "../../styles/parametros/Parametros.css"
 import { Container } from "react-bootstrap"
 import Header from "../Header"
 import Navbar from "../navbar/Navbar"
-import MedidasConsultar from "./MedidasConsultar"
+import OcorrenciasConsultar from "./OcorrenciasConsultar"
 
 type Props = {  }
 
@@ -15,7 +15,7 @@ type State = {
     hasCadastro: boolean
   }
 
-export default class Medidas extends Component<Props, State> {
+export default class Ocorrencias extends Component<Props, State> {
     state: State = {
         currentPage: "Consulta",
         hasDashboard: false,
@@ -26,14 +26,6 @@ export default class Medidas extends Component<Props, State> {
     changePage = (page: string) => {
         this.setState({ currentPage: page })
     }
-
-    // Função para lidar com o clique no botão de edição
-    handleEditClick = (parametroId: number) => {
-        // Atualize o estado com o ID do usuário para edição
-        this.setState({ editParametroId: parametroId });
-        // Navegue para a página de edição
-        this.changePage("Editar");
-    };
 
     render() {
         const storedUserDetails = localStorage.getItem('userDetails');
@@ -47,7 +39,7 @@ export default class Medidas extends Component<Props, State> {
         let currentPageContent
         switch (this.state.currentPage) {
             case "Consulta":
-                currentPageContent = <MedidasConsultar />
+                currentPageContent = <OcorrenciasConsultar />
                 break
         }
 
@@ -58,7 +50,7 @@ export default class Medidas extends Component<Props, State> {
 
                 <Container className="background-content p-0">
                     {/* Header */}
-                    <Header title="Medidas" username={username} />
+                    <Header title="Ocorrências" username={username} />
 
                     <Container>
                         <Navbar changePage={this.changePage} hasDashboard={this.state.hasDashboard} currentPage={this.state.currentPage} hasCadastro={false} />

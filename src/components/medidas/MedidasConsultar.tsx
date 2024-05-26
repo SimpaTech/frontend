@@ -1,7 +1,12 @@
 import React, { Component } from "react";
-import "../styles/EstacaoConsultar.css";
+import "../../styles/estacao/EstacaoConsultar.css";
 import { Container, Table } from "react-bootstrap";
 import { listarMedidas } from "../../services/apiService";
+import "primereact/resources/themes/lara-light-cyan/theme.css";
+
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+
 
 type Estacao = {
   Nome: string;
@@ -28,7 +33,7 @@ type State = {
   parametroToDelete: Medida | null;
 };
 
-export default class MedidasConsultar extends Component<{},State> {
+export default class MedidasConsultar extends Component<{}, State> {
   state: State = {
     medidas: [],
     errorMessage: "",
@@ -42,7 +47,7 @@ export default class MedidasConsultar extends Component<{},State> {
       const medidas = response.data;
       this.setState({ medidas });
       if (medidas.length === 0) {
-        this.setState({ errorMessage: "Nenhum tipo de parâmetro cadastrado" });
+        this.setState({ errorMessage: "Nenhum tipo de medida cadastrada" });
       }
     } catch (error) {
       console.error("Erro ao buscar parâmetros:", error);
@@ -64,30 +69,13 @@ export default class MedidasConsultar extends Component<{},State> {
             {errorMessage}
           </div>
         )}
-        {medidas.length > 0 && (
-          <Table striped bordered hover style={{ marginTop: '2%' }} className="text-center">
-            <thead>
-              <tr>
-                <th>Estação</th>
-                <th>Parâmetro</th>
-                <th>Valor</th>
-                <th>Data</th>
-                <th>Hora</th>
-              </tr>
-            </thead>
-            <tbody>
-              {medidas.map(medida => (
-                <tr key={medida.ID_Medida}>
-                  <td>{medida.parametro.estacao.Nome}</td>
-                  <td>{medida.parametro.tipoParametro.Nome_Tipo_Parametro}</td>
-                  <td>{medida.Valor}</td>
-                  <td>{new Date(medida.UnixTime * 1000).toLocaleDateString('pt-BR')}</td>
-                  <td>{new Date(medida.UnixTime * 1000).toLocaleTimeString('pt-BR')}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        )}
+        <DataTable value={medidas} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} style={{ marginTop: '2%' }} className="text-center">
+          <Column field="parametro.estacao.Nome" header="Estação" filter filterPlaceholder="Pesquisar"></Column>
+          <Column field="parametro.tipoParametro.Nome_Tipo_Parametro" header="Parâmetro" filter filterPlaceholder="Pesquisar"></Column>
+          <Column field="Valor" header="Valor" sortable style={{ width: '25%' }}></Column>
+          <Column field="UnixTime" header="Data" body={rowData => new Date(rowData.UnixTime * 1000).toLocaleDateString()} sortable style={{ width: '25%' }}></Column>
+          <Column field="UnixTime" header="Hora" body={rowData => new Date(rowData.UnixTime * 1000).toLocaleTimeString()} sortable style={{ width: '25%' }}></Column>
+        </DataTable>
       </Container>
     );
   }

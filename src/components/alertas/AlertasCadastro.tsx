@@ -1,6 +1,6 @@
 import React, { useState, FormEvent } from "react"
 import { Container, Form, Button, Row, Col } from "react-bootstrap"
-import "../styles/AlertasCadastro.css"
+import "../../styles/alertas/AlertasCadastro.css"
 import { cadastrarAlerta } from "../../services/apiService"
 
 interface State {
@@ -88,7 +88,7 @@ const AlertasCadastro: React.FC = () => {
 
   return (
     <Container className="tipoalerta">
-      <h1 className="text-center">Cadastrar</h1>
+      <h2 className="text-center">Cadastrar</h2>
       <Form className="mt-5" onSubmit={handleSubmit} noValidate validated={state.validated}>
         {state.errorMessage && (
           <div

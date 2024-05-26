@@ -1,12 +1,17 @@
 import React, { Component } from "react";
-import "../styles/EstacaoConsultar.css";
-import { Container, Table, Modal, Button } from "react-bootstrap";
+import "../../styles/parametros/ParametrosConsultar.css"
+import { Container, Table, Modal, Button, Stack } from "react-bootstrap";
 import { listarParametros, removerTipoParametro } from "../../services/apiService";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
+// Prime React
+import "primereact/resources/themes/lara-light-cyan/theme.css";
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+
 type Props = {
-  onEditClick?: (id: number) => void; // Adicione a prop onEditClick
+  onEditClick?: (id: number) => void;
 };
 
 type TipoParametro = {
@@ -15,6 +20,8 @@ type TipoParametro = {
   Fator: number;
   Offset: number;
   Unidade: string;
+  Json: string;
+  Indicativo_Ativa: number;
   errorMessage: string | null;
 }
 
@@ -36,9 +43,9 @@ export default class ParametrosConsultar extends Component<Props, State> {
   async componentDidMount() {
     try {
       const response = await listarParametros();
-      const tiposParametro = response.data; // Ajuste para acessar os dados corretamente
+      const tiposParametro = response.data;
       this.setState({ tiposParametro });
-      if (tiposParametro.length === 0) { // Ajuste para verificar o comprimento dos dados
+      if (tiposParametro.length === 0) {
         this.setState({ errorMessage: "Nenhum tipo de parâmetro cadastrado" });
       }
     } catch (error) {
@@ -48,11 +55,9 @@ export default class ParametrosConsultar extends Component<Props, State> {
   }
 
   handleDelete = async (parametro: TipoParametro | null) => {
-    if (!parametro) return; // Verificação para evitar erros se parametro for nulo
-    console.log("Parâmetro: " + JSON.stringify(parametro));
+    if (!parametro) return;
     try {
       await removerTipoParametro(parametro.ID_Tipo_Parametro);
-      console.log(`Parâmetro ${parametro.Nome_Tipo_Parametro} deletado com sucesso.`);
       this.setState((prevState) => ({
         tiposParametro: prevState.tiposParametro.filter((p) => p.ID_Tipo_Parametro !== parametro.ID_Tipo_Parametro),
         showDeleteModal: false,
@@ -78,47 +83,46 @@ export default class ParametrosConsultar extends Component<Props, State> {
     const { tiposParametro, errorMessage, showDeleteModal, parametroToDelete } = this.state;
     const { onEditClick } = this.props;
 
+    const parametrosAtivos = tiposParametro.filter(parametro => parametro.Indicativo_Ativa == 1);
+
+    const actionBodyTemplate = (rowData: any) => {
+      return (
+        <React.Fragment>
+          <Stack direction="horizontal" gap={3}>
+            <Button variant="primary" onClick={() => onEditClick && onEditClick(rowData.ID_Tipo_Parametro)}>
+              <FontAwesomeIcon icon={faEdit} style={{ fontSize: '16px' }} />
+            </Button>
+            <Button variant="danger" onClick={() => this.setState({ showDeleteModal: true, parametroToDelete: rowData })}>
+              <FontAwesomeIcon icon={faTrash} style={{ fontSize: '16px' }} />
+            </Button>
+          </Stack>
+        </React.Fragment>
+      );
+    }
+
     return (
       <Container>
         {errorMessage && (
           <div
-            className={`alert mt-3 ${errorMessage.includes("Nenhum") ? "alert-danger" : "alert-success"
-              }`}
+            className={`alert mt-3 ${errorMessage.includes("Nenhum") ? "alert-danger" : "alert-success"}`}
             role="alert"
           >
             {errorMessage}
           </div>
         )}
-        {tiposParametro.length > 0 && (
-          <Table striped bordered hover style={{ marginTop: '2%' }} className="text-center">
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>Fator</th>
-                <th>Offset</th>
-                <th>Unidade</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.state.tiposParametro.map(tipo => (
-                <tr key={tipo.ID_Tipo_Parametro}>
-                  <td>{tipo.Nome_Tipo_Parametro}</td>
-                  <td>{tipo.Fator}</td>
-                  <td>{tipo.Offset}</td>
-                  <td>{tipo.Unidade}</td>
-                  <td>
-                    <Button variant="primary" onClick={() => onEditClick && onEditClick(tipo.ID_Tipo_Parametro)}>
-                      <FontAwesomeIcon icon={faEdit} style={{ fontSize: '16px' }} />
-                    </Button>
-                    <Button variant="danger" onClick={() => this.setState({ showDeleteModal: true, parametroToDelete: tipo })}>
-                      <FontAwesomeIcon icon={faTrash} style={{ fontSize: '16px' }} />
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+        {parametrosAtivos.length > 0 ? (
+          <DataTable value={parametrosAtivos} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} style={{ marginTop: '2%' }} className="text-center">
+            <Column field="Nome_Tipo_Parametro" header="Nome" filter filterPlaceholder="Pesquisar"></Column>
+            <Column field="Fator" header="Fator" sortable></Column>
+            <Column field="Offset" header="Offset" sortable></Column>
+            <Column field="Unidade" header="Unidade" sortable></Column>
+            <Column field="Json" header="Tipo de Sensor" sortable></Column>
+            <Column body={actionBodyTemplate} header="Ações" sortable></Column>
+          </DataTable>
+        ) : (
+          <div className="alert alert-danger mt-3" role="alert">
+            Nenhum parâmetro ativo cadastrado.
+          </div>
         )}
 
         <Modal show={showDeleteModal} onHide={this.handleCancelDelete}>

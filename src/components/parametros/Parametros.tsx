@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import Sidebar from "../navbar/Sidebar"
-import "../styles/Parametros.css"
+import "../../styles/parametros/Parametros.css"
 import { Container } from "react-bootstrap"
 import ParametrosCadastro from "./ParametrosCadastro"
 import ParametrosConsultar from "./ParametrosConsultar"
@@ -52,11 +52,11 @@ export default class Parametros extends Component<Props, State> {
             case "Cadastro":
                 currentPageContent = <ParametrosCadastro />
                 break
-            case "Consultar":
+            case "Consulta":
                 currentPageContent = <ParametrosConsultar onEditClick={this.handleEditClick} />
                 break
             case "Editar":
-                currentPageContent = <ParametroEditar parametroId={this.state.editParametroId} onEditClick={() => this.changePage("Consultar")} />;
+                currentPageContent = <ParametroEditar parametroId={this.state.editParametroId} onEditClick={() => this.changePage("Consulta")} />;
                 break;
         }
 

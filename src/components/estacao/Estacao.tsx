@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import Sidebar from "../navbar/Sidebar"
-import "../styles/Estacao.css"
+import "../../styles/estacao/Estacao.css"
 import { Container } from "react-bootstrap"
 import EstacaoCadastro from "./EstacaoCadastro"
 import EstacaoConsultar from "./EstacaoConsultar"
@@ -62,14 +62,14 @@ export default class Estacao extends Component<Props, State> {
 
     // Renderizar o conteúdo da página com base na página atual
     switch (this.state.currentPage) {
+      case "Dashboard":
+        currentPageContent = <EstacaoDashboard />
+        break
       case "Cadastro":
         currentPageContent = <EstacaoCadastro />
         break
-      case "Consultar":
+      case "Consulta":
         currentPageContent = <EstacaoConsultar onEditClick={this.handleEditClick} />
-        break
-      case "Dashboard":
-        currentPageContent = <EstacaoDashboard />
         break
       case "Editar":
         currentPageContent = <EstacaoEditar estacaoId={this.state.editEstacaoId} onEditClick={() => this.changePage("Consultar")} changePage={this.changePage} 

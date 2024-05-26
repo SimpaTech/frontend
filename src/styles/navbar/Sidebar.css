@@ -33,42 +33,34 @@
 .logout-box {
   position: fixed;
   width: 100%; /* Alterado para que o width seja 100% em telas pequenas */
-  max-width: 350px;
+  max-width: 200px;
   bottom: 0;
   text-align: center;
-  color: white;
-  background-color: #006996;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
 }
 
 .logout-inner {
-  padding: 4%;
+  margin: 10%;
+  padding: 7px 0;
+  border-radius: 15px;
   font-size: var(--font-size);
   font-weight: var(--font-weight);
 }
 
 .list-group-background:hover {
-  background-color: #005c8a;
-  font-weight: 400;
+  background-color: #5cc8fe;
+  font-weight: 600;
   transition: 50ms;
   border-radius: 15px;
   padding: 12px 18px;
+  color: black!important;
 }
 
 .logout-inner:hover {
-  color: #D9D9D9;
-}
-
-.BtnLogout {
-  position: fixed;
-  width: 100%; /* Alterado para que o width seja 100% em telas pequenas */
-  max-width: 200px;
-  bottom: 0;
-  text-align: center;
-  color: white;
-  background-color: #006996;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
-  border-radius: 0px;
+  background-color: red!important;
+  font-weight: 600;
+  color: black!important;
+  border-radius: 15px;
 }
 
 .list-group-background {
@@ -76,5 +68,10 @@
 }
 
 .active-page {
-  border-bottom: 2px solid #FBDA3D;
+  background-color: #5cc8fe;
+  font-weight: 600;
+  transition: 50ms;
+  border-radius: 15px;
+  padding: 12px 18px;
 }
+

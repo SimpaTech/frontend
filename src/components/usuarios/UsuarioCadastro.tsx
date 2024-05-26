@@ -1,7 +1,7 @@
 import React, { useState, FormEvent } from "react";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import InputMask from "react-input-mask";
-import "../styles/UsuarioCadastro.css";
+import "../../styles/usuarios/UsuarioCadastro.css"
 import { cadastrarUsuario } from "../../services/apiService";
 
 interface State {
@@ -105,7 +105,7 @@ const UsuarioCadastro: React.FC = () => {
 
   return (
     <Container className="usuario">
-      <h1 className="text-center">Cadastrar</h1>
+      <h2 className="text-center">Cadastrar</h2>
       <Form className="mt-5" onSubmit={handleSubmit} noValidate validated={state.validated}>
         {state.errorMessage && (
           <div

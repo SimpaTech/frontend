@@ -1,7 +1,7 @@
 // Usuario.tsx
 import React, { Component } from "react";
 import Sidebar from "../navbar/Sidebar";
-import "../styles/Usuario.css";
+import "../../styles/usuarios/Usuario.css"
 import { Container } from "react-bootstrap";
 import UsuarioCadastro from "./UsuarioCadastro";
 import UsuarioConsultar from "./UsuarioConsultar";
@@ -55,11 +55,11 @@ export default class Usuario extends Component<Props, State> {
       case "Cadastro":
         currentPageContent = <UsuarioCadastro />;
         break;
-      case "Consultar":
+      case "Consulta":
         currentPageContent = <UsuarioConsultar onEditClick={this.handleEditClick} />;
         break;
       case "Editar":
-        currentPageContent = <UsuarioEditar userId={this.state.editUserId} onEditClick={() => this.changePage("Consultar")} />;
+        currentPageContent = <UsuarioEditar userId={this.state.editUserId} onEditClick={() => this.changePage("Consulta")} />;
         break;
       default:
         currentPageContent = null;

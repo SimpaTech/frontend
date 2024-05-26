@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import Sidebar from "../navbar/Sidebar"
-import "../styles/Alertas.css"
+import "../../styles/alertas/Alertas.css"
 import { Container } from "react-bootstrap"
 import Navbar from "../navbar/Navbar"
 import Header from "../Header"
@@ -51,7 +51,7 @@ export default class Alertas extends Component<Props, AlertasState> {
             case "Cadastro":
                 currentPageContent = <AlertasCadastro />
                 break
-            case "Consultar":
+            case "Consulta":
                 currentPageContent = <AlertasConsultar onEditClick={this.handleEditClick} />
                 break
             case "Editar":
