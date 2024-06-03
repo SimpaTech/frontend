@@ -8,13 +8,15 @@ import Parametros from './components/parametros/Parametros';
 import Alertas from './components/alertas/Alertas';
 import Medidas from './components/medidas/Medidas';
 import Ocorrencias from './components/ocorrencias/Ocorrencias';
+import Visitante from './components/visitante/Visitante';
 
 const App = () => {
   return (
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Visitante/>} />
+          <Route path="/login" element={<Login />} />
           <Route path="/estacoes" element={<Estacao />} />
           <Route path="/usuarios" element={<Usuario />} />
           <Route path="/parametros" element={<Parametros />} />

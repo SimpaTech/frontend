@@ -1,0 +1,9 @@
+.navbar-custom {
+    font-family: 'Inter', sans-serif; /* Aplicando a fonte Inter */
+  }
+  
+  .navbar-custom .navbar-brand,
+  .navbar-custom .nav-link {
+    color: #333; /* Cor do texto */
+  }
+  

@@ -1,0 +1,32 @@
+.footer {
+    font-family: 'Inter', sans-serif; /* Aplicando a fonte Inter */
+    background-color: #f8f9fa; /* Cor de fundo */
+    color: #333; /* Cor do texto */
+    padding: 20px 0; /* Espaçamento interno */
+  }
+  
+  .footer-section {
+    text-align: center; /* Centralizar conteúdo */
+    margin: 10px; /* Espaçamento entre seções */
+  }
+  
+  .footer-logo {
+    width: 100px; /* Tamanho do logo */
+    margin-bottom: 10px; /* Espaçamento inferior */
+  }
+  
+  .footer-description {
+    font-size: 14px; /* Tamanho da fonte da descrição */
+    margin-bottom: 10px; /* Espaçamento inferior */
+  }
+  
+  .footer-company {
+    font-size: 12px; /* Tamanho da fonte da informação da empresa */
+    margin-top: 10px; /* Espaçamento superior */
+  }
+  
+  .btn-back-to-top {
+    font-size: 14px; /* Tamanho da fonte do botão */
+    margin-top: 10px; /* Espaçamento superior */
+  }
+  

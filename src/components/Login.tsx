@@ -91,7 +91,7 @@ function Login() {
     <Container fluid>
       <Row>
         <Col className='FundoLogo Col'>
-          <Image className='Logo' src="/images/logo.png" alt="Logo" fluid />
+          <Image className='Logo' src="/images/Logo.png" alt="Logo" fluid />
         </Col>
         <Col xs={7} className='Col'>
           <Container fluid className='ContainerCaixa'>
@@ -132,7 +132,7 @@ function Login() {
                   </Button>
                   <Container>
                     Entrar como
-                    <a className='LinkVisitante' href="/Visitante">
+                    <a className='LinkVisitante' href="/">
                       Visitante
                     </a>
                   </Container>
