@@ -1,8 +1,11 @@
 .navbar-custom {
   font-family: "Inter", sans-serif; /* Aplicando a fonte Inter */
   min-height: 100px;
-  border-bottom: #2196f3 1px !important;
+  border-bottom: 1px solid #2195f388;
+  border-radius: 0;
+  padding: 4rem 0;
 }
+
 
 .navbar-custom .navbar-brand,
 .navbar-custom .nav-link {

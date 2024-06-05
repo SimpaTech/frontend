@@ -8,7 +8,8 @@ import Parametros from './components/parametros/Parametros';
 import Alertas from './components/alertas/Alertas';
 import Medidas from './components/medidas/Medidas';
 import Ocorrencias from './components/ocorrencias/Ocorrencias';
-import Visitante from './components/visitante/Visitante';
+import Visitante from './components/visitantes/Visitante';
+import Documentacao from './components/visitantes/Documentacao';
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/alertas" element={<Alertas />} />
           <Route path="/medidas" element={<Medidas />} />
           <Route path="/ocorrencias" element={<Ocorrencias />} />
+          <Route path="/documentacao" element={<Documentacao />} />
         </Routes>
       </div>
     </Router>

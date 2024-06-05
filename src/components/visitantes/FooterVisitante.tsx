@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
-import "./FooterVisitante.css"; // Arquivo CSS para estilos adicionais
+import "../../styles/visitantes/FooterVisitante.css"; // Arquivo CSS para estilos adicionais
 
 const FooterVisitante: React.FC = () => {
   return (
@@ -30,7 +30,7 @@ const FooterVisitante: React.FC = () => {
           href="#top"
           className="btn-back-to-top"
         >
-          Voltar ao Topo
+          Voltar ao topo
         </Button>
       </div>
     </Navbar>

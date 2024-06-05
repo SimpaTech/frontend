@@ -31,27 +31,18 @@
   margin-top: 2%;
 }
 
-.sensor-content {
-  flex: 1;
-  padding: 3rem;
-  padding-bottom: 5rem;
+.buttons {
+  padding-bottom: 3rem;
 }
 
-.sensor-content h1 {
-  font-size: 2rem;
-  font-weight: 600;
+.button {
+  padding: 1rem 2rem;
+  margin: 0 3rem;
+  margin-bottom: 3rem;
+  color: white!important;
+  font-size: larger;
 }
 
-.sensor-content h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  text-align: left;
-  margin-left: 4rem;
-  margin-top: 2rem;
-}
-
-.infos {
-  text-align: justify;
-  margin: 1rem 4rem;
-  font-size: large;
+.button:hover {
+  background-color: black;
 }
