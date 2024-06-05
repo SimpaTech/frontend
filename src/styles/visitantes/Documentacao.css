@@ -1,0 +1,24 @@
+.sensor-content {
+    flex: 1;
+    padding: 3rem;
+    padding-bottom: 5rem;
+  }
+  
+  .sensor-content h1 {
+    font-size: 2rem;
+    font-weight: 600;
+  }
+  
+  .sensor-content h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: left;
+    margin-left: 4rem;
+    margin-top: 2rem;
+  }
+  
+  .infos {
+    text-align: justify;
+    margin: 1rem 4rem;
+    font-size: large;
+  }

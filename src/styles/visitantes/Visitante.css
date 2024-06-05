@@ -1,0 +1,48 @@
+.visitante-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  /* Aplicando a fonte Inter */
+}
+
+.visitante-content {
+  flex: 1;
+  padding: 3rem;
+  /* Ajuste o padding conforme necessário */
+  text-align: center;
+}
+
+.visitante-content h1 {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.visitante-content p {
+  font-size: 1.25rem;
+  font-weight: 400;
+}
+
+.img {
+  width: 100%;
+}
+
+.lead {
+  margin-top: 2%;
+}
+
+.buttons {
+  padding-bottom: 3rem;
+}
+
+.button {
+  padding: 1rem 2rem;
+  margin: 0 3rem;
+  margin-bottom: 3rem;
+  color: white!important;
+  font-size: larger;
+}
+
+.button:hover {
+  background-color: black;
+}
