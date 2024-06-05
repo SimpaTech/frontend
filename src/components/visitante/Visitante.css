@@ -1,23 +1,57 @@
 .visitante-page {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    font-family: 'Inter', sans-serif; /* Aplicando a fonte Inter */
-  }
-  
-  .visitante-content {
-    flex: 1;
-    padding: 4rem 1rem; /* Ajuste o padding conforme necessário */
-    text-align: center;
-  }
-  
-  .visitante-content h1 {
-    font-size: 2.5rem;
-    font-weight: 600;
-  }
-  
-  .visitante-content p {
-    font-size: 1.25rem;
-    font-weight: 400;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  /* Aplicando a fonte Inter */
+}
+
+.visitante-content {
+  flex: 1;
+  padding: 3rem;
+  /* Ajuste o padding conforme necessário */
+  text-align: center;
+}
+
+.visitante-content h1 {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.visitante-content p {
+  font-size: 1.25rem;
+  font-weight: 400;
+}
+
+.img {
+  width: 100%;
+}
+
+.lead {
+  margin-top: 2%;
+}
+
+.sensor-content {
+  flex: 1;
+  padding: 3rem;
+  padding-bottom: 5rem;
+}
+
+.sensor-content h1 {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.sensor-content h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: left;
+  margin-left: 4rem;
+  margin-top: 2rem;
+}
+
+.infos {
+  text-align: justify;
+  margin: 1rem 4rem;
+  font-size: large;
+}

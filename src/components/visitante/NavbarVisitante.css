@@ -22,8 +22,8 @@
   color: white !important;
 }
 
-.hover-color-black:hover {
-  color: grey !important;
+.hover-color-grey:hover {
+  color: rgb(92, 87, 87) !important;
 }
 
 .navbar {
