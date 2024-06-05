@@ -18,7 +18,7 @@ const FooterVisitante: React.FC = () => {
       <div className="footer-section">
         <Nav className="flex-column">
           <Nav.Link href="/">Ínicio</Nav.Link>
-          <Nav.Link href="/">Documentação</Nav.Link>
+          <Nav.Link href="/documentacao">Documentação</Nav.Link>
           <Nav.Link href="/dados/ocorrencias">Ocorrências</Nav.Link>
           <Nav.Link href="/dados/medidas">Medidas</Nav.Link>
         </Nav>

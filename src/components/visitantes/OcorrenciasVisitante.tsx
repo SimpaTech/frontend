@@ -8,6 +8,7 @@ import "../../styles/visitantes/DadosVisitante.css";
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import NavbarVisitante from "./NavbarVisitante";
+import FooterVisitante from "./FooterVisitante";
 
 type OcorrenciaVisitante = {
   ID_Ocorrencia: number;
@@ -70,7 +71,9 @@ export default class OcorrenciasConsultarVisitante extends Component<{}, State> 
           <Column field="medida.UnixTime" header="Data" body={rowData => new Date(rowData.medida.UnixTime * 1000).toLocaleDateString()} sortable style={{ width: '25%' }}></Column>
           <Column field="medida.UnixTime" header="Hora" body={rowData => new Date(rowData.medida.UnixTime * 1000).toLocaleTimeString()} sortable style={{ width: '25%' }}></Column>
         </DataTable>
-      </Container></>
+      </Container>
+      <FooterVisitante/>
+      </>
     );
   }
 }

@@ -7,6 +7,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import NavbarVisitante from "./NavbarVisitante";
 import "../../styles/visitantes/DadosVisitante.css";
+import FooterVisitante from "./FooterVisitante";
 
 type Estacao = {
   Nome: string;
@@ -78,7 +79,9 @@ export default class MedidasVisitanteConsultar extends Component<{}, State> {
                 <Column field="UnixTime" header="Data" body={rowData => new Date(rowData.UnixTime * 1000).toLocaleDateString()} sortable style={{ width: '25%' }}></Column>
                 <Column field="UnixTime" header="Hora" body={rowData => new Date(rowData.UnixTime * 1000).toLocaleTimeString()} sortable style={{ width: '25%' }}></Column>
             </DataTable>
-        </Container></>
+        </Container>
+        <FooterVisitante/>
+        </>
     );
   }
 }
