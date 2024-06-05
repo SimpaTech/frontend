@@ -10,6 +10,7 @@ import Medidas from './components/medidas/Medidas';
 import Ocorrencias from './components/ocorrencias/Ocorrencias';
 import Visitante from './components/visitantes/Visitante';
 import Documentacao from './components/visitantes/Documentacao';
+import OcorrenciasConsultarVisitante from './components/visitantes/OcorrenciasVisitante';
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/medidas" element={<Medidas />} />
           <Route path="/ocorrencias" element={<Ocorrencias />} />
           <Route path="/documentacao" element={<Documentacao />} />
+          <Route path="/dados/ocorrencias" element={<OcorrenciasConsultarVisitante />} />
         </Routes>
       </div>
     </Router>

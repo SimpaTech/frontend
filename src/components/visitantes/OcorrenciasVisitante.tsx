@@ -3,11 +3,13 @@ import "../../styles/estacao/EstacaoConsultar.css";
 import { Container } from "react-bootstrap";
 import { listarOcorrencias } from "../../services/apiService";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
+import "../../styles/visitantes/OcorrenciasVisitante.css";
 
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import NavbarVisitante from "./NavbarVisitante";
 
-type Ocorrencia = {
+type OcorrenciaVisitante = {
   ID_Ocorrencia: number;
   medida: {
     ID_Medida: number;
@@ -20,11 +22,11 @@ type Ocorrencia = {
 };
 
 type State = {
-    ocorrencias: Ocorrencia[];
+    ocorrencias: OcorrenciaVisitante[];
     errorMessage: string | null;
 };
 
-export default class OcorrenciasConsultar extends Component<{}, State> {
+export default class OcorrenciasConsultarVisitante extends Component<{}, State> {
   state: State = {
     ocorrencias: [],
     errorMessage: "",
@@ -49,11 +51,12 @@ export default class OcorrenciasConsultar extends Component<{}, State> {
     const { ocorrencias, errorMessage } = this.state;
 
     return (
-      <Container>
+      <><NavbarVisitante />
+      <h1 className="title flex justify-center text-center">Ocorrências</h1>
+        <Container>
         {errorMessage && (
           <div
-            className={`alert mt-3 ${errorMessage.includes("Nenhum") ? "alert-danger" : "alert-success"
-              }`}
+            className={`alert mt-3 ${errorMessage.includes("Nenhum") ? "alert-danger" : "alert-success"}`}
             role="alert"
           >
             {errorMessage}
@@ -67,7 +70,7 @@ export default class OcorrenciasConsultar extends Component<{}, State> {
           <Column field="medida.UnixTime" header="Data" body={rowData => new Date(rowData.medida.UnixTime * 1000).toLocaleDateString()} sortable style={{ width: '25%' }}></Column>
           <Column field="medida.UnixTime" header="Hora" body={rowData => new Date(rowData.medida.UnixTime * 1000).toLocaleTimeString()} sortable style={{ width: '25%' }}></Column>
         </DataTable>
-      </Container>
+      </Container></>
     );
   }
 }
