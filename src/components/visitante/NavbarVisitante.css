@@ -1,9 +1,35 @@
 .navbar-custom {
-    font-family: 'Inter', sans-serif; /* Aplicando a fonte Inter */
-  }
-  
-  .navbar-custom .navbar-brand,
-  .navbar-custom .nav-link {
-    color: #333; /* Cor do texto */
-  }
-  
+  font-family: "Inter", sans-serif; /* Aplicando a fonte Inter */
+  min-height: 100px;
+  border-bottom: #2196f3 1px !important;
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+  color: #000000 !important; /* Cor do texto */
+}
+
+.btn-login {
+  color: #2196f3 !important;
+  padding: 30% 50%;
+}
+
+.logo-nav {
+  min-height: 80px;
+}
+
+.hover-color-white:hover {
+  color: white !important;
+}
+
+.hover-color-black:hover {
+  color: grey !important;
+}
+
+.navbar {
+  --bs-nav-link-hover-color: white !important;
+}
+
+a:hover, .nav-link:hover {
+  color: white !important;
+}
