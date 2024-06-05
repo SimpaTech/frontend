@@ -10,6 +10,10 @@
   max-width: 100%; /* Alterado para que o width seja 100% em telas pequenas */
 }
 
+.Teste{
+  position: fixed;
+}
+
 .bg-custom {
   background-color: #2196f3;
   color: white;

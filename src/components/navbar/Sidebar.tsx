@@ -72,8 +72,8 @@ const Sidebar = () => {
   }
 
   return (
-    <div className="d-flex" id="wrapper">
-      <Container fluid className="bg-custom sidebar p-0" id="sidebar-wrapper">
+    <div className="d-flex bg-custom" id="wrapper">
+      <Container fluid className="sidebar p-0" id="sidebar-wrapper">
         <div className="sidebar-heading mb-3">
           <Image src="/images/SidebarLogo.png" alt="SidebarLogo Logo" fluid style={{ width: "px" }} />
         </div>
