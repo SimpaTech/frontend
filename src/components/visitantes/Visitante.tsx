@@ -21,8 +21,8 @@ const Visitante: React.FC = () => {
 
       <Container fluid className="buttons flex justify-center text-center">
         <Button className='button' href="/documentacao">Documentação</Button>
-        <Button className='button'>Ocorrências</Button>
-        <Button className='button'>Medidas</Button>
+        <Button className='button' href="/dados/ocorrencias">Ocorrências</Button>
+        <Button className='button' href="/dados/medidas">Medidas</Button>
       </Container>
 
       <FooterVisitante />

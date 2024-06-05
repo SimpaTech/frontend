@@ -1,7 +1,7 @@
 import React from "react";
 import { Navbar, Nav, Button, Image, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import "../../styles/visitantes/NavbarVisitante.css"; // Arquivo CSS para estilos adicionais
+import "../../styles/visitantes/NavbarVisitante.css";
 
 const NavbarVisitante: React.FC = () => {
   return (

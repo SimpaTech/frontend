@@ -3,7 +3,7 @@ import "../../styles/estacao/EstacaoConsultar.css";
 import { Container } from "react-bootstrap";
 import { listarOcorrencias } from "../../services/apiService";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
-import "../../styles/visitantes/OcorrenciasVisitante.css";
+import "../../styles/visitantes/DadosVisitante.css";
 
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
