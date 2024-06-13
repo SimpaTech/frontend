@@ -4,8 +4,11 @@ import FooterVisitante from './FooterVisitante';
 import Container from 'react-bootstrap/Container';
 import '../../styles/visitantes/Visitante.css';
 import { Button, Image } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const Visitante: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="visitante-page">
       <NavbarVisitante />
@@ -20,9 +23,9 @@ const Visitante: React.FC = () => {
       </Container>
 
       <Container fluid className="buttons flex justify-center text-center">
-        <Button className='button' href="/documentacao">Documentação</Button>
-        <Button className='button' href="/dados/ocorrencias">Ocorrências</Button>
-        <Button className='button' href="/dados/medidas">Medidas</Button>
+        <Button className='button' onClick={() => navigate("/documentacao")}>Documentação</Button>
+        <Button className='button' onClick={() => navigate("/dados/ocorrencias")}>Ocorrências</Button>
+        <Button className='button' onClick={() => navigate("/dados/medidas")}>Medidas</Button>
       </Container>
 
       <FooterVisitante />

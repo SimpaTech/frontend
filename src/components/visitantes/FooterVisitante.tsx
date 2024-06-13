@@ -3,8 +3,11 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
 import "../../styles/visitantes/FooterVisitante.css"; // Arquivo CSS para estilos adicionais
+import { useNavigate } from 'react-router-dom';
 
 const FooterVisitante: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <Navbar className="footer">
       <div className="footer-section">
@@ -17,17 +20,17 @@ const FooterVisitante: React.FC = () => {
       </div>
       <div className="footer-section">
         <Nav className="flex-column">
-          <Nav.Link href="/">Ínicio</Nav.Link>
-          <Nav.Link href="/documentacao">Documentação</Nav.Link>
-          <Nav.Link href="/dados/ocorrencias">Ocorrências</Nav.Link>
-          <Nav.Link href="/dados/medidas">Medidas</Nav.Link>
+          <Nav.Link onClick={() => navigate("/")}>Ínicio</Nav.Link>
+          <Nav.Link onClick={() => navigate("/documentacao")}>Documentação</Nav.Link>
+          <Nav.Link onClick={() => navigate("/dados/ocorrencias")}>Ocorrências</Nav.Link>
+          <Nav.Link onClick={() => navigate("/dados/medidas")}>Medidas</Nav.Link>
         </Nav>
         <p className="footer-company">© 2024 SimpaTech - Os cabulosos</p>
       </div>
       <div className="footer-section">
         <Button
           variant="outline-primary"
-          href="#top"
+          onClick={() => window.scrollTo(0, 0)}
           className="btn-back-to-top"
         >
           Voltar ao topo
