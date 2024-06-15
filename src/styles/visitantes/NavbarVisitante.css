@@ -15,6 +15,13 @@
 .btn-login {
   color: #2196f3 !important;
   padding: 30% 50%;
+  border-radius: 0;
+}
+
+.btn-login:hover {
+  color: white !important;
+  padding: 30% 50%;
+  background-color: #2196f3 !important;
 }
 
 .logo-nav {
