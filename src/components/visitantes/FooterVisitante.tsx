@@ -20,10 +20,10 @@ const FooterVisitante: React.FC = () => {
       </div>
       <div className="footer-section">
         <Nav className="flex-column">
-          <Nav.Link onClick={() => navigate("/")}>Ínicio</Nav.Link>
-          <Nav.Link onClick={() => navigate("/documentacao")}>Documentação</Nav.Link>
-          <Nav.Link onClick={() => navigate("/dados/ocorrencias")}>Ocorrências</Nav.Link>
-          <Nav.Link onClick={() => navigate("/dados/medidas")}>Medidas</Nav.Link>
+          <Nav.Link onClick={() => navigate("/")} className="footer-link">Ínicio</Nav.Link>
+          <Nav.Link onClick={() => navigate("/documentacao")} className="footer-link">Documentação</Nav.Link>
+          <Nav.Link onClick={() => navigate("/dados/ocorrencias")} className="footer-link">Ocorrências</Nav.Link>
+          <Nav.Link onClick={() => navigate("/dados/medidas")} className="footer-link">Medidas</Nav.Link>
         </Nav>
         <p className="footer-company">© 2024 SimpaTech - Os cabulosos</p>
       </div>
