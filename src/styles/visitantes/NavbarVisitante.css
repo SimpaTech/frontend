@@ -1,0 +1,45 @@
+.navbar-custom {
+  font-family: "Inter", sans-serif; /* Aplicando a fonte Inter */
+  min-height: 100px;
+  border-bottom: 1px solid #2195f388;
+  border-radius: 0;
+  padding: 4rem 0;
+}
+
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+  color: #000000 !important; /* Cor do texto */
+}
+
+.btn-login {
+  color: #2196f3 !important;
+  padding: 30% 50%;
+  border-radius: 0;
+}
+
+.btn-login:hover {
+  color: white !important;
+  padding: 30% 50%;
+  background-color: #2196f3 !important;
+}
+
+.logo-nav {
+  min-height: 80px;
+}
+
+.hover-color-white:hover {
+  color: white !important;
+}
+
+.hover-color-grey:hover {
+  color: rgb(92, 87, 87) !important;
+}
+
+.navbar {
+  --bs-nav-link-hover-color: white !important;
+}
+
+a:hover, .nav-link:hover {
+  color: white !important;
+}
