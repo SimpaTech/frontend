@@ -45,25 +45,27 @@ const EstacaoAlertas: React.FC<Props> = ({ parametroId }) => {
         const responseParametros = await listarParametroAlerta();
 
         const tipoAlertas = responseAlertas.data;
-        const parametroLigados = responseParametros.data;
+        const parametroLista = responseParametros.data;
 
-        // console.log(JSON.stringify(parametroLigados, null, 2));
+        console.log(JSON.stringify(parametroLista, null, 2));
 
         const alertasVinculados = tipoAlertas.map((alerta: TipoAlerta) => {
-          let idLigacao = null;
-          const vinculado = parametroLigados.some((parametro: any) => {
-            const resultado =
-              parametroId == alerta.ID_Tipo_Alerta;
-            idLigacao = parametro.ID_Parametro_Alerta;
-            return resultado;
-          });
+            let idLigacao = null;
+            const vinculado = parametroLista.some((parametro: any) => {
+                const resultado = parametro.parametro.ID_Parametro === parametroId &&
+                                  parametro.tipoAlerta.ID_Tipo_Alerta === alerta.ID_Tipo_Alerta;
+                if (resultado) {
+                    idLigacao = parametro.ID_Parametro_Alerta;
+                }
+                return resultado;
+            });
 
-          return { ...alerta, linkado: vinculado, ID_ligacao: idLigacao };
+            return { ...alerta, linkado: vinculado, ID_ligacao: idLigacao };
         });
 
         setState((prevState) => ({
-          ...prevState,
-          tipoAlertas: alertasVinculados,
+            ...prevState,
+            tipoAlertas: alertasVinculados,
         }));
       } catch (error) {
         console.error("Erro ao buscar tipos de alertas:", error);
@@ -97,7 +99,7 @@ const EstacaoAlertas: React.FC<Props> = ({ parametroId }) => {
       // Atualiza o estado dos alertas para refletir que este alerta está vinculado
       const updatedAlertas = state.tipoAlertas.map((alerta) => {
         if (alerta.ID_Tipo_Alerta === tipoAlertaId) {
-          return { ...alerta, linkado: true, ID_ligacao: idLigacao };
+          return { ...alerta, linkado: vinculado, ID_ligacao: idLigacao };
         }
         return alerta;
       });
@@ -109,6 +111,7 @@ const EstacaoAlertas: React.FC<Props> = ({ parametroId }) => {
   };
 
   const handleDesvincular = async (LigacaoId: number) => {
+    console.log(LigacaoId)
     try {
       await deletarParametroAlerta(LigacaoId);
       // Atualize o estado dos alertas para refletir que este alerta está desvinculado
