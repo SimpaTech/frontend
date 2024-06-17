@@ -7,6 +7,11 @@ import {
   listarParametroAlerta,
 } from "../../services/apiService";
 
+// Prime React
+import "primereact/resources/themes/lara-light-cyan/theme.css";
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+
 interface State {
   validated: boolean;
   errorMessage: string | null;
@@ -40,23 +45,27 @@ const EstacaoAlertas: React.FC<Props> = ({ parametroId }) => {
         const responseParametros = await listarParametroAlerta();
 
         const tipoAlertas = responseAlertas.data;
-        const parametroLigados = responseParametros.data;
+        const parametroLista = responseParametros.data;
+
+        console.log(JSON.stringify(parametroLista, null, 2));
 
         const alertasVinculados = tipoAlertas.map((alerta: TipoAlerta) => {
-          let idLigacao = null;
-          const vinculado = parametroLigados.some((parametro: any) => {
-            const resultado =
-              parametro.tipoAlerta.ID_Tipo_Alerta == alerta.ID_Tipo_Alerta;
-            idLigacao = parametro.ID_Parametro_Alerta;
-            return resultado;
-          });
+            let idLigacao = null;
+            const vinculado = parametroLista.some((parametro: any) => {
+                const resultado = parametro.parametro.ID_Parametro === parametroId &&
+                                  parametro.tipoAlerta.ID_Tipo_Alerta === alerta.ID_Tipo_Alerta;
+                if (resultado) {
+                    idLigacao = parametro.ID_Parametro_Alerta;
+                }
+                return resultado;
+            });
 
-          return { ...alerta, linkado: vinculado, ID_ligacao: idLigacao };
+            return { ...alerta, linkado: vinculado, ID_ligacao: idLigacao };
         });
 
         setState((prevState) => ({
-          ...prevState,
-          tipoAlertas: alertasVinculados,
+            ...prevState,
+            tipoAlertas: alertasVinculados,
         }));
       } catch (error) {
         console.error("Erro ao buscar tipos de alertas:", error);
@@ -90,7 +99,7 @@ const EstacaoAlertas: React.FC<Props> = ({ parametroId }) => {
       // Atualiza o estado dos alertas para refletir que este alerta está vinculado
       const updatedAlertas = state.tipoAlertas.map((alerta) => {
         if (alerta.ID_Tipo_Alerta === tipoAlertaId) {
-          return { ...alerta, linkado: true, ID_ligacao: idLigacao };
+          return { ...alerta, linkado: vinculado, ID_ligacao: idLigacao };
         }
         return alerta;
       });
@@ -102,6 +111,7 @@ const EstacaoAlertas: React.FC<Props> = ({ parametroId }) => {
   };
 
   const handleDesvincular = async (LigacaoId: number) => {
+    console.log(LigacaoId)
     try {
       await deletarParametroAlerta(LigacaoId);
       // Atualize o estado dos alertas para refletir que este alerta está desvinculado
@@ -118,6 +128,35 @@ const EstacaoAlertas: React.FC<Props> = ({ parametroId }) => {
     }
   };
 
+  const actionBodyTemplate = (rowData: any) => {
+    return (
+      <React.Fragment>
+        {rowData.linkado ? (
+          <Button
+            variant="danger"
+            onClick={() =>
+              handleDesvincular(rowData.ID_ligacao)
+            }
+          >
+            Desvincular
+          </Button>
+        ) : (
+          <Button
+            variant="primary"
+            onClick={() =>
+              handleVincular(
+                parametroId,
+                rowData.ID_Tipo_Alerta
+              )
+            }
+          >
+            Linkar
+          </Button>
+        )}
+      </React.Fragment>
+    );
+  }
+
   return (
     <Container className="tipoalerta">
       <h1 className="text-center">Selecionar Alertas</h1>
@@ -125,11 +164,10 @@ const EstacaoAlertas: React.FC<Props> = ({ parametroId }) => {
       <Form className="mt-5" noValidate validated={state.validated}>
         {state.errorMessage && (
           <div
-            className={`alert ${
-              state.errorMessage.includes("Erro")
-                ? "alert-danger"
-                : "alert-success"
-            }`}
+            className={`alert ${state.errorMessage.includes("Erro")
+              ? "alert-danger"
+              : "alert-success"
+              }`}
             role="alert"
           >
             {state.errorMessage}
@@ -138,60 +176,13 @@ const EstacaoAlertas: React.FC<Props> = ({ parametroId }) => {
         <Row>
           <Col>
             <Form.Group>
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome do Tipo de Alerta</th>
-                    <th>Valor</th>
-                    <th>Operador_Condicional</th>
-                    <th>Ações</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {state.tipoAlertas.length === 0 ? (
-                    <div
-                      className={`alert mt-3 alert-danger`}
-                      role="alert"
-                    >
-                      Nenhum alerta cadastrado!
-                    </div>
-                  ) : (
-                    state.tipoAlertas.map((tipoAlerta) => (
-                      <tr key={tipoAlerta.ID_Tipo_Alerta}>
-                        <td>{tipoAlerta.ID_Tipo_Alerta}</td>
-                        <td>{tipoAlerta.Nome_Tipo_Alerta}</td>
-                        <td>{tipoAlerta.Valor}</td>
-                        <td>{tipoAlerta.Operador_Condicional}</td>
-                        <td>
-                          {tipoAlerta.linkado ? (
-                            <Button
-                              variant="danger"
-                              onClick={() =>
-                                handleDesvincular(tipoAlerta.ID_ligacao)
-                              }
-                            >
-                              Desvincular
-                            </Button>
-                          ) : (
-                            <Button
-                              variant="primary"
-                              onClick={() =>
-                                handleVincular(
-                                  parametroId,
-                                  tipoAlerta.ID_Tipo_Alerta
-                                )
-                              }
-                            >
-                              Linkar
-                            </Button>
-                          )}
-                        </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
+              <DataTable value={state.tipoAlertas} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} style={{ marginTop: '2%' }} className="text-center">
+                <Column field="ID_Tipo_Alerta" header="ID" filter filterPlaceholder="Pesquisar"></Column>
+                <Column field="Nome_Tipo_Alerta" header="Nome alerta" filter filterPlaceholder="Pesquisar"></Column>
+                <Column field="Valor" header="Valor"></Column>
+                <Column field="Operador_Condicional" header="Operador"></Column>
+                <Column body={actionBodyTemplate} header="Ações" ></Column>
+              </DataTable>
             </Form.Group>
           </Col>
         </Row>
